@@ -236,6 +236,10 @@
             ${Object.keys(armasPrimarias).map(k => `<option value="${k}">${k}</option>`).join("")}
           </select>
         </div>
+        <div class="bloque" style="width: 100%;">
+          <span class="label">Perks del arma:</span>
+          <textarea class="perks" readonly rows="3" ></textarea>
+        </div>
         <div class="bloque">
           <span class="label">Daño:</span>
           <input type="text" class="dano" readonly>
@@ -248,10 +252,7 @@
           <span class="label">Dados:</span>
           <input type="text" class="dados" readonly>
         </div>
-        <div class="bloque">
-          <span class="label">Perks del arma:</span>
-          <input type="text" class="perks" readonly>
-        </div>
+        
 
       </div>
     `;
