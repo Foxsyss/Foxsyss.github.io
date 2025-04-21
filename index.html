@@ -226,10 +226,11 @@
     `;
 
     document.getElementById('contenedor').appendChild(tarjeta);
-  function eliminarTarjeta(boton) {
-  const tarjeta = boton.closest('.tarjeta');
-  tarjeta.remove();
+
   }
+    function eliminarTarjeta(boton) {
+  const tarjeta = boton.closest('.tarjeta');
+  tarjeta.remove();}
 
   function seleccionarAvatar(img) {
     const input = img.nextElementSibling;
