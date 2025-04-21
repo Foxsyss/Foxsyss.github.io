@@ -155,4 +155,8 @@ h1 {
   .card {
     page-break-inside: avoid;
   }
+  .actions, #addBtn, button {
+    display: none;
+  }
 }
+
