@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tarjeta de Personaje</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+
+    .tarjeta-personaje {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 300px;
+      padding: 20px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #555;
+      margin-bottom: 15px;
+    }
+
+    .nombre {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .experiencia,
+    .bonificacion {
+      background: #eee;
+      border-radius: 8px;
+      padding: 8px;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="tarjeta-personaje">
+    <img src="https://via.placeholder.com/120" alt="Avatar" class="avatar">
+    <div class="nombre">Nombre del Personaje</div>
+    <div class="experiencia">Experiencia: Covert Ops</div>
+    <div class="bonificacion">Bonificación: Expand deployment zone</div>
+  </div>
+
+</body>
+</html>
