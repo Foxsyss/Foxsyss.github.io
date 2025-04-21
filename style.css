@@ -19,13 +19,14 @@ h1 {
 
 .form {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   margin: 0 auto;
+  flex-wrap: wrap; /* Permite que los elementos se ajusten si es necesario */
 }
 
 .avatar-container {
@@ -39,7 +40,7 @@ h1 {
   position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  border-radius: 10px; /* Bordes redondeados */
   overflow: hidden;
   border: 3px solid #007BFF;
 }
@@ -48,7 +49,7 @@ h1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 10px; /* Bordes redondeados */
 }
 
 .avatar-text {
@@ -68,6 +69,7 @@ input[type="file"] {
 
 .input-container {
   flex: 1;
+  width: 100%; /* Asegura que ocupe el espacio restante */
 }
 
 input[type="text"], select {
@@ -87,6 +89,7 @@ button {
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  width: 100%; /* El botón se expande a todo el ancho disponible */
 }
 
 button:hover {
@@ -150,7 +153,7 @@ td input {
   width: 80px;
   height: 80px;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 10px;
   margin-right: 15px;
 }
 
