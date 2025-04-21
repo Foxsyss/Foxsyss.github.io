@@ -25,6 +25,7 @@ addBtn.addEventListener('click', () => {
   const name = nameInput.value.trim();
   const avatar = avatarPreview.src;
   const experience = experienceInput.value;
+  const avatar = avatarPreview.src || 'https://i.imgur.com/1XjvZ1C.png';
 
   if (!name || !experience) {
     alert("Por favor completa el nombre y la experiencia.");
@@ -73,4 +74,4 @@ function downloadPDF(button) {
   };
   html2pdf().set(opt).from(sheet).save();
 }
-const avatar = avatarPreview.src || 'https://i.imgur.com/1XjvZ1C.png';
+
