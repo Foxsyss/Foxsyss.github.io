@@ -63,15 +63,15 @@ addBtn.addEventListener('click', () => {
         <tbody>
           <tr>
             <td colspan="2">ALL</td>
-            <td><input type="text" />W</td>
-            <td><input type="text" />E</td>
-            <td><input type="text" />R</td>
-            <td><input type="text" />W</td>
-            <td><input type="text" />E</td>
-            <td><input type="text" />R</td>
-            <td><input type="text" />W</td>
-            <td><input type="text" />E</td>
-            <td><input type="text" />R</td>
+            <td><input type="3" />W</td>
+            <td><input type="3" />E</td>
+            <td><input type="3" />R</td>
+            <td><input type="3" />W</td>
+            <td><input type="3" />E</td>
+            <td><input type="3" />R</td>
+            <td><input type="3" />W</td>
+            <td><input type="3" />E</td>
+            <td><input type="3" />R</td>
           </tr>
           <tr>
             <td colspan="2">5"</td>
