@@ -228,34 +228,37 @@
         </div>
       </div>
 
-      <div class="fila">
-        <div class="bloque">
-          <span class="label">Arma primaria:</span>
-          <select onchange="actualizarArma(this)">
-            <option value="">-- Elegir --</option>
-            ${Object.keys(armasPrimarias).map(k => `<option value="${k}">${k}</option>`).join("")}
-          </select>
-        </div>
-        
-        <div class="bloque">
-          <span class="label">Daño:</span>
-          <input type="text" class="dano" readonly>
-        </div>
-        <div class="bloque">
-          <span class="label">Alcance:</span>
-          <input type="text" class="alcance" readonly>
-        </div>
-        <div class="bloque">
-          <span class="label">Dados:</span>
-          <input type="text" class="dados" readonly>
-        </div>
-        
+     <div class="fila">
+  <div class="bloque">
+    <span class="label">Arma primaria:</span>
+    <select onchange="actualizarArma(this)">
+      <option value="">-- Elegir --</option>
+      ${Object.keys(armasPrimarias).map(k => `<option value="${k}">${k}</option>`).join("")}
+    </select>
+  </div>
+</div>
 
-      </div>
-      <div class="bloque" style="width: 100%;">
-          <span class="label">Perks del arma:</span>
-          <input type="text" class="perks" readonly rows="3">
-        </div>
+<div class="bloque" style="width: 100%;">
+  <span class="label">Stats del arma:</span>
+  <table class="arma-table" style="width: 100%; font-size: 11px; border-collapse: collapse;">
+    <thead>
+      <tr style="background: #000; color: #fff;">
+        <th style="border: 1px solid black; padding: 4px;">Daño</th>
+        <th style="border: 1px solid black; padding: 4px;">Alcance</th>
+        <th style="border: 1px solid black; padding: 4px;">Dados</th>
+        <th style="border: 1px solid black; padding: 4px;">Perks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="dano" style="border: 1px solid black; padding: 4px;">-</td>
+        <td class="alcance" style="border: 1px solid black; padding: 4px;">-</td>
+        <td class="dados" style="border: 1px solid black; padding: 4px;">-</td>
+        <td class="perks" style="border: 1px solid black; padding: 4px;">-</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
     `;
 
     document.getElementById('contenedor').appendChild(tarjeta);
