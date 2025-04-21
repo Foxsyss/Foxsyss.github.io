@@ -76,6 +76,21 @@
     input[readonly] {
       background: #eee;
     }
+
+    .stats {
+      background: #fff;
+      padding: 8px;
+      font-size: 12px;
+      border: 2px solid black;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stats .label {
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
   </style>
 </head>
 <body>
@@ -103,6 +118,12 @@
     "Escopeta": { daño: "2", alcance: "12”" }
   };
 
+  const statsBase = {
+    Warrior: { MA: 5, Hearts: 6, HitsOn: "4+", MDP: 5 },
+    Enlisted: { MA: 4, Hearts: 5, HitsOn: "5+", MDP: 4 },
+    Recruit: { MA: 3, Hearts: 4, HitsOn: "6+", MDP: 3 }
+  };
+
   let contador = 1;
 
   function crearTarjeta() {
@@ -115,6 +136,26 @@
           <span class="label">Nombre:</span>
           <input type="text" value="Operativo ${contador++}">
         </div>
+        <div class="bloque">
+          <span class="label">Tipo de Soldado:</span>
+          <select onchange="actualizarStatsBase(this)">
+            <option value="">-- Elegir --</option>
+            <option value="Warrior">Warrior</option>
+            <option value="Enlisted">Enlisted</option>
+            <option value="Recruit">Recruit</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="stats">
+        <span class="label">Estadísticas:</span>
+        <div>MA: <span class="ma">-</span></div>
+        <div>Hearts: <span class="hearts">-</span></div>
+        <div>Hits On: <span class="hitsOn">-</span></div>
+        <div>MDP: <span class="mdp">-</span></div>
+      </div>
+
+      <div class="fila">
         <div class="bloque">
           <span class="label">Especialización:</span>
           <select onchange="actualizarBonificacion(this)">
@@ -148,6 +189,17 @@
     `;
 
     document.getElementById('contenedor').appendChild(tarjeta);
+  }
+
+  function actualizarStatsBase(select) {
+    const tipo = select.value;
+    const tarjeta = select.closest('.tarjeta');
+    const stats = statsBase[tipo] || {};
+
+    tarjeta.querySelector('.ma').textContent = stats.MA || "-";
+    tarjeta.querySelector('.hearts').textContent = stats.Hearts || "-";
+    tarjeta.querySelector('.hitsOn').textContent = stats.HitsOn || "-";
+    tarjeta.querySelector('.mdp').textContent = stats.MDP || "-";
   }
 
   function actualizarBonificacion(select) {
