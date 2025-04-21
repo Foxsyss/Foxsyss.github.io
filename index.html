@@ -145,7 +145,7 @@
 
 <script>
   const especializaciones = {
-    Raiders: "+1 To MA",
+    "Raiders": "+1 To MA",
     Counter: "Puede curar 1 herida por ronda",
     scout: "+2” de movimiento al inicio"
   };
@@ -294,7 +294,7 @@
     bonificacion.value = especializaciones[especializacion] || "";
 
     // Ajuste según la especialización
-    if (especializacion === "sniper") {
+    if (especializacion === "Raiders") {
         ma += 1;  // Sniper aumenta el MA en +1
     } else if (especializacion === "medic") {
         hearts += 1;  // Medic suma 1 corazón
