@@ -29,7 +29,7 @@ avatarInput.addEventListener('change', (e) => {
 addBtn.addEventListener('click', () => {
   const name = nameInput.value.trim();
   const experience = experienceInput.value;
-  const avatar = avatarPreview.src || 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png';
+  const avatar = avatarPreview.src || defaultAvatar;
 
   if (!name || !experience || experience === 'Seleccionar experiencia') {
     alert('Por favor completa todos los campos.');
@@ -50,29 +50,41 @@ addBtn.addEventListener('click', () => {
         </div>
       </div>
     </div>
-    <div class="actions">
-      <button onclick="downloadPDF(this)">PDF</button>
-      <button onclick="this.closest('.card').remove()">Eliminar</button>
+    <div class="stats-table">
+      <table>
+        <thead>
+          <tr>
+            <th colspan="2">MA</th>
+            <th colspan="3">Hearts</th>
+            <th colspan="3">Hits on</th>
+            <th colspan="3">MDP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="2">ALL</td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+          </tr>
+          <tr>
+            <td colspan="2">5"</td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+            <td><input type="text" /></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  `;
-
-  teamContainer.appendChild(card);
-
-  // Resetear campos
-  nameInput.value = '';
-  experienceInput.selectedIndex = 0;
-  avatarPreview.src = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png';
-});
-
-function downloadPDF(button) {
-  const card = button.closest('.card');
-  const printWindow = window.open('', '', 'width=800,height=600');
-  printWindow.document.write(`<html><head><title>Ficha de Personaje</title>`);
-  printWindow.document.write(`<link rel="stylesheet" href="style.css" />`);
-  printWindow.document.write(`</head><body>`);
-  printWindow.document.write(card.outerHTML);
-  printWindow.document.write(`</body></html>`);
-  printWindow.document.close();
-  printWindow.focus();
-  printWindow.print();
-}
