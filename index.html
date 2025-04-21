@@ -43,6 +43,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      page-break-inside: avoid;
       position: relative;
     }
 
@@ -58,6 +59,7 @@
       font-size: 12px;
       border: 2px solid black;
       box-sizing: border-box;
+      position: relative;
     }
 
     .label {
@@ -67,7 +69,7 @@
       margin-bottom: 4px;
     }
 
-    select, input[type="text"] {
+    select, input[type="text"], input[type="file"] {
       width: 100%;
       font-size: 11px;
       padding: 2px;
@@ -77,47 +79,72 @@
       background: #eee;
     }
 
-    .avatar {
-      width: 100px;
-      height: 100px;
-      background: #ccc;
+    .avatar-container {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      background-color: #f0f0f0;
       border: 2px solid black;
+      border-radius: 5px;
       cursor: pointer;
-      object-fit: cover;
+      overflow: hidden;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-container span {
+      position: absolute;
+      color: #333;
       font-size: 10px;
       text-align: center;
+      padding: 5px;
+      pointer-events: none;
+    }
+
+    .avatar {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
     }
 
     .stats {
+      position: absolute;
+      top: 10px;
+      right: 10px;
       display: flex;
-      gap: 5px;
-      justify-content: flex-end;
-      margin-bottom: 10px;
+      gap: 10px;
     }
 
-    .stat-box {
-      background: black;
-      color: white;
+    .stat {
+      background-color: #000;
+      color: #fff;
       padding: 10px;
+      font-size: 14px;
+      border-radius: 5px;
       text-align: center;
-      min-width: 60px;
-      font-size: 16px;
+      min-width: 70px;
       font-weight: bold;
+    }
+
+    .stat span {
+      display: block;
+      font-size: 22px;
     }
 
     .eliminar {
       position: absolute;
-      top: 5px;
-      right: 5px;
+      top: 10px;
+      left: 10px;
       background: red;
       color: white;
       border: none;
-      padding: 3px 6px;
+      padding: 5px;
       cursor: pointer;
+      font-weight: bold;
     }
+
   </style>
 </head>
 <body>
@@ -133,9 +160,9 @@
 
 <script>
   const especializaciones = {
-    sniper: { bono: "+1 al disparo con rifle", modificadores: { HO: -1 } },
-    medic: { bono: "Puede curar 1 herida por ronda", modificadores: { Hearts: 1 } },
-    scout: { bono: "+2” de movimiento al inicio", modificadores: { MA: 2 } }
+    sniper: { texto: "+1 al disparo con rifle", bonus: { MA: 0, Hearts: 0, MDP: 0 } },
+    medic: { texto: "Puede curar 1 herida por ronda", bonus: { MA: 0, Hearts: 1, MDP: 0 } },
+    scout: { texto: "+2” de movimiento al inicio", bonus: { MA: 1, Hearts: 0, MDP: 0 } }
   };
 
   const armasPrimarias = {
@@ -144,72 +171,66 @@
     "Escopeta": { daño: "2", alcance: "12”" }
   };
 
-  const tiposSoldado = {
-    Warrior: { MA: 5, Hearts: 6, HO: 4, MDP: 5 },
-    Enlisted: { MA: 4, Hearts: 5, HO: 5, MDP: 4 },
-    Recruit: { MA: 4, Hearts: 4, HO: 5, MDP: 3 }
+  const statsBase = {
+    Warrior: { MA: 5, Hearts: 6, HitsOn: "4+", MDP: 5 },
+    Enlisted: { MA: 5, Hearts: 3, HitsOn: "5+", MDP: 4 },
+    Recruit: { MA: 5, Hearts: 2, HitsOn: "6+", MDP: 3 }
   };
 
   let contador = 1;
 
-  function crearTarjeta(data = null) {
+  function crearTarjeta(datos = null) {
     const tarjeta = document.createElement('div');
     tarjeta.className = 'tarjeta';
 
-    const id = data?.id || Date.now();
-
-    const tipo = data?.tipo || 'Warrior';
-    const base = tiposSoldado[tipo];
-    const espec = data?.especializacion || '';
-    const modif = especializaciones[espec]?.modificadores || {};
-
-    const stats = {
-      MA: base.MA + (modif.MA || 0),
-      Hearts: base.Hearts + (modif.Hearts || 0),
-      HO: base.HO + (modif.HO || 0),
-      MDP: base.MDP + (modif.MDP || 0),
-    };
+    const id = Date.now() + Math.random();
 
     tarjeta.innerHTML = `
-      <button class="eliminar" onclick="eliminarTarjeta(${id})">X</button>
+      <button class="eliminar" onclick="eliminarTarjeta(this)">X</button>
 
-      <div class="fila" style="align-items: center;">
-        <label class="avatar" onclick="cargarAvatar(this)">
-          <span>Presione<br>para cargar</span>
-          <input type="file" accept="image/*" style="display:none">
-        </label>
+      <div class="stats">
+        <div class="stat ma">MA <span>-</span></div>
+        <div class="stat hearts">Hearts <span>-</span></div>
+        <div class="stat hitsOn">Hits On <span>-</span></div>
+        <div class="stat mdp">MDP <span>-</span></div>
+      </div>
 
-        <div style="flex: 1">
-          <div class="stats">
-            <div class="stat-box">MA ${stats.MA}"</div>
-            <div class="stat-box">♥ ${stats.Hearts}</div>
-            <div class="stat-box">H.O. ${stats.HO}+</div>
-            <div class="stat-box">MDP ${stats.MDP}</div>
-          </div>
-          <div class="bloque">
-            <span class="label">Nombre:</span>
-            <input type="text" value="${data?.nombre || `Operativo ${contador++}`}">
+      <div class="fila">
+        <div class="bloque">
+          <span class="label">Avatar:</span>
+          <div class="avatar-container" onclick="seleccionarAvatar(this)">
+            <span>Presione para cargar</span>
+            <img class="avatar" src="">
+            <input type="file" accept="image/*" style="display: none;" onchange="cargarAvatar(this)">
           </div>
         </div>
       </div>
 
       <div class="fila">
         <div class="bloque">
-          <span class="label">Tipo:</span>
-          <select onchange="actualizarStats(this)">
-            ${Object.keys(tiposSoldado).map(k => `<option value="${k}" ${tipo === k ? 'selected' : ''}>${k}</option>`).join("")}
-          </select>
+          <span class="label">Nombre:</span>
+          <input type="text" value="${datos?.nombre || 'Operativo ' + contador++}">
         </div>
         <div class="bloque">
-          <span class="label">Especialización:</span>
-          <select onchange="actualizarEspecializacion(this)">
+          <span class="label">Tipo de Soldado:</span>
+          <select onchange="actualizarStats(this)">
             <option value="">-- Elegir --</option>
-            ${Object.keys(especializaciones).map(k => `<option value="${k}" ${espec === k ? 'selected' : ''}>${k}</option>`).join("")}
+            ${Object.keys(statsBase).map(k => `<option value="${k}" ${datos?.tipo === k ? 'selected' : ''}>${k}</option>`).join("")}
+          </select>
+        </div>
+      </div>
+
+      <div class="fila">
+        <div class="bloque">
+          <span class="label">Especialización:</span>
+          <select onchange="actualizarStats(this)">
+            <option value="">-- Elegir --</option>
+            ${Object.keys(especializaciones).map(k => `<option value="${k}" ${datos?.especializacion === k ? 'selected' : ''}>${k}</option>`).join("")}
           </select>
         </div>
         <div class="bloque">
           <span class="label">Bonificación:</span>
-          <input type="text" class="bonificacion" value="${especializaciones[espec]?.bono || ''}" readonly>
+          <input type="text" class="bonificacion" readonly>
         </div>
       </div>
 
@@ -218,7 +239,7 @@
           <span class="label">Arma primaria:</span>
           <select onchange="actualizarArma(this)">
             <option value="">-- Elegir --</option>
-            ${Object.keys(armasPrimarias).map(k => `<option value="${k}">${k}</option>`).join("")}
+            ${Object.keys(armasPrimarias).map(k => `<option value="${k}" ${datos?.arma === k ? 'selected' : ''}>${k}</option>`).join("")}
           </select>
         </div>
         <div class="bloque">
@@ -232,122 +253,108 @@
       </div>
     `;
 
-    tarjeta.dataset.id = id;
     document.getElementById('contenedor').appendChild(tarjeta);
-    cargarDesdeStorage(); // Reaplica imágenes
+
+    if (datos) {
+      if (datos.avatar) {
+        const img = tarjeta.querySelector('.avatar');
+        img.src = datos.avatar;
+        img.style.display = "block";
+        tarjeta.querySelector(".avatar-container span").style.display = "none";
+      }
+      tarjeta.querySelector('input[type="text"]').value = datos.nombre;
+      tarjeta.querySelector('.bonificacion').value = especializaciones[datos.especializacion]?.texto || "";
+      actualizarStats(tarjeta.querySelector('select'));
+      actualizarArma(tarjeta.querySelectorAll('select')[2]);
+    }
+
     guardarTarjetas();
   }
 
-  function actualizarEspecializacion(select) {
-    const tarjeta = select.closest('.tarjeta');
-    const valor = select.value;
-    const output = tarjeta.querySelector('.bonificacion');
-    output.value = especializaciones[valor]?.bono || "";
-    actualizarStats(select);
+  function seleccionarAvatar(container) {
+    container.querySelector('input').click();
   }
 
-  function actualizarArma(select) {
-    const tarjeta = select.closest('.tarjeta');
-    const valor = select.value;
-    const datos = armasPrimarias[valor] || { daño: "", alcance: "" };
-    tarjeta.querySelector('.dano').value = datos.daño;
-    tarjeta.querySelector('.alcance').value = datos.alcance;
+  function cargarAvatar(input) {
+    const tarjeta = input.closest('.tarjeta');
+    const img = tarjeta.querySelector('.avatar');
+    const texto = tarjeta.querySelector('.avatar-container span');
+    const file = input.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        img.src = e.target.result;
+        img.style.display = 'block';
+        texto.style.display = 'none';
+        guardarTarjetas();
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   function actualizarStats(select) {
     const tarjeta = select.closest('.tarjeta');
-    const tipo = tarjeta.querySelector('select').value;
-    const espec = tarjeta.querySelectorAll('select')[1].value;
+    const tipo = tarjeta.querySelectorAll('select')[0].value;
+    const esp = tarjeta.querySelectorAll('select')[1].value;
 
-    const base = tiposSoldado[tipo];
-    const modif = especializaciones[espec]?.modificadores || {};
+    const base = statsBase[tipo] || {};
+    const bonus = especializaciones[esp]?.bonus || {};
+    const texto = especializaciones[esp]?.texto || "";
 
-    const stats = {
-      MA: base.MA + (modif.MA || 0),
-      Hearts: base.Hearts + (modif.Hearts || 0),
-      HO: base.HO + (modif.HO || 0),
-      MDP: base.MDP + (modif.MDP || 0),
-    };
-
-    tarjeta.querySelector('.stats').innerHTML = `
-      <div class="stat-box">MA ${stats.MA}"</div>
-      <div class="stat-box">♥ ${stats.Hearts}</div>
-      <div class="stat-box">H.O. ${stats.HO}+</div>
-      <div class="stat-box">MDP ${stats.MDP}</div>
-    `;
+    tarjeta.querySelector('.bonificacion').value = texto;
+    tarjeta.querySelector('.ma span').textContent = (base.MA || 0) + (bonus.MA || 0);
+    tarjeta.querySelector('.hearts span').textContent = (base.Hearts || 0) + (bonus.Hearts || 0);
+    tarjeta.querySelector('.hitsOn span').textContent = base.HitsOn || "-";
+    tarjeta.querySelector('.mdp span').textContent = (base.MDP || 0) + (bonus.MDP || 0);
 
     guardarTarjetas();
   }
 
-  function cargarAvatar(label) {
-    const input = label.querySelector('input');
-    input.click();
-    input.onchange = () => {
-      const file = input.files[0];
-      if (!file) return;
+  function actualizarArma(select) {
+    const tarjeta = select.closest('.tarjeta');
+    const arma = select.value;
+    const datos = armasPrimarias[arma] || { daño: "", alcance: "" };
+    tarjeta.querySelector('.dano').value = datos.daño;
+    tarjeta.querySelector('.alcance').value = datos.alcance;
+    guardarTarjetas();
+  }
 
-      const reader = new FileReader();
-      reader.onload = e => {
-        label.style.backgroundImage = `url('${e.target.result}')`;
-        label.innerHTML = '';
-        label.style.backgroundSize = 'cover';
-        label.dataset.img = e.target.result;
-        guardarTarjetas();
-      };
-      reader.readAsDataURL(file);
-    };
+  function eliminarTarjeta(btn) {
+    btn.closest('.tarjeta').remove();
+    guardarTarjetas();
   }
 
   function exportarPDF() {
     const contenedor = document.getElementById('contenedor');
-    html2pdf()
-      .set({
-        margin: 5,
-        filename: 'fichas-personajes.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      })
-      .from(contenedor)
-      .save();
+    html2pdf().set({
+      margin: 5,
+      filename: 'fichas-personajes.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(contenedor).save();
   }
 
   function guardarTarjetas() {
-    const tarjetas = Array.from(document.querySelectorAll('.tarjeta')).map(t => ({
-      id: t.dataset.id,
-      nombre: t.querySelector('input[type="text"]').value,
-      tipo: t.querySelector('select').value,
-      especializacion: t.querySelectorAll('select')[1].value,
-      imagen: t.querySelector('.avatar').dataset.img || ''
-    }));
-    localStorage.setItem('tarjetas', JSON.stringify(tarjetas));
-  }
-
-  function cargarDesdeStorage() {
-    const guardadas = JSON.parse(localStorage.getItem('tarjetas') || '[]');
-    document.getElementById('contenedor').innerHTML = '';
-    guardadas.forEach(crearTarjeta);
-
-    // Reasignar imágenes
-    document.querySelectorAll('.avatar').forEach(label => {
-      const src = label.dataset.img;
-      if (src) {
-        label.style.backgroundImage = `url('${src}')`;
-        label.innerHTML = '';
-        label.style.backgroundSize = 'cover';
-      }
+    const tarjetas = [...document.querySelectorAll('.tarjeta')].map(t => {
+      return {
+        nombre: t.querySelector('input[type="text"]').value,
+        tipo: t.querySelectorAll('select')[0].value,
+        especializacion: t.querySelectorAll('select')[1].value,
+        arma: t.querySelectorAll('select')[2].value,
+        avatar: t.querySelector('.avatar').src || null
+      };
     });
+    localStorage.setItem('fichas', JSON.stringify(tarjetas));
   }
 
-  function eliminarTarjeta(id) {
-    const tarjeta = document.querySelector(`.tarjeta[data-id="${id}"]`);
-    if (tarjeta) tarjeta.remove();
-    guardarTarjetas();
+  function cargarDesdeLocal() {
+    const datos = JSON.parse(localStorage.getItem('fichas') || '[]');
+    datos.forEach(d => crearTarjeta(d));
+    if (datos.length === 0) crearTarjeta();
   }
 
-  // Inicializar
-  cargarDesdeStorage();
+  cargarDesdeLocal();
 </script>
-
 </body>
 </html>
