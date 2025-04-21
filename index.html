@@ -95,9 +95,12 @@
     .avatar {
       width: 80px;
       height: 80px;
-      border-radius: 50%;
-      margin-bottom: 10px;
+      border: 2px solid black;
       object-fit: cover;
+      cursor: pointer;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      background-color: #f0f0f0;
     }
   </style>
 </head>
@@ -128,8 +131,8 @@
 
   const statsBase = {
     Warrior: { MA: 5, Hearts: 6, HitsOn: "4+", MDP: 5 },
-    Enlisted: { MA: 4, Hearts: 3, HitsOn: "5+", MDP: 4 },
-    Recruit: { MA: 3, Hearts: 2, HitsOn: "6+", MDP: 3 }
+    Enlisted: { MA: 4, Hearts: 5, HitsOn: "5+", MDP: 4 },
+    Recruit: { MA: 3, Hearts: 4, HitsOn: "6+", MDP: 3 }
   };
 
   let contador = 1;
@@ -142,7 +145,8 @@
       <div class="fila">
         <div class="bloque">
           <span class="label">Avatar:</span>
-          <input type="file" accept="image/*" onchange="cargarAvatar(this)">
+          <img src="" class="avatar" onclick="seleccionarAvatar(this)">
+          <input type="file" accept="image/*" style="display: none;" onchange="cargarAvatar(this)">
         </div>
       </div>
 
@@ -206,6 +210,11 @@
     document.getElementById('contenedor').appendChild(tarjeta);
   }
 
+  function seleccionarAvatar(img) {
+    const input = img.nextElementSibling;
+    input.click();
+  }
+
   function cargarAvatar(input) {
     const tarjeta = input.closest('.tarjeta');
     const avatar = tarjeta.querySelector('.avatar');
@@ -214,14 +223,7 @@
     if (file) {
       const reader = new FileReader();
       reader.onload = function(e) {
-        if (!avatar) {
-          const img = document.createElement('img');
-          img.className = 'avatar';
-          img.src = e.target.result;
-          tarjeta.insertBefore(img, tarjeta.querySelector('.fila'));
-        } else {
-          avatar.src = e.target.result;
-        }
+        avatar.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
