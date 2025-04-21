@@ -1,30 +1,40 @@
-<!-- Dentro del <body> -->
-<div class="container">
-  <h1>Fichas de Personajes</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fichas de Personajes</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="container">
+    <h1>Fichas de Personajes</h1>
 
-  <div class="creator">
-    <label class="avatar-selector">
-      <img id="avatarPreview" src="https://via.placeholder.com/150" alt="Avatar" />
-      <input type="file" id="avatarInput" accept="image/*" />
-    </label>
+    <div class="creator">
+      <label class="avatar-selector">
+        <img id="avatarPreview" src="https://via.placeholder.com/150" alt="Avatar"/>
+        <input type="file" id="avatarInput" accept="image/*" />
+      </label>
 
-    <input type="text" id="nameInput" placeholder="Nombre del personaje" />
+      <input type="text" id="nameInput" placeholder="Nombre del personaje" />
 
-    <select id="experienceInput">
-      <option value="" disabled selected>Seleccionar experiencia</option>
-      <option value="Raiders">Raiders (+1 to MA)</option>
-      <option value="Counter Terrorist">Counter Terrorist (Re-roll 1 Shooting Attack per round)</option>
-      <option value="Hostage Rescue">Hostage Rescue (+1 to Roll off to activate)</option>
-      <option value="Counter Insurgency">Counter Insurgency (-1 to opponent’s Activation Roll)</option>
-      <option value="Covert Ops">Covert Ops (Extend deployment zone)</option>
-      <option value="Reconnaissance">Reconnaissance (Re-roll 1 Armour Save per round)</option>
-    </select>
+      <select id="experienceInput">
+        <option value="" disabled selected>Seleccionar experiencia</option>
+        <option value="Raiders">Raiders (+1 to MA)</option>
+        <option value="Counter Terrorist">Counter Terrorist (Re-roll 1 Shooting Attack per round)</option>
+        <option value="Hostage Rescue">Hostage Rescue (+1 to Roll off to activate)</option>
+        <option value="Counter Insurgency">Counter Insurgency (-1 to opponent’s Activation Roll)</option>
+        <option value="Covert Ops">Covert Ops (Extend deployment zone)</option>
+        <option value="Reconnaissance">Reconnaissance (Re-roll 1 Armour Save per round)</option>
+      </select>
 
-    <button id="addBtn">Sumar al equipo</button>
+      <button id="addBtn">Sumar al equipo</button>
+    </div>
+
+    <div class="team" id="teamContainer"></div>
   </div>
 
-  <div class="team" id="teamContainer"></div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
