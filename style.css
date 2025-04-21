@@ -1,234 +1,123 @@
-/* Estilo base */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
   margin: 0;
   padding: 0;
+  background: #f4f4f4;
 }
 
 .container {
   width: 80%;
-  margin: 0 auto;
-  padding: 20px;
+  margin: 20px auto;
+  text-align: center;
 }
 
 h1 {
-  text-align: center;
-  color: #333;
+  font-size: 2rem;
+  margin-bottom: 20px;
 }
 
 .form {
   display: flex;
-  align-items: flex-start;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  margin: 0 auto;
-  flex-wrap: wrap; /* Permite que los elementos se ajusten si es necesario */
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
 }
 
 .avatar-container {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+  background: #ddd;
+  border-radius: 10px;
   position: relative;
-  width: 120px;
-  height: 120px;
-  margin-right: 20px;
-}
-
-.avatar-preview-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 10px; /* Bordes redondeados */
   overflow: hidden;
-  border: 3px solid #007BFF;
 }
 
-.avatar-img {
+.avatar-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 10px; /* Bordes redondeados */
 }
 
 .avatar-text {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  font-size: 14px;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
   text-align: center;
-  display: none; /* Ocultamos el texto por defecto */
-}
-
-input[type="file"] {
-  display: none;
-}
-
-.input-container {
-  flex: 1;
-  width: 100%; /* Asegura que ocupe el espacio restante */
+  font-size: 0.8rem;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 input[type="text"], select {
-  width: 100%;
-  padding: 8px 12px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 14px;
+  width: 60%;
+  padding: 10px;
+  margin: 10px 0;
 }
 
 button {
-  padding: 8px 12px;
-  background-color: #007BFF;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
-  width: 100%; /* El botón se expande a todo el ancho disponible */
+  border-radius: 5px;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #45a049;
 }
 
-.experience-specification p {
-  font-size: 14px;
-  color: #666;
-}
-
-.avatar-container:hover .avatar-text {
-  display: block;
-}
-
-/* Tabla ajustada */
-.stats-table {
-  margin-top: 20px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-  text-align: center;
-}
-
-th, td {
-  padding: 8px;
-  border: 1px solid #ddd;
-}
-
-th {
-  background-color: #f4f4f4;
-}
-
-td input {
-  width: 80px;
-  padding: 5px;
-  border-radius: 5px;
-  text-align: center;
-}
-
-/* Ajustes en las tarjetas */
-.card {
-  width: 100%;
-  max-width: 400px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
-  padding: 15px;
-}
-
-.card-top {
-  display: flex;
-  align-items: center;
-}
-
-.card-avatar {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-right: 15px;
-}
-
-.card-info {
-  flex: 1;
-}
-
-.card-exp {
-  margin-top: 10px;
-}
-
-.card-exp strong {
-  display: block;
-  font-size: 16px;
-}
-
-.actions {
-  margin-top: 10px;
-  text-align: right;
-}
-
-.actions button {
-  padding: 6px 10px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.actions button:hover {
-  background-color: #218838;
-}
-
-/* Diseño de las tarjetas en equipo */
 .team-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: space-evenly;
-  margin-top: 20px;
+  justify-content: center;
 }
 
-
-/* Estilos para la vista de impresión */
-@media print {
-  body {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
-  .team-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 20px;
-  }
-
-  .card {
-    page-break-inside: avoid;
-    width: 100%;
-    margin: 0;
-  }
-
-  .actions, #addBtn, button {
-    display: none;
-  }
-
-  .stats-table {
-    page-break-before: always;
-  }
-
-  .stats-table table {
-    width: 100%;
-    page-break-inside: avoid;
-  }
+.card {
+  background: #fff;
+  border-radius: 10px;
+  width: 200px;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
+
+.card-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.card-info {
+  margin-bottom: 10px;
+}
+
+.card-exp {
+  font-size: 0.9rem;
+}
+
+.stats-table {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.stats-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.stats-table th, .stats-table td {
+  padding: 5px;
+  border: 1px solid #ddd;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
