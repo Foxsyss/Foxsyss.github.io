@@ -178,90 +178,93 @@
 
   let contador = 1;
 
-  function crearTarjeta(datos = null) {
-    const tarjeta = document.createElement('div');
-    tarjeta.className = 'tarjeta';
+function crearTarjeta() {
+  const tarjeta = document.createElement('div');
+  tarjeta.className = 'tarjeta';
 
-    const id = Date.now() + Math.random();
-
-    tarjeta.innerHTML = `
-      <button class="eliminar" onclick="eliminarTarjeta(this)">X</button>
-
-      <div class="stats">
-  <div class="stat ma">
-    MA <span>-</span>
-  </div>
-  <div class="stat hearts">
-    Hearts <span>-</span>
-  </div>
-  <div class="stat hitsOn">
-    Hits On <span>-</span>
-  </div>
-  <div class="stat mdp">
-    MDP <span>-</span>
-  </div>
-</div>
-
-
-      <div class="fila">
-        <div class="bloque">
-          <span class="label">Avatar:</span>
-          <div class="avatar-container" onclick="seleccionarAvatar(this)">
-            <span>Presione para cargar</span>
-            <img class="avatar" src="">
-            <input type="file" accept="image/*" style="display: none;" onchange="cargarAvatar(this)">
-          </div>
-        </div>
+  tarjeta.innerHTML = `
+    <div class="stats">
+      <div class="stat ma">
+        MA <span>-</span>
       </div>
-
-      <div class="fila">
-        <div class="bloque">
-          <span class="label">Nombre:</span>
-          <input type="text" value="${datos?.nombre || 'Operativo ' + contador++}">
-        </div>
-        <div class="bloque">
-          <span class="label">Tipo de Soldado:</span>
-          <select onchange="actualizarStats(this)">
-            <option value="">-- Elegir --</option>
-            ${Object.keys(statsBase).map(k => `<option value="${k}" ${datos?.tipo === k ? 'selected' : ''}>${k}</option>`).join("")}
-          </select>
-        </div>
+      <div class="stat hearts">
+        Hearts <span>-</span>
       </div>
-
-      <div class="fila">
-        <div class="bloque">
-          <span class="label">Especialización:</span>
-          <select onchange="actualizarStats(this)">
-            <option value="">-- Elegir --</option>
-            ${Object.keys(especializaciones).map(k => `<option value="${k}" ${datos?.especializacion === k ? 'selected' : ''}>${k}</option>`).join("")}
-          </select>
-        </div>
-        <div class="bloque">
-          <span class="label">Bonificación:</span>
-          <input type="text" class="bonificacion" readonly>
-        </div>
+      <div class="stat hitsOn">
+        Hits On <span>-</span>
       </div>
-
-      <div class="fila">
-        <div class="bloque">
-          <span class="label">Arma primaria:</span>
-          <select onchange="actualizarArma(this)">
-            <option value="">-- Elegir --</option>
-            ${Object.keys(armasPrimarias).map(k => `<option value="${k}" ${datos?.arma === k ? 'selected' : ''}>${k}</option>`).join("")}
-          </select>
-        </div>
-        <div class="bloque">
-          <span class="label">Daño:</span>
-          <input type="text" class="dano" readonly>
-        </div>
-        <div class="bloque">
-          <span class="label">Alcance:</span>
-          <input type="text" class="alcance" readonly>
-        </div>
+      <div class="stat mdp">
+        MDP <span>-</span>
       </div>
-    `;
+    </div>
 
-    document.getElementById('contenedor').appendChild(tarjeta);
+    <div class="fila">
+      <div class="bloque">
+        <span class="label">Avatar:</span>
+        <img src="" class="avatar" onclick="seleccionarAvatar(this)">
+        <input type="file" accept="image/*" style="display: none;" onchange="cargarAvatar(this)">
+      </div>
+    </div>
+
+    <div class="fila">
+      <div class="bloque">
+        <span class="label">Nombre:</span>
+        <input type="text" value="Operativo ${contador++}">
+      </div>
+      <div class="bloque">
+        <span class="label">Tipo de Soldado:</span>
+        <select onchange="actualizarStatsBase(this)">
+          <option value="">-- Elegir --</option>
+          <option value="Warrior">Warrior</option>
+          <option value="Enlisted">Enlisted</option>
+          <option value="Recruit">Recruit</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="fila">
+      <div class="bloque">
+        <span class="label">Especialización:</span>
+        <select onchange="actualizarBonificacion(this)">
+          <option value="">-- Elegir --</option>
+          ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
+        </select>
+      </div>
+      <div class="bloque">
+        <span class="label">Bonificación:</span>
+        <input type="text" class="bonificacion" readonly>
+      </div>
+    </div>
+
+    <div class="fila">
+      <div class="bloque">
+        <span class="label">Arma primaria:</span>
+        <select onchange="actualizarArma(this)">
+          <option value="">-- Elegir --</option>
+          ${Object.keys(armasPrimarias).map(k => `<option value="${k}">${k}</option>`).join("")}
+        </select>
+      </div>
+      <div class="bloque">
+        <span class="label">Daño:</span>
+        <input type="text" class="dano" readonly>
+      </div>
+      <div class="bloque">
+        <span class="label">Alcance:</span>
+        <input type="text" class="alcance" readonly>
+      </div>
+    </div>
+
+    <button onclick="eliminarTarjeta(this)" style="background-color: red; color: white; padding: 5px; border-radius: 5px;">Eliminar</button>
+  `;
+
+  document.getElementById('contenedor').appendChild(tarjeta);
+}
+
+function eliminarTarjeta(boton) {
+  const tarjeta = boton.closest('.tarjeta');
+  tarjeta.remove();
+}
+
 
     if (datos) {
       if (datos.avatar) {
