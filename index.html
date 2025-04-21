@@ -208,7 +208,7 @@
       <div class="fila">
         <div class="bloque">
           <span class="label">Especialización:</span>
-          <select onchange="actualizarBonificacion(this)">
+          <select onchange="actualizarBonificacionYStats(this)">
             <option value="">-- Elegir --</option>
             ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
           </select>
@@ -271,11 +271,20 @@
     tarjeta.querySelector('.mdp span').textContent = stats.MDP || "-";
   }
 
-  function actualizarBonificacion(select) {
-    const valor = select.value;
+  function actualizarBonificacionYStats(select) {
+    const especializacion = select.value;
     const tarjeta = select.closest('.tarjeta');
-    const output = tarjeta.querySelector('.bonificacion');
-    output.value = especializaciones[valor] || "";
+    const bonificacion = tarjeta.querySelector('.bonificacion');
+    bonificacion.value = especializaciones[especializacion] || "";
+
+    // Cambiar los stats según la especialización
+    if (especializacion === "sniper") {
+      tarjeta.querySelector('.ma span').textContent = "6";  // Ejemplo de aumento de MA
+    } else if (especializacion === "medic") {
+      tarjeta.querySelector('.hearts span').textContent = "7";  // Medic puede tener más Hearts
+    } else if (especializacion === "scout") {
+      tarjeta.querySelector('.hitsOn span').textContent = "3+";  // Scout tiene mejor HitsOn
+    }
   }
 
   function actualizarArma(select) {
@@ -284,6 +293,11 @@
     const datos = armasPrimarias[valor] || { daño: "", alcance: "" };
     tarjeta.querySelector('.dano').value = datos.daño;
     tarjeta.querySelector('.alcance').value = datos.alcance;
+  }
+
+  function eliminarTarjeta(button) {
+    const tarjeta = button.closest('.tarjeta');
+    tarjeta.remove();
   }
 
   function exportarPDF() {
@@ -298,11 +312,6 @@
       })
       .from(contenedor)
       .save();
-  }
-
-  function eliminarTarjeta(button) {
-    const tarjeta = button.closest('.tarjeta');
-    tarjeta.remove();
   }
 
   // Crear la primera por defecto
