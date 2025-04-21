@@ -157,3 +157,50 @@ h1 {
   padding-bottom: 20px;
   border-bottom: 1px dashed #ccc;
 }
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+}
+
+.card-avatar {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 15px;
+  border: 3px solid #ccc;
+  background-color: #eee;
+}
+
+.card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.card-info h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #222;
+}
+
+.card-exp {
+  margin-top: 10px;
+  background-color: #f0f4f8;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.card-exp strong {
+  font-size: 1.1rem;
+  color: #007bff;
+}
+
+.card-exp p {
+  margin-top: 5px;
+  font-size: 0.95rem;
+  color: #333;
+}
