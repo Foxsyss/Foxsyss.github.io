@@ -3,6 +3,7 @@ const avatarPreview = document.getElementById('avatarPreview');
 const nameInput = document.getElementById('nameInput');
 const experienceInput = document.getElementById('experienceInput');
 const addBtn = document.getElementById('addBtn');
+const experienceDescription = document.getElementById('experienceDescription');
 const teamContainer = document.getElementById('teamContainer');
 const defaultAvatar = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png';
 
@@ -24,6 +25,11 @@ avatarInput.addEventListener('change', (e) => {
     };
     reader.readAsDataURL(file);
   }
+});
+
+experienceInput.addEventListener('change', (e) => {
+  const selectedExperience = e.target.value;
+  experienceDescription.textContent = experiences[selectedExperience] || 'Selecciona una experiencia para ver la descripción';
 });
 
 addBtn.addEventListener('click', () => {
@@ -101,35 +107,3 @@ addBtn.addEventListener('click', () => {
   experienceInput.selectedIndex = 0;
   avatarPreview.src = defaultAvatar;
 });
-
-function downloadPDF(button) {
-  const card = button.closest('.card');
-  const printWindow = window.open('', '', 'width=800,height=600');
-  printWindow.document.write(`<html><head><title>Ficha de Personaje</title>`);
-  printWindow.document.write(`<link rel="stylesheet" href="style.css" />`);
-  printWindow.document.write(`</head><body>`);
-  printWindow.document.write(card.outerHTML);
-  printWindow.document.write(`</body></html>`);
-  printWindow.document.close();
-  printWindow.focus();
-  printWindow.print();
-}
-
-function exportToPDF() {
-  const options = {
-    margin: 0.5,
-    filename: 'equipo-personajes.pdf',
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-  };
-
-  // Ocultar los botones de acciones cuando exportemos a PDF
-  const buttons = document.querySelectorAll('.actions, #addBtn, button');
-  buttons.forEach(button => button.style.display = 'none');
-
-  // Exportar el equipo a PDF
-  html2pdf().from(teamContainer).set(options).save().then(() => {
-    // Volver a mostrar los botones después de la exportación
-    buttons.forEach(button => button.style.display = '');
-  });
-}
