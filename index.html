@@ -110,28 +110,27 @@
     }
 
     .stats {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      gap: 10px;
-    }
+  position: relative;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
 
-    .stat {
-      background-color: #000;
-      color: #fff;
-      padding: 10px;
-      font-size: 14px;
-      border-radius: 5px;
-      text-align: center;
-      min-width: 70px;
-      font-weight: bold;
-    }
+.stat {
+  background-color: #000;
+  color: #fff;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  text-align: center;
+  min-width: 70px;
+  font-weight: bold;
+}
 
-    .stat span {
-      display: block;
-      font-size: 22px;
-    }
+.stat span {
+  display: block;
+  font-size: 22px;
+}
 
     .eliminar {
       position: absolute;
@@ -189,11 +188,20 @@
       <button class="eliminar" onclick="eliminarTarjeta(this)">X</button>
 
       <div class="stats">
-        <div class="stat ma">MA <span>-</span></div>
-        <div class="stat hearts">Hearts <span>-</span></div>
-        <div class="stat hitsOn">Hits On <span>-</span></div>
-        <div class="stat mdp">MDP <span>-</span></div>
-      </div>
+  <div class="stat ma">
+    MA <span>-</span>
+  </div>
+  <div class="stat hearts">
+    Hearts <span>-</span>
+  </div>
+  <div class="stat hitsOn">
+    Hits On <span>-</span>
+  </div>
+  <div class="stat mdp">
+    MDP <span>-</span>
+  </div>
+</div>
+
 
       <div class="fila">
         <div class="bloque">
