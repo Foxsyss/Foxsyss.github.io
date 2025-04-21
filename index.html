@@ -47,11 +47,26 @@
       position: relative;
     }
 
+    .avatar-container {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border: 2px solid black;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #fff;
+    }
+
     .stats {
       display: flex;
-      justify-content: flex-end;
       gap: 10px;
-      margin-bottom: 10px;
+      flex-wrap: wrap;
     }
 
     .stat {
@@ -59,15 +74,10 @@
       color: #fff;
       padding: 10px;
       font-size: 18px;
-      text-align: center;
-      border-radius: 5px;
-      min-width: 70px;
-    }
-
-    .stat span {
-      display: block;
-      font-size: 20px;
       font-weight: bold;
+      min-width: 60px;
+      text-align: center;
+      border-radius: 4px;
     }
 
     .fila {
@@ -100,18 +110,6 @@
     input[readonly] {
       background: #eee;
     }
-
-    .avatar {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      border: 2px solid black;
-      cursor: pointer;
-    }
-
-    input[type="file"] {
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -123,13 +121,20 @@
 
 <div id="contenedor"></div>
 
+<!-- Librería html2pdf -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
   const especializaciones = {
-    sniper: { MA: 0, Hearts: 0, HitsOn: "-1", MDP: 0, texto: "+1 a disparo (mejora HitsOn)" },
-    medic: { MA: 0, Hearts: 1, HitsOn: 0, MDP: 0, texto: "+1 a Hearts" },
-    scout: { MA: 2, Hearts: 0, HitsOn: 0, MDP: 0, texto: "+2\" a MA" }
+    sniper: { bonificacion: "+1 al disparo con rifle", efecto: { MA: 0, Hearts: 0, HitsOn: 0, MDP: 0 } },
+    medic: { bonificacion: "Puede curar 1 herida por ronda", efecto: { MA: 0, Hearts: 1, HitsOn: 0, MDP: 0 } },
+    scout: { bonificacion: "+2” de movimiento al inicio", efecto: { MA: 2, Hearts: 0, HitsOn: 0, MDP: 0 } }
+  };
+
+  const statsBasePorTipo = {
+    Warrior: { MA: 5, Hearts: 6, HitsOn: 4, MDP: 5 },
+    Enlisted: { MA: 4, Hearts: 5, HitsOn: 5, MDP: 4 },
+    Recruit: { MA: 4, Hearts: 4, HitsOn: 5, MDP: 3 }
   };
 
   const armasPrimarias = {
@@ -138,61 +143,49 @@
     "Escopeta": { daño: "2", alcance: "12”" }
   };
 
-  const statsBase = {
-    Warrior: { MA: 5, Hearts: 6, HitsOn: 4, MDP: 5 },
-    Enlisted: { MA: 4, Hearts: 5, HitsOn: 5, MDP: 4 },
-    Recruit: { MA: 3, Hearts: 4, HitsOn: 6, MDP: 3 }
-  };
-
   let contador = 1;
 
-  function crearTarjeta() {
+  function crearTarjeta(datos = null) {
     const tarjeta = document.createElement('div');
     tarjeta.className = 'tarjeta';
 
-    tarjeta.innerHTML = `
-      <div class="stats">
-        <div class="stat ma">MA<span>-</span></div>
-        <div class="stat hearts">Hearts<span>-</span></div>
-        <div class="stat hitsOn">Hits On<span>-</span></div>
-        <div class="stat mdp">MDP<span>-</span></div>
-      </div>
+    const id = datos?.id || Date.now();
 
-      <div class="fila">
-        <div class="bloque">
-          <span class="label">Avatar:</span>
-          <img src="https://via.placeholder.com/150" class="avatar" onclick="seleccionarAvatar(this)">
-          <input type="file" accept="image/*" onchange="cargarAvatar(this)">
+    const tipoInicial = datos?.tipo || 'Warrior';
+    const stats = calcularStats(tipoInicial, datos?.especializacion);
+
+    tarjeta.innerHTML = `
+      <div class="avatar-container">
+        <img src="${datos?.avatar || 'https://via.placeholder.com/80'}" class="avatar" onclick="seleccionarAvatar(this)" data-id="${id}">
+        <div class="stats" data-id="${id}">
+          ${Object.entries(stats).map(([k, v]) => `<div class="stat" data-key="${k}">${k} ${k === 'MA' ? v + '”' : v}</div>`).join("")}
         </div>
       </div>
 
       <div class="fila">
+        <div class="bloque">
+          <span class="label">Tipo:</span>
+          <select onchange="actualizarStats(this)" data-id="${id}">
+            ${Object.keys(statsBasePorTipo).map(t => `<option value="${t}" ${t === tipoInicial ? 'selected' : ''}>${t}</option>`).join("")}
+          </select>
+        </div>
         <div class="bloque">
           <span class="label">Nombre:</span>
-          <input type="text" value="Operativo ${contador++}">
-        </div>
-        <div class="bloque">
-          <span class="label">Tipo de Soldado:</span>
-          <select onchange="actualizarStats(this)">
-            <option value="">-- Elegir --</option>
-            <option value="Warrior">Warrior</option>
-            <option value="Enlisted">Enlisted</option>
-            <option value="Recruit">Recruit</option>
-          </select>
+          <input type="text" value="${datos?.nombre || 'Operativo ' + contador++}" data-id="${id}">
         </div>
       </div>
 
       <div class="fila">
         <div class="bloque">
           <span class="label">Especialización:</span>
-          <select onchange="actualizarStats(this)">
+          <select onchange="actualizarBonificacion(this)" data-id="${id}">
             <option value="">-- Elegir --</option>
-            ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
+            ${Object.keys(especializaciones).map(k => `<option value="${k}" ${k === datos?.especializacion ? 'selected' : ''}>${k}</option>`).join("")}
           </select>
         </div>
         <div class="bloque">
           <span class="label">Bonificación:</span>
-          <input type="text" class="bonificacion" readonly>
+          <input type="text" class="bonificacion" value="${datos?.bonificacion || ''}" readonly>
         </div>
       </div>
 
@@ -216,45 +209,28 @@
     `;
 
     document.getElementById('contenedor').appendChild(tarjeta);
-  }
-
-  function seleccionarAvatar(img) {
-    img.nextElementSibling.click();
-  }
-
-  function cargarAvatar(input) {
-    const img = input.previousElementSibling;
-    const file = input.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => img.src = e.target.result;
-      reader.readAsDataURL(file);
-    }
+    guardarTarjetas();
   }
 
   function actualizarStats(select) {
+    const id = select.dataset.id;
     const tarjeta = select.closest('.tarjeta');
-    const tipo = tarjeta.querySelector('select:nth-of-type(1)').value;
-    const esp = tarjeta.querySelector('select:nth-of-type(2)').value;
+    const tipo = select.value;
+    const especializacion = tarjeta.querySelector('select[data-id="'+id+'"][onchange*="actualizarBonificacion"]')?.value;
+    const stats = calcularStats(tipo, especializacion);
+    const statsContainer = tarjeta.querySelector('.stats');
+    statsContainer.innerHTML = Object.entries(stats).map(([k, v]) => `<div class="stat" data-key="${k}">${k} ${k === 'MA' ? v + '”' : v}</div>`).join("");
+    guardarTarjetas();
+  }
 
-    if (!tipo) return;
+  function actualizarBonificacion(select) {
+    const id = select.dataset.id;
+    const tarjeta = select.closest('.tarjeta');
+    const valor = select.value;
+    const output = tarjeta.querySelector('.bonificacion');
+    output.value = especializaciones[valor]?.bonificacion || "";
 
-    const base = statsBase[tipo];
-    const bonus = especializaciones[esp] || { MA: 0, Hearts: 0, HitsOn: 0, MDP: 0, texto: "" };
-
-    const finalStats = {
-      MA: base.MA + bonus.MA,
-      Hearts: base.Hearts + bonus.Hearts,
-      HitsOn: Math.max(2, base.HitsOn + (parseInt(bonus.HitsOn) || 0)) + "+",
-      MDP: base.MDP + bonus.MDP
-    };
-
-    tarjeta.querySelector('.stat.ma span').textContent = finalStats.MA + "\"";
-    tarjeta.querySelector('.stat.hearts span').textContent = finalStats.Hearts;
-    tarjeta.querySelector('.stat.hitsOn span').textContent = finalStats.HitsOn;
-    tarjeta.querySelector('.stat.mdp span').textContent = finalStats.MDP;
-
-    tarjeta.querySelector('.bonificacion').value = bonus.texto || "";
+    actualizarStats(tarjeta.querySelector(`select[data-id="${id}"][onchange*="actualizarStats"]`));
   }
 
   function actualizarArma(select) {
@@ -263,6 +239,35 @@
     const datos = armasPrimarias[valor] || { daño: "", alcance: "" };
     tarjeta.querySelector('.dano').value = datos.daño;
     tarjeta.querySelector('.alcance').value = datos.alcance;
+  }
+
+  function calcularStats(tipo, especializacion = "") {
+    const base = statsBasePorTipo[tipo] || {};
+    const extra = especializaciones[especializacion]?.efecto || { MA: 0, Hearts: 0, HitsOn: 0, MDP: 0 };
+    return {
+      MA: base.MA + extra.MA,
+      Hearts: base.Hearts + extra.Hearts,
+      HitsOn: base.HitsOn + extra.HitsOn,
+      MDP: base.MDP + extra.MDP
+    };
+  }
+
+  function seleccionarAvatar(img) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+
+    input.onchange = function () {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        img.src = e.target.result;
+        guardarTarjetas();
+      };
+      reader.readAsDataURL(file);
+    };
+
+    input.click();
   }
 
   function exportarPDF() {
@@ -279,9 +284,29 @@
       .save();
   }
 
-  crearTarjeta();
+  function guardarTarjetas() {
+    const tarjetas = Array.from(document.querySelectorAll('.tarjeta')).map(t => {
+      const id = t.querySelector('.avatar')?.dataset.id;
+      return {
+        id,
+        avatar: t.querySelector('.avatar')?.src,
+        tipo: t.querySelector('select[onchange*="actualizarStats"]').value,
+        nombre: t.querySelector('input[type="text"]').value,
+        especializacion: t.querySelector('select[onchange*="actualizarBonificacion"]').value,
+        bonificacion: t.querySelector('.bonificacion').value
+      };
+    });
+    localStorage.setItem('fichas', JSON.stringify(tarjetas));
+  }
+
+  function cargarTarjetas() {
+    const datos = JSON.parse(localStorage.getItem('fichas') || '[]');
+    datos.forEach(d => crearTarjeta(d));
+  }
+
+  // Cargar al iniciar
+  cargarTarjetas();
 </script>
 
 </body>
 </html>
-
