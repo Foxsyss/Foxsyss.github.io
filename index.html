@@ -320,6 +320,7 @@
     const datos = armasPrimarias[valor] || { daño: "", alcance: "" };
     tarjeta.querySelector('.dano').value = datos.daño;
     tarjeta.querySelector('.alcance').value = datos.alcance;
+    tarjeta.querySelector('.dados').value = datos.dados;
   }
 
   function eliminarTarjeta(button) {
