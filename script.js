@@ -63,27 +63,27 @@ addBtn.addEventListener('click', () => {
         <tbody>
           <tr>
             <td colspan="2">ALL</td>
-            <td><input type="3" />W</td>
-            <td><input type="3" />E</td>
-            <td><input type="3" />R</td>
-            <td><input type="3" />W</td>
-            <td><input type="3" />E</td>
-            <td><input type="3" />R</td>
-            <td><input type="3" />W</td>
-            <td><input type="3" />E</td>
-            <td><input type="3" />R</td>
+            <td><span>W</span></td>
+            <td><span>E</span></td>
+            <td><span>R</span></td>
+            <td><span>W</span></td>
+            <td><span>E</span></td>
+            <td><span>R</span></td>
+            <td><span>W</span></td>
+            <td><span>E</span></td>
+            <td><span>R</span></td>
           </tr>
           <tr>
             <td colspan="2">5"</td>
-            <td><input type="text" />6</td>
-            <td><input type="text" />3</td>
-            <td><input type="text" />2</td>
-            <td><input type="text" />4+</td>
-            <td><input type="text" />5+</td>
-            <td><input type="text" />6+</td>
-            <td><input type="text" />5</td>
-            <td><input type="text" />4</td>
-            <td><input type="text" />3</td>
+            <td><span>6</span></td>
+            <td><span>3</span></td>
+            <td><span>2</span></td>
+            <td><span>4+</span></td>
+            <td><span>5+</span></td>
+            <td><span>6+</span></td>
+            <td><span>5</span></td>
+            <td><span>4</span></td>
+            <td><span>3</span></td>
           </tr>
         </tbody>
       </table>
