@@ -226,6 +226,9 @@
     `;
 
     document.getElementById('contenedor').appendChild(tarjeta);
+  function eliminarTarjeta(boton) {
+  const tarjeta = boton.closest('.tarjeta');
+  tarjeta.remove();
   }
 
   function seleccionarAvatar(img) {
