@@ -123,5 +123,13 @@ function exportToPDF() {
     jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
   };
 
-  html2pdf().from(teamContainer).set(options).save();
+  // Ocultar los botones de acciones cuando exportemos a PDF
+  const buttons = document.querySelectorAll('.actions, #addBtn, button');
+  buttons.forEach(button => button.style.display = 'none');
+
+  // Exportar el equipo a PDF
+  html2pdf().from(teamContainer).set(options).save().then(() => {
+    // Volver a mostrar los botones después de la exportación
+    buttons.forEach(button => button.style.display = '');
+  });
 }
