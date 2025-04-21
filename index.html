@@ -173,7 +173,7 @@ input, select {
       </div>
 
       <div class="fila">
-        <div class="bloque" style="flex: 0 0 45%;">
+        <div class="bloque">
           <span class="label">Avatar:</span>
           <img src="" class="avatar" onclick="seleccionarAvatar(this)">
           <input type="file" accept="image/*" style="display: none;" onchange="cargarAvatar(this)">
@@ -181,11 +181,11 @@ input, select {
       </div>
 
       <div class="fila">
-        <div class="bloque" style="flex: 0 0 45%;">
+        <div class="bloque" >
           <span class="label">Nombre:</span>
           <input type="text" value="Recluta ${contador++}">
         </div>
-        <div class="bloque" style="flex: 0 0 45%;">
+        <div class="bloque" >
           <span class="label">Tipo de Soldado:</span>
           <select onchange="actualizarStatsBase(this)">
             <option value="">-- Elegir --</option>
@@ -197,14 +197,14 @@ input, select {
       </div>
 
      <div class="fila">
-  <div class="bloque" style="flex: 0 0 45%;">
+  <div class="bloque" >
     <span class="label">Expertise:</span>
     <select onchange="actualizarBonificacionYStats(this)">
       <option value="">-- Elegir --</option>
       ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
     </select>
   </div>
-  <div class="bloque" style="flex: 0 0 45%;">
+  <div class="bloque" >
     <span class="label">Bonificación:</span>
     <input type="text" class="bonificacion" readonly style="width: 95%;">
   </div>
@@ -213,7 +213,7 @@ input, select {
 
 
      <div class="fila">
-  <div class="bloque" style="flex: 0 0 45%;">
+  <div class="bloque" >
     <span class="label">Arma primaria:</span>
     <select onchange="actualizarArma(this)">
       <option value="">-- Elegir --</option>
