@@ -4,6 +4,7 @@ const nameInput = document.getElementById('nameInput');
 const experienceInput = document.getElementById('experienceInput');
 const addBtn = document.getElementById('addBtn');
 const teamContainer = document.getElementById('teamContainer');
+const defaultAvatar = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png';
 
 const experiences = {
   'Raiders': '+1 to MA',
