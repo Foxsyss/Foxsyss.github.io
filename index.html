@@ -156,7 +156,7 @@
   };
 
   const armasPrimarias = {
-    "Fusil de asalto": { daño: "1", alcance: "24”", dados :"2" },
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4" },
     "Rifle de precisión": { daño: "2", alcance: "36”" },
     "Escopeta": { daño: "2", alcance: "12”" }
   };
@@ -326,6 +326,7 @@
     tarjeta.querySelector('.dano').value = datos.daño;
     tarjeta.querySelector('.alcance').value = datos.alcance;
     tarjeta.querySelector('.dados').value = datos.dados;
+    tarjeta.querySelector('.perks').value = datos.perks;
   }
 
   function eliminarTarjeta(button) {
