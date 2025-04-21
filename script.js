@@ -63,27 +63,27 @@ addBtn.addEventListener('click', () => {
         <tbody>
           <tr>
             <td colspan="2">ALL</td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
+            <td><input type="text" />W</td>
+            <td><input type="text" />E</td>
+            <td><input type="text" />R</td>
+            <td><input type="text" />W</td>
+            <td><input type="text" />E</td>
+            <td><input type="text" />R</td>
+            <td><input type="text" />W</td>
+            <td><input type="text" />E</td>
+            <td><input type="text" />R</td>
           </tr>
           <tr>
             <td colspan="2">5"</td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
+            <td><input type="text" />6</td>
+            <td><input type="text" />3</td>
+            <td><input type="text" />2</td>
+            <td><input type="text" />4+</td>
+            <td><input type="text" />5+</td>
+            <td><input type="text" />6+</td>
+            <td><input type="text" />5</td>
+            <td><input type="text" />4</td>
+            <td><input type="text" />3</td>
           </tr>
         </tbody>
       </table>
