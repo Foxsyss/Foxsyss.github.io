@@ -325,14 +325,15 @@
 }
 
   function actualizarArma(select) {
-    const valor = select.value;
-    const tarjeta = select.closest('.tarjeta');
-    const datos = armasPrimarias[valor] || { daño: "", alcance: "" };
-    tarjeta.querySelector('.dano').value = datos.daño;
-    tarjeta.querySelector('.alcance').value = datos.alcance;
-    tarjeta.querySelector('.dados').value = datos.dados;
-    tarjeta.querySelector('.perks').value = datos.perks;
-  }
+  const valor = select.value;
+  const tarjeta = select.closest('.tarjeta');
+  const datos = armasPrimarias[valor] || { daño: "-", alcance: "-", dados: "-", perks: "-" };
+
+  tarjeta.querySelector('.dano').textContent = datos.daño || "-";
+  tarjeta.querySelector('.alcance').textContent = datos.alcance || "-";
+  tarjeta.querySelector('.dados').textContent = datos.dados || "-";
+  tarjeta.querySelector('.perks').textContent = datos.perks || "-";
+}
 
   function eliminarTarjeta(button) {
     const tarjeta = button.closest('.tarjeta');
