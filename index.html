@@ -19,7 +19,6 @@
       </label>
 
       <input type="text" id="nameInput" placeholder="Nombre del personaje" />
-
       <select id="experienceInput">
         <option disabled selected>Seleccionar experiencia</option>
         <option>Raiders</option>
@@ -39,20 +38,5 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="script.js"></script>
-  <script>
-    function exportToPDF() {
-      const element = document.getElementById('teamContainer');
-      const opt = {
-        margin:       0,
-        filename:     'personajes.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
-        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-      };
-
-      html2pdf().from(element).set(opt).save();
-    }
-  </script>
 </body>
 </html>
