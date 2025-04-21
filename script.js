@@ -73,3 +73,4 @@ function downloadPDF(button) {
   };
   html2pdf().set(opt).from(sheet).save();
 }
+const avatar = avatarPreview.src || 'https://i.imgur.com/1XjvZ1C.png';
