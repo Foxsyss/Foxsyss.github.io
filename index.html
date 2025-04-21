@@ -2,209 +2,147 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Fichas de Personaje</title>
+  <title>Ficha con Dropdowns Dinámicos</title>
   <style>
     body {
-      background: #000;
+      background: #111;
       font-family: 'Arial', sans-serif;
-      margin: 20px;
       color: #000;
-    }
-
-    #botones {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    button {
-      background: #222;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin: 0 5px;
-      border-radius: 5px;
-      cursor: pointer;
+      padding: 20px;
     }
 
     #contenedor {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
       gap: 20px;
+      justify-content: center;
     }
 
     .tarjeta {
-      width: 48%;
       background: #009fe3;
-      border: 6px solid black;
+      border: 5px solid black;
       padding: 10px;
-      border-radius: 6px;
+      border-radius: 5px;
+      width: 48%;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 10px;
     }
 
     .fila {
       display: flex;
-      gap: 6px;
+      gap: 10px;
     }
 
     .bloque {
-      background: white;
-      padding: 6px;
+      background: #fff;
+      padding: 8px;
       flex: 1;
       font-size: 12px;
       border: 2px solid black;
       box-sizing: border-box;
     }
 
-    .bloque .label {
+    .label {
       font-weight: bold;
-      font-size: 11px;
-      margin-bottom: 2px;
       display: block;
-    }
-
-    .bloque input[type="text"] {
-      width: 100%;
       font-size: 11px;
-      border: none;
-      background: transparent;
-      border-bottom: 1px solid #aaa;
-    }
-
-    .bloque.perk {
-      color: red;
-      font-weight: bold;
-    }
-
-    .bloque.negro {
-      background: black;
-      color: white;
-    }
-
-    .imagen input[type="file"] {
-      display: block;
       margin-bottom: 4px;
     }
 
-    .avatar {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border: 2px solid black;
+    select, input[type="text"] {
+      width: 100%;
+      font-size: 11px;
+      padding: 2px;
+    }
+
+    input[readonly] {
+      background: #eee;
     }
   </style>
 </head>
 <body>
 
-<div id="botones">
-  <button onclick="crearTarjeta()">Crear nueva tarjeta</button>
-  <button onclick="exportarPDF()">Exportar PDF</button>
-</div>
+<div id="contenedor"></div>
 
-<div id="contenedor">
-  <!-- Tarjetas generadas aquí -->
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-  let contador = 0;
+  // Listas editables
+  const especializaciones = {
+    sniper: "+1 al disparo con rifle",
+    medic: "Puede curar 1 herida por ronda",
+    scout: "+2” de movimiento al inicio"
+  };
+
+  const armasPrimarias = {
+    "Fusil de asalto": { daño: "1", alcance: "24”" },
+    "Rifle de precisión": { daño: "2", alcance: "36”" },
+    "Escopeta": { daño: "2", alcance: "12”" }
+  };
 
   function crearTarjeta() {
-    contador++;
     const tarjeta = document.createElement('div');
     tarjeta.className = 'tarjeta';
+
     tarjeta.innerHTML = `
       <div class="fila">
         <div class="bloque">
           <span class="label">Nombre:</span>
-          <input type="text" value="Nombre ${contador}">
+          <input type="text" value="Operativo 1">
         </div>
         <div class="bloque">
-          <span class="label">Tipo:</span>
-          <input type="text" value="Operativo">
-        </div>
-        <div class="bloque">
-          <span class="label">Equipo:</span>
-          <input type="text" value="Spec Ops">
-        </div>
-      </div>
-
-      <div class="fila">
-        <div class="bloque">
-          <span class="label">Movimiento:</span>
-          <input type="text" value="5”">
-        </div>
-        <div class="bloque">
-          <span class="label">Hits on:</span>
-          <input type="text" value="4+">
-        </div>
-        <div class="bloque">
-          <span class="label">Heridas:</span>
-          <input type="text" value="6">
-        </div>
-      </div>
-
-      <div class="fila">
-        <div class="bloque perk">
           <span class="label">Especialización:</span>
-          <input type="text" value="Sniper: +1 al disparo">
+          <select onchange="actualizarBonificacion(this)">
+            <option value="">-- Elegir --</option>
+            ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
+          </select>
+        </div>
+        <div class="bloque">
+          <span class="label">Bonificación:</span>
+          <input type="text" class="bonificacion" readonly>
         </div>
       </div>
 
       <div class="fila">
         <div class="bloque">
-          <span class="label">Gear:</span>
-          <input type="text" value="Granada, Kit médico">
-        </div>
-      </div>
-
-      <div class="fila">
-        <div class="bloque">
-          <span class="label">Primaria:</span>
-          <input type="text" value="Rifle de precisión">
+          <span class="label">Arma primaria:</span>
+          <select onchange="actualizarArma(this)">
+            <option value="">-- Elegir --</option>
+            ${Object.keys(armasPrimarias).map(k => `<option value="${k}">${k}</option>`).join("")}
+          </select>
         </div>
         <div class="bloque">
-          <span class="label">Secundaria:</span>
-          <input type="text" value="Pistola">
+          <span class="label">Daño:</span>
+          <input type="text" class="dano" readonly>
         </div>
-      </div>
-
-      <div class="fila">
-        <div class="bloque negro">
-          <span class="label">Ventaja:</span>
-          <input type="text" value="Reroll 1 disparo por ronda">
+        <div class="bloque">
+          <span class="label">Alcance:</span>
+          <input type="text" class="alcance" readonly>
         </div>
-      </div>
-
-      <div class="fila imagen">
-        <input type="file" onchange="cargarImagen(event, this)">
-        <img class="avatar" src="https://via.placeholder.com/80">
       </div>
     `;
+
     document.getElementById('contenedor').appendChild(tarjeta);
   }
 
-  function cargarImagen(event, input) {
-    const img = input.nextElementSibling;
-    img.src = URL.createObjectURL(event.target.files[0]);
+  // Lógica dinámica
+  function actualizarBonificacion(select) {
+    const valor = select.value;
+    const tarjeta = select.closest('.tarjeta');
+    const output = tarjeta.querySelector('.bonificacion');
+    output.value = especializaciones[valor] || "";
   }
 
-  function exportarPDF() {
-    const contenedor = document.getElementById('contenedor');
-    html2pdf()
-      .set({
-        margin: 5,
-        filename: 'fichas-personajes.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      })
-      .from(contenedor)
-      .save();
+  function actualizarArma(select) {
+    const valor = select.value;
+    const tarjeta = select.closest('.tarjeta');
+    const datos = armasPrimarias[valor] || { daño: "", alcance: "" };
+    tarjeta.querySelector('.dano').value = datos.daño;
+    tarjeta.querySelector('.alcance').value = datos.alcance;
   }
+
+  // Crear tarjeta de inicio
+  crearTarjeta();
 </script>
 
 </body>
