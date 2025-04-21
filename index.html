@@ -222,13 +222,14 @@
       </div>
 
       <div class="fila">
-  <div class="bloque" style="flex: 0 0 45%;>
-    <span class="label">Expertise:</span>
-    <select onchange="actualizarBonificacionYStats(this)">
-      <option value="">-- Elegir --</option>
-      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
-    </select>
-  </div>
+        <div class="bloque" style="flex: 0 0 45%;>
+        <span class="label">Expertise:</span>
+        <select onchange="actualizarBonificacionYStats(this)">
+         <option value="">-- Elegir --</option>
+          ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
+          </select>
+         </div> 
+      </div>
     <div class="bloque" style="flex: 0 0 45%;">
     <span class="label">Bonificación:</span>
     <input type="text" class="bonificacion full-width" readonly>
