@@ -275,6 +275,13 @@
     const especializacion = select.value;
     const tarjeta = select.closest('.tarjeta');
     const bonificacion = tarjeta.querySelector('.bonificacion');
+
+    // Limpiar los stats antes de aplicar la nueva especialización
+    tarjeta.querySelector('.ma span').textContent = "-";
+    tarjeta.querySelector('.hearts span').textContent = "-";
+    tarjeta.querySelector('.hitsOn span').textContent = "-";
+    tarjeta.querySelector('.mdp span').textContent = "-";
+    
     bonificacion.value = especializaciones[especializacion] || "";
 
     // Cambiar los stats según la especialización
