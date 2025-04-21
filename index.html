@@ -94,18 +94,25 @@
       top: 10px;
       right: 10px;
       display: flex;
-      flex-direction: column;
-      gap: 5px;
+      gap: 10px;
     }
 
     .stat {
       background-color: #000;
       color: #fff;
-      padding: 5px;
-      font-size: 12px;
+      padding: 10px;
+      font-size: 14px;
       border-radius: 5px;
       text-align: center;
+      min-width: 70px;
+      font-weight: bold;
     }
+
+    .stat span {
+      display: block;
+      font-size: 12px;
+    }
+
   </style>
 </head>
 <body>
@@ -147,10 +154,18 @@
 
     tarjeta.innerHTML = `
       <div class="stats">
-        <div class="stat ma">MA: -</div>
-        <div class="stat hearts">Hearts: -</div>
-        <div class="stat hitsOn">Hits On: -</div>
-        <div class="stat mdp">MDP: -</div>
+        <div class="stat ma">
+          MA <span>-</span>
+        </div>
+        <div class="stat hearts">
+          Hearts <span>-</span>
+        </div>
+        <div class="stat hitsOn">
+          Hits On <span>-</span>
+        </div>
+        <div class="stat mdp">
+          MDP <span>-</span>
+        </div>
       </div>
 
       <div class="fila">
@@ -237,10 +252,10 @@
     const tarjeta = select.closest('.tarjeta');
     const stats = statsBase[tipo] || {};
 
-    tarjeta.querySelector('.ma').textContent = `MA: ${stats.MA || "-"}`;
-    tarjeta.querySelector('.hearts').textContent = `Hearts: ${stats.Hearts || "-"}`;
-    tarjeta.querySelector('.hitsOn').textContent = `Hits On: ${stats.HitsOn || "-"}`;
-    tarjeta.querySelector('.mdp').textContent = `MDP: ${stats.MDP || "-"}`;
+    tarjeta.querySelector('.ma span').textContent = stats.MA || "-";
+    tarjeta.querySelector('.hearts span').textContent = stats.Hearts || "-";
+    tarjeta.querySelector('.hitsOn span').textContent = stats.HitsOn || "-";
+    tarjeta.querySelector('.mdp span').textContent = stats.MDP || "-";
   }
 
   function actualizarBonificacion(select) {
