@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fichas de Personajes</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Equipo de Personajes</h1>
+    <div class="form">
+      <label class="avatar-selector">
+        <div class="avatar-container">
+          <img id="avatarPreview" src="https://i.imgur.com/1XjvZ1C.png" alt="Avatar" />
+          <span class="avatar-text">Haz clic para cargar imagen</span>
+        </div>
+        <input type="file" id="avatarInput" accept="image/*" />
+      </label>
+
+      <input type="text" id="nameInput" placeholder="Nombre del personaje" />
+
+      <select id="experienceInput">
+        <option disabled selected>Seleccionar experiencia</option>
+        <option>Raiders</option>
+        <option>Counter Terrorist</option>
+        <option>Hostage Rescue</option>
+        <option>Counter Insurgency</option>
+        <option>Covert Ops</option>
+        <option>Reconnaissance</option>
+      </select>
+
+      <button id="addBtn">+ Sumar al equipo</button>
+    </div>
+
+    <div id="teamContainer" class="team-grid"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
