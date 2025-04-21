@@ -173,6 +173,13 @@ button {
 
     tarjeta.innerHTML = `
       <button class="eliminar" onclick="eliminarTarjeta(this)">X</button>
+       <div class="fila">
+        <div class="bloque">
+          <span class="label">Avatar:</span>
+          <img src="" class="avatar" onclick="seleccionarAvatar(this)">
+          <input type="file" accept="image/*" style="display: none;" onchange="cargarAvatar(this)">
+        </div>
+      </div>
       <div class="stats">
         <div class="stat ma">
           MA <span>-</span>
@@ -188,13 +195,7 @@ button {
         </div>
       </div>
 
-      <div class="fila">
-        <div class="bloque">
-          <span class="label">Avatar:</span>
-          <img src="" class="avatar" onclick="seleccionarAvatar(this)">
-          <input type="file" accept="image/*" style="display: none;" onchange="cargarAvatar(this)">
-        </div>
-      </div>
+     
 
       <div class="fila">
         <div class="bloque" >
