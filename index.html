@@ -113,6 +113,18 @@
       font-size: 22px;
     }
 
+    .eliminar {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
   </style>
 </head>
 <body>
@@ -153,6 +165,7 @@
     tarjeta.className = 'tarjeta';
 
     tarjeta.innerHTML = `
+      <button class="eliminar" onclick="eliminarTarjeta(this)">X</button>
       <div class="stats">
         <div class="stat ma">
           MA <span>-</span>
@@ -226,11 +239,7 @@
     `;
 
     document.getElementById('contenedor').appendChild(tarjeta);
-
   }
-    function eliminarTarjeta(boton) {
-  const tarjeta = boton.closest('.tarjeta');
-  tarjeta.remove();}
 
   function seleccionarAvatar(img) {
     const input = img.nextElementSibling;
@@ -289,6 +298,11 @@
       })
       .from(contenedor)
       .save();
+  }
+
+  function eliminarTarjeta(button) {
+    const tarjeta = button.closest('.tarjeta');
+    tarjeta.remove();
   }
 
   // Crear la primera por defecto
