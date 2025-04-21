@@ -12,34 +12,27 @@
     <div class="form">
       <label class="avatar-selector">
         <div class="avatar-container">
-          <div class="avatar-preview-container">
-            <img id="avatarPreview" class="avatar-img" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="Avatar" />
-            <span class="avatar-text">Presione aquí para cargar imagen</span>
-          </div>
-          <input type="file" id="avatarInput" accept="image/*" style="display:none;" />
+          <img id="avatarPreview" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="Avatar" />
+          <span class="avatar-text">Haz clic para cargar imagen</span>
         </div>
+        <input type="file" id="avatarInput" accept="image/*" style="display:none;" />
       </label>
 
-      <div class="input-container">
-        <input type="text" id="nameInput" placeholder="Nombre del personaje" />
-        <select id="experienceInput">
-          <option disabled selected>Seleccionar experiencia</option>
-          <option>Raiders</option>
-          <option>Counter Terrorist</option>
-          <option>Hostage Rescue</option>
-          <option>Counter Insurgency</option>
-          <option>Covert Ops</option>
-          <option>Reconnaissance</option>
-        </select>
-        <div class="experience-specification">
-          <p>Descripción de la experiencia seleccionada.</p>
-        </div>
-      </div>
-
+      <input type="text" id="nameInput" placeholder="Nombre del personaje" />
+      <select id="experienceInput">
+        <option disabled selected>Seleccionar experiencia</option>
+        <option>Raiders</option>
+        <option>Counter Terrorist</option>
+        <option>Hostage Rescue</option>
+        <option>Counter Insurgency</option>
+        <option>Covert Ops</option>
+        <option>Reconnaissance</option>
+      </select>
+      
       <button id="addBtn">+ Sumar al equipo</button>
-     
-
     </div>
+
+    <button onclick="exportToPDF()">Exportar Todo a PDF</button>
 
     <div id="teamContainer" class="team-grid"></div>
   </div>
