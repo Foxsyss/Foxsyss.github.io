@@ -35,18 +35,24 @@ addBtn.addEventListener('click', () => {
   card.className = 'card';
 
   // Inner content with separate div for printable area
-  card.innerHTML = `
-    <div class="card-sheet">
-      <img src="${avatar}" alt="${name}" />
-      <h3>${name}</h3>
-      <strong>${experience}</strong>
-      <p>${experiences[experience]}</p>
+ card.innerHTML = `
+  <div class="card-sheet">
+    <div class="card-top">
+      <img src="${avatar}" alt="${name}" class="card-avatar" />
+      <div class="card-info">
+        <h3>${name}</h3>
+        <div class="card-exp">
+          <strong>${experience}</strong>
+          <p>${experiences[experience]}</p>
+        </div>
+      </div>
     </div>
-    <div class="actions">
-      <button onclick="downloadPDF(this)">PDF</button>
-      <button onclick="this.closest('.card').remove()">Eliminar</button>
-    </div>
-  `;
+  </div>
+  <div class="actions">
+    <button onclick="downloadPDF(this)">PDF</button>
+    <button onclick="this.closest('.card').remove()">Eliminar</button>
+  </div>
+`;
 
   teamContainer.appendChild(card);
 
