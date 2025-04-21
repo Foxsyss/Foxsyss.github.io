@@ -88,3 +88,40 @@ addBtn.addEventListener('click', () => {
         </tbody>
       </table>
     </div>
+    <div class="actions">
+      <button onclick="downloadPDF(this)">PDF</button>
+      <button onclick="this.closest('.card').remove()">Eliminar</button>
+    </div>
+  `;
+
+  teamContainer.appendChild(card);
+
+  // Resetear campos
+  nameInput.value = '';
+  experienceInput.selectedIndex = 0;
+  avatarPreview.src = defaultAvatar;
+});
+
+function downloadPDF(button) {
+  const card = button.closest('.card');
+  const printWindow = window.open('', '', 'width=800,height=600');
+  printWindow.document.write(`<html><head><title>Ficha de Personaje</title>`);
+  printWindow.document.write(`<link rel="stylesheet" href="style.css" />`);
+  printWindow.document.write(`</head><body>`);
+  printWindow.document.write(card.outerHTML);
+  printWindow.document.write(`</body></html>`);
+  printWindow.document.close();
+  printWindow.focus();
+  printWindow.print();
+}
+
+function exportToPDF() {
+  const options = {
+    margin: 0.5,
+    filename: 'equipo-personajes.pdf',
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+
+  html2pdf().from(teamContainer).set(options).save();
+}
