@@ -67,7 +67,7 @@
       margin-bottom: 4px;
     }
 
-    select, input[type="text"] {
+    select, input[type="text"], input[type="file"] {
       width: 100%;
       font-size: 11px;
       padding: 2px;
@@ -90,6 +90,14 @@
     .stats .label {
       font-weight: bold;
       margin-bottom: 4px;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      object-fit: cover;
     }
   </style>
 </head>
@@ -120,8 +128,8 @@
 
   const statsBase = {
     Warrior: { MA: 5, Hearts: 6, HitsOn: "4+", MDP: 5 },
-    Enlisted: { MA: 5, Hearts: 3, HitsOn: "5+", MDP: 4 },
-    Recruit: { MA: 5, Hearts: 2, HitsOn: "6+", MDP: 3 }
+    Enlisted: { MA: 4, Hearts: 3, HitsOn: "5+", MDP: 4 },
+    Recruit: { MA: 3, Hearts: 2, HitsOn: "6+", MDP: 3 }
   };
 
   let contador = 1;
@@ -131,6 +139,13 @@
     tarjeta.className = 'tarjeta';
 
     tarjeta.innerHTML = `
+      <div class="fila">
+        <div class="bloque">
+          <span class="label">Avatar:</span>
+          <input type="file" accept="image/*" onchange="cargarAvatar(this)">
+        </div>
+      </div>
+
       <div class="fila">
         <div class="bloque">
           <span class="label">Nombre:</span>
@@ -189,6 +204,27 @@
     `;
 
     document.getElementById('contenedor').appendChild(tarjeta);
+  }
+
+  function cargarAvatar(input) {
+    const tarjeta = input.closest('.tarjeta');
+    const avatar = tarjeta.querySelector('.avatar');
+    
+    const file = input.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        if (!avatar) {
+          const img = document.createElement('img');
+          img.className = 'avatar';
+          img.src = e.target.result;
+          tarjeta.insertBefore(img, tarjeta.querySelector('.fila'));
+        } else {
+          avatar.src = e.target.result;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   function actualizarStatsBase(select) {
