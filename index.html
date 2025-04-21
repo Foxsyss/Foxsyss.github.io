@@ -14,26 +14,30 @@
   #contenedor {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 5mm;
     justify-content: flex-start;
     page-break-inside: avoid;
+    margin: 0;
   }
 
   .tarjeta {
-    width: calc(50% - 10px); /* 2 por fila */
+    width: 92mm;
+    height: 95mm;
     box-sizing: border-box;
     page-break-inside: avoid;
+    overflow: hidden;
   }
 
   .eliminar, #botones {
     display: none;
   }
 
-  /* Ajustar márgenes del PDF */
   @page {
-  size: A4 landscape;
-  margin: 10mm;
+    size: A4 landscape;
+    margin: 10mm;
+  }
 }
+
 }
     body {
       background: #111;
@@ -391,13 +395,14 @@
       margin:       0,
       filename:     'fichas-personajes.pdf',
       image:        { type: 'jpeg', quality: 1 },
-      html2canvas:  { scale: 3, useCORS: true },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' },
-      pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+      html2canvas:  { scale: 2, useCORS: true },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
+      pagebreak:    { mode: ['avoid-all', 'css'] }
     })
     .from(contenedor)
     .save();
 }
+
 
 
   // Crear la primera por defecto
