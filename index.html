@@ -10,33 +10,39 @@
   <div class="container">
     <h1>Equipo de Personajes</h1>
     <div class="form">
-      <label class="avatar-selector">
-        <div class="avatar-container">
-          <img id="avatarPreview" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="Avatar" />
-          <span class="avatar-text">Haz clic para cargar imagen</span>
-        </div>
-        <input type="file" id="avatarInput" accept="image/*" style="display:none;" />
-      </label>
+      <div class="avatar-container">
+        <label class="avatar-selector">
+          <div class="avatar-preview-container">
+            <img id="avatarPreview" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="Avatar" class="avatar-img" />
+            <span class="avatar-text">Presione aquí para cargar imagen</span>
+          </div>
+          <input type="file" id="avatarInput" accept="image/*" style="display:none;" />
+        </label>
+      </div>
 
-      <input type="text" id="nameInput" placeholder="Nombre del personaje" />
-      <select id="experienceInput">
-        <option disabled selected>Seleccionar experiencia</option>
-        <option>Raiders</option>
-        <option>Counter Terrorist</option>
-        <option>Hostage Rescue</option>
-        <option>Counter Insurgency</option>
-        <option>Covert Ops</option>
-        <option>Reconnaissance</option>
-      </select>
+      <div class="input-container">
+        <input type="text" id="nameInput" placeholder="Nombre del personaje" />
+        
+        <select id="experienceInput">
+          <option disabled selected>Seleccionar experiencia</option>
+          <option>Raiders</option>
+          <option>Counter Terrorist</option>
+          <option>Hostage Rescue</option>
+          <option>Counter Insurgency</option>
+          <option>Covert Ops</option>
+          <option>Reconnaissance</option>
+        </select>
+        <div class="experience-specification">
+          <p id="experienceDescription">Selecciona una experiencia para ver la descripción</p>
+        </div>
+      </div>
 
       <button id="addBtn">+ Sumar al equipo</button>
-      <button onclick="exportToPDF()">Exportar en PDF</button>
     </div>
 
     <div id="teamContainer" class="team-grid"></div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
