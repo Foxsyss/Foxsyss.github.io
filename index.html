@@ -154,9 +154,14 @@ button {
   };
 
   const armasPrimarias = {
-    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"" },
-    "Rifle de precisión": { daño: "2", alcance: "36”" },
-    "Escopeta": { daño: "2", alcance: "12”" }
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"-1" },
+    "Shotgun ": { daño: "1", alcance: "8”", dados :"3", perks:"If Hit, knock back the target 1”", drawback:"",Armour_Piercing:"-1" },
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"" },
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"" },
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"" },
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"" },
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"" },
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"" },
   };
 
   const statsBase = {
@@ -249,8 +254,10 @@ button {
         <th style="width: 10%; border: 1px solid black; padding: 4px; text-align: center;">Daño</th>
         <th style="width: 10%; border: 1px solid black; padding: 4px; text-align: center;">Alcance</th>
         <th style="width: 10%; border: 1px solid black; padding: 4px; text-align: center;">Dados</th>
+        <th style="width: 35%; border: 1px solid black; padding: 4px; text-align: center;">Armour Piercing</th>
         <th style="width: 35%; border: 1px solid black; padding: 4px; text-align: center;">Perks</th>
         <th style="width: 35%; border: 1px solid black; padding: 4px; text-align: center;">Drawback</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -258,6 +265,7 @@ button {
         <td class="dano" style="border: 1px solid black; padding: 4px; text-align: center;">-</td>
         <td class="alcance" style="border: 1px solid black; padding: 4px; text-align: center;">-</td>
         <td class="dados" style="border: 1px solid black; padding: 4px; text-align: center;">-</td>
+        <td class="Armour Piercing" style="border: 1px solid black; padding: 4px; text-align: center;">-</td>
         <td class="perks" style="border: 1px solid black; padding: 4px;">-</td>
         <td class="drawback" style="border: 1px solid black; padding: 4px;">-</td>
       </tr>
@@ -338,6 +346,7 @@ button {
   tarjeta.querySelector('.dano').textContent = datos.daño || "-";
   tarjeta.querySelector('.alcance').textContent = datos.alcance || "-";
   tarjeta.querySelector('.dados').textContent = datos.dados || "-";
+  tarjeta.querySelector('.Armour_Piercing').textContent = datos.Armour_Piercing || "-";  
   tarjeta.querySelector('.perks').textContent = datos.perks || "-";
   tarjeta.querySelector('.drawback').textContent = datos.drawback || "-"
 }
