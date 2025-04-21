@@ -43,41 +43,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      page-break-inside: avoid;
       position: relative;
-    }
-
-    .avatar-container {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .avatar {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border: 2px solid black;
-      border-radius: 5px;
-      cursor: pointer;
-      background: #fff;
-    }
-
-    .stats {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .stat {
-      background: #000;
-      color: #fff;
-      padding: 10px;
-      font-size: 18px;
-      font-weight: bold;
-      min-width: 60px;
-      text-align: center;
-      border-radius: 4px;
     }
 
     .fila {
@@ -110,6 +76,48 @@
     input[readonly] {
       background: #eee;
     }
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      background: #ccc;
+      border: 2px solid black;
+      cursor: pointer;
+      object-fit: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .stats {
+      display: flex;
+      gap: 5px;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .stat-box {
+      background: black;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      min-width: 60px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .eliminar {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: red;
+      color: white;
+      border: none;
+      padding: 3px 6px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -121,20 +129,13 @@
 
 <div id="contenedor"></div>
 
-<!-- Librería html2pdf -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
   const especializaciones = {
-    sniper: { bonificacion: "+1 al disparo con rifle", efecto: { MA: 0, Hearts: 0, HitsOn: 0, MDP: 0 } },
-    medic: { bonificacion: "Puede curar 1 herida por ronda", efecto: { MA: 0, Hearts: 1, HitsOn: 0, MDP: 0 } },
-    scout: { bonificacion: "+2” de movimiento al inicio", efecto: { MA: 2, Hearts: 0, HitsOn: 0, MDP: 0 } }
-  };
-
-  const statsBasePorTipo = {
-    Warrior: { MA: 5, Hearts: 6, HitsOn: 4, MDP: 5 },
-    Enlisted: { MA: 4, Hearts: 5, HitsOn: 5, MDP: 4 },
-    Recruit: { MA: 4, Hearts: 4, HitsOn: 5, MDP: 3 }
+    sniper: { bono: "+1 al disparo con rifle", modificadores: { HO: -1 } },
+    medic: { bono: "Puede curar 1 herida por ronda", modificadores: { Hearts: 1 } },
+    scout: { bono: "+2” de movimiento al inicio", modificadores: { MA: 2 } }
   };
 
   const armasPrimarias = {
@@ -143,49 +144,72 @@
     "Escopeta": { daño: "2", alcance: "12”" }
   };
 
+  const tiposSoldado = {
+    Warrior: { MA: 5, Hearts: 6, HO: 4, MDP: 5 },
+    Enlisted: { MA: 4, Hearts: 5, HO: 5, MDP: 4 },
+    Recruit: { MA: 4, Hearts: 4, HO: 5, MDP: 3 }
+  };
+
   let contador = 1;
 
-  function crearTarjeta(datos = null) {
+  function crearTarjeta(data = null) {
     const tarjeta = document.createElement('div');
     tarjeta.className = 'tarjeta';
 
-    const id = datos?.id || Date.now();
+    const id = data?.id || Date.now();
 
-    const tipoInicial = datos?.tipo || 'Warrior';
-    const stats = calcularStats(tipoInicial, datos?.especializacion);
+    const tipo = data?.tipo || 'Warrior';
+    const base = tiposSoldado[tipo];
+    const espec = data?.especializacion || '';
+    const modif = especializaciones[espec]?.modificadores || {};
+
+    const stats = {
+      MA: base.MA + (modif.MA || 0),
+      Hearts: base.Hearts + (modif.Hearts || 0),
+      HO: base.HO + (modif.HO || 0),
+      MDP: base.MDP + (modif.MDP || 0),
+    };
 
     tarjeta.innerHTML = `
-      <div class="avatar-container">
-        <img src="${datos?.avatar || 'https://via.placeholder.com/80'}" class="avatar" onclick="seleccionarAvatar(this)" data-id="${id}">
-        <div class="stats" data-id="${id}">
-          ${Object.entries(stats).map(([k, v]) => `<div class="stat" data-key="${k}">${k} ${k === 'MA' ? v + '”' : v}</div>`).join("")}
+      <button class="eliminar" onclick="eliminarTarjeta(${id})">X</button>
+
+      <div class="fila" style="align-items: center;">
+        <label class="avatar" onclick="cargarAvatar(this)">
+          <span>Presione<br>para cargar</span>
+          <input type="file" accept="image/*" style="display:none">
+        </label>
+
+        <div style="flex: 1">
+          <div class="stats">
+            <div class="stat-box">MA ${stats.MA}"</div>
+            <div class="stat-box">♥ ${stats.Hearts}</div>
+            <div class="stat-box">H.O. ${stats.HO}+</div>
+            <div class="stat-box">MDP ${stats.MDP}</div>
+          </div>
+          <div class="bloque">
+            <span class="label">Nombre:</span>
+            <input type="text" value="${data?.nombre || `Operativo ${contador++}`}">
+          </div>
         </div>
       </div>
 
       <div class="fila">
         <div class="bloque">
           <span class="label">Tipo:</span>
-          <select onchange="actualizarStats(this)" data-id="${id}">
-            ${Object.keys(statsBasePorTipo).map(t => `<option value="${t}" ${t === tipoInicial ? 'selected' : ''}>${t}</option>`).join("")}
+          <select onchange="actualizarStats(this)">
+            ${Object.keys(tiposSoldado).map(k => `<option value="${k}" ${tipo === k ? 'selected' : ''}>${k}</option>`).join("")}
           </select>
         </div>
         <div class="bloque">
-          <span class="label">Nombre:</span>
-          <input type="text" value="${datos?.nombre || 'Operativo ' + contador++}" data-id="${id}">
-        </div>
-      </div>
-
-      <div class="fila">
-        <div class="bloque">
           <span class="label">Especialización:</span>
-          <select onchange="actualizarBonificacion(this)" data-id="${id}">
+          <select onchange="actualizarEspecializacion(this)">
             <option value="">-- Elegir --</option>
-            ${Object.keys(especializaciones).map(k => `<option value="${k}" ${k === datos?.especializacion ? 'selected' : ''}>${k}</option>`).join("")}
+            ${Object.keys(especializaciones).map(k => `<option value="${k}" ${espec === k ? 'selected' : ''}>${k}</option>`).join("")}
           </select>
         </div>
         <div class="bloque">
           <span class="label">Bonificación:</span>
-          <input type="text" class="bonificacion" value="${datos?.bonificacion || ''}" readonly>
+          <input type="text" class="bonificacion" value="${especializaciones[espec]?.bono || ''}" readonly>
         </div>
       </div>
 
@@ -208,66 +232,70 @@
       </div>
     `;
 
+    tarjeta.dataset.id = id;
     document.getElementById('contenedor').appendChild(tarjeta);
+    cargarDesdeStorage(); // Reaplica imágenes
     guardarTarjetas();
   }
 
-  function actualizarStats(select) {
-    const id = select.dataset.id;
-    const tarjeta = select.closest('.tarjeta');
-    const tipo = select.value;
-    const especializacion = tarjeta.querySelector('select[data-id="'+id+'"][onchange*="actualizarBonificacion"]')?.value;
-    const stats = calcularStats(tipo, especializacion);
-    const statsContainer = tarjeta.querySelector('.stats');
-    statsContainer.innerHTML = Object.entries(stats).map(([k, v]) => `<div class="stat" data-key="${k}">${k} ${k === 'MA' ? v + '”' : v}</div>`).join("");
-    guardarTarjetas();
-  }
-
-  function actualizarBonificacion(select) {
-    const id = select.dataset.id;
+  function actualizarEspecializacion(select) {
     const tarjeta = select.closest('.tarjeta');
     const valor = select.value;
     const output = tarjeta.querySelector('.bonificacion');
-    output.value = especializaciones[valor]?.bonificacion || "";
-
-    actualizarStats(tarjeta.querySelector(`select[data-id="${id}"][onchange*="actualizarStats"]`));
+    output.value = especializaciones[valor]?.bono || "";
+    actualizarStats(select);
   }
 
   function actualizarArma(select) {
-    const valor = select.value;
     const tarjeta = select.closest('.tarjeta');
+    const valor = select.value;
     const datos = armasPrimarias[valor] || { daño: "", alcance: "" };
     tarjeta.querySelector('.dano').value = datos.daño;
     tarjeta.querySelector('.alcance').value = datos.alcance;
   }
 
-  function calcularStats(tipo, especializacion = "") {
-    const base = statsBasePorTipo[tipo] || {};
-    const extra = especializaciones[especializacion]?.efecto || { MA: 0, Hearts: 0, HitsOn: 0, MDP: 0 };
-    return {
-      MA: base.MA + extra.MA,
-      Hearts: base.Hearts + extra.Hearts,
-      HitsOn: base.HitsOn + extra.HitsOn,
-      MDP: base.MDP + extra.MDP
+  function actualizarStats(select) {
+    const tarjeta = select.closest('.tarjeta');
+    const tipo = tarjeta.querySelector('select').value;
+    const espec = tarjeta.querySelectorAll('select')[1].value;
+
+    const base = tiposSoldado[tipo];
+    const modif = especializaciones[espec]?.modificadores || {};
+
+    const stats = {
+      MA: base.MA + (modif.MA || 0),
+      Hearts: base.Hearts + (modif.Hearts || 0),
+      HO: base.HO + (modif.HO || 0),
+      MDP: base.MDP + (modif.MDP || 0),
     };
+
+    tarjeta.querySelector('.stats').innerHTML = `
+      <div class="stat-box">MA ${stats.MA}"</div>
+      <div class="stat-box">♥ ${stats.Hearts}</div>
+      <div class="stat-box">H.O. ${stats.HO}+</div>
+      <div class="stat-box">MDP ${stats.MDP}</div>
+    `;
+
+    guardarTarjetas();
   }
 
-  function seleccionarAvatar(img) {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-
-    input.onchange = function () {
+  function cargarAvatar(label) {
+    const input = label.querySelector('input');
+    input.click();
+    input.onchange = () => {
       const file = input.files[0];
+      if (!file) return;
+
       const reader = new FileReader();
-      reader.onload = function (e) {
-        img.src = e.target.result;
+      reader.onload = e => {
+        label.style.backgroundImage = `url('${e.target.result}')`;
+        label.innerHTML = '';
+        label.style.backgroundSize = 'cover';
+        label.dataset.img = e.target.result;
         guardarTarjetas();
       };
       reader.readAsDataURL(file);
     };
-
-    input.click();
   }
 
   function exportarPDF() {
@@ -285,27 +313,40 @@
   }
 
   function guardarTarjetas() {
-    const tarjetas = Array.from(document.querySelectorAll('.tarjeta')).map(t => {
-      const id = t.querySelector('.avatar')?.dataset.id;
-      return {
-        id,
-        avatar: t.querySelector('.avatar')?.src,
-        tipo: t.querySelector('select[onchange*="actualizarStats"]').value,
-        nombre: t.querySelector('input[type="text"]').value,
-        especializacion: t.querySelector('select[onchange*="actualizarBonificacion"]').value,
-        bonificacion: t.querySelector('.bonificacion').value
-      };
+    const tarjetas = Array.from(document.querySelectorAll('.tarjeta')).map(t => ({
+      id: t.dataset.id,
+      nombre: t.querySelector('input[type="text"]').value,
+      tipo: t.querySelector('select').value,
+      especializacion: t.querySelectorAll('select')[1].value,
+      imagen: t.querySelector('.avatar').dataset.img || ''
+    }));
+    localStorage.setItem('tarjetas', JSON.stringify(tarjetas));
+  }
+
+  function cargarDesdeStorage() {
+    const guardadas = JSON.parse(localStorage.getItem('tarjetas') || '[]');
+    document.getElementById('contenedor').innerHTML = '';
+    guardadas.forEach(crearTarjeta);
+
+    // Reasignar imágenes
+    document.querySelectorAll('.avatar').forEach(label => {
+      const src = label.dataset.img;
+      if (src) {
+        label.style.backgroundImage = `url('${src}')`;
+        label.innerHTML = '';
+        label.style.backgroundSize = 'cover';
+      }
     });
-    localStorage.setItem('fichas', JSON.stringify(tarjetas));
   }
 
-  function cargarTarjetas() {
-    const datos = JSON.parse(localStorage.getItem('fichas') || '[]');
-    datos.forEach(d => crearTarjeta(d));
+  function eliminarTarjeta(id) {
+    const tarjeta = document.querySelector(`.tarjeta[data-id="${id}"]`);
+    if (tarjeta) tarjeta.remove();
+    guardarTarjetas();
   }
 
-  // Cargar al iniciar
-  cargarTarjetas();
+  // Inicializar
+  cargarDesdeStorage();
 </script>
 
 </body>
