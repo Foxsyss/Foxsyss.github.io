@@ -2,56 +2,130 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Tarjeta de Personaje</title>
+  <title>Generador de Tarjetas</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f0f0f0;
+      font-family: 'Arial', sans-serif;
+      background: #111;
       padding: 20px;
+      color: white;
     }
 
-    .tarjeta-personaje {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      max-width: 300px;
+    .tarjeta {
+      width: 600px;
+      background: #009fe3;
+      border-radius: 10px;
       padding: 20px;
       margin: auto;
-      text-align: center;
+      color: black;
+      position: relative;
     }
 
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #555;
-      margin-bottom: 15px;
-    }
-
-    .nombre {
-      font-size: 1.5em;
-      font-weight: bold;
+    .fila {
+      display: flex;
+      gap: 10px;
       margin-bottom: 10px;
     }
 
-    .experiencia,
-    .bonificacion {
-      background: #eee;
-      border-radius: 8px;
-      padding: 8px;
-      margin: 5px 0;
+    .campo {
+      background: white;
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid #000;
+    }
+
+    .label {
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    #exportarBtn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #222;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <div class="tarjeta-personaje">
-    <img src="https://via.placeholder.com/120" alt="Avatar" class="avatar">
-    <div class="nombre">Nombre del Personaje</div>
-    <div class="experiencia">Experiencia: Covert Ops</div>
-    <div class="bonificacion">Bonificación: Expand deployment zone</div>
+  <div class="tarjeta" id="tarjeta">
+    <div class="fila">
+      <div>
+        <div class="label">Nombre:</div>
+        <input type="text" class="campo" value="Mason 'Ghost' Turner">
+      </div>
+      <div>
+        <div class="label">Tipo:</div>
+        <input type="text" class="campo" value="Warrior">
+      </div>
+      <div>
+        <div class="label">Equipo:</div>
+        <input type="text" class="campo" value="Spec Ops">
+      </div>
+    </div>
+
+    <div class="fila">
+      <div>
+        <div class="label">Avatar:</div>
+        <input type="file" onchange="cargarImagen(event)">
+        <img id="avatar" class="avatar" src="https://via.placeholder.com/100" alt="avatar">
+      </div>
+
+      <div style="flex: 1;">
+        <div class="label">Especialización:</div>
+        <input type="text" class="campo" value="Sniper">
+        <div class="label">Bonificación:</div>
+        <input type="text" class="campo" value="Reroll 1 shot per round">
+      </div>
+    </div>
+
+    <div class="fila">
+      <div style="flex: 1;">
+        <div class="label">Arma primaria:</div>
+        <input type="text" class="campo" value="Sniper Rifle">
+        <div class="label">Arma secundaria:</div>
+        <input type="text" class="campo" value="Pistol">
+      </div>
+    </div>
   </div>
+
+  <button id="exportarBtn" onclick="exportarPDF()">Exportar como PDF</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    function cargarImagen(event) {
+      const img = document.getElementById('avatar');
+      img.src = URL.createObjectURL(event.target.files[0]);
+    }
+
+    function exportarPDF() {
+      const tarjeta = document.getElementById('tarjeta');
+      html2pdf()
+        .set({
+          margin: 0,
+          filename: 'tarjeta-personaje.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        })
+        .from(tarjeta)
+        .save();
+    }
+  </script>
 
 </body>
 </html>
