@@ -1,4 +1,3 @@
-
 const avatarInput = document.getElementById('avatarInput');
 const avatarPreview = document.getElementById('avatarPreview');
 const nameInput = document.getElementById('nameInput');
