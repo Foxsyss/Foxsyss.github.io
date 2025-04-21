@@ -2,130 +2,210 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Generador de Tarjetas</title>
+  <title>Fichas de Personaje</title>
   <style>
     body {
+      background: #000;
       font-family: 'Arial', sans-serif;
-      background: #111;
-      padding: 20px;
+      margin: 20px;
+      color: #000;
+    }
+
+    #botones {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background: #222;
       color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 0 5px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #contenedor {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
     }
 
     .tarjeta {
-      width: 600px;
+      width: 48%;
       background: #009fe3;
-      border-radius: 10px;
-      padding: 20px;
-      margin: auto;
-      color: black;
-      position: relative;
+      border: 6px solid black;
+      padding: 10px;
+      border-radius: 6px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
     .fila {
       display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 6px;
     }
 
-    .campo {
+    .bloque {
       background: white;
-      border: none;
-      padding: 5px;
-      border-radius: 5px;
-      font-size: 14px;
+      padding: 6px;
+      flex: 1;
+      font-size: 12px;
+      border: 2px solid black;
+      box-sizing: border-box;
+    }
+
+    .bloque .label {
+      font-weight: bold;
+      font-size: 11px;
+      margin-bottom: 2px;
+      display: block;
+    }
+
+    .bloque input[type="text"] {
       width: 100%;
+      font-size: 11px;
+      border: none;
+      background: transparent;
+      border-bottom: 1px solid #aaa;
+    }
+
+    .bloque.perk {
+      color: red;
+      font-weight: bold;
+    }
+
+    .bloque.negro {
+      background: black;
+      color: white;
+    }
+
+    .imagen input[type="file"] {
+      display: block;
+      margin-bottom: 4px;
     }
 
     .avatar {
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       object-fit: cover;
-      border-radius: 10px;
-      border: 2px solid #000;
-    }
-
-    .label {
-      font-weight: bold;
-      font-size: 12px;
-    }
-
-    #exportarBtn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #222;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+      border: 2px solid black;
     }
   </style>
 </head>
 <body>
 
-  <div class="tarjeta" id="tarjeta">
-    <div class="fila">
-      <div>
-        <div class="label">Nombre:</div>
-        <input type="text" class="campo" value="Mason 'Ghost' Turner">
-      </div>
-      <div>
-        <div class="label">Tipo:</div>
-        <input type="text" class="campo" value="Warrior">
-      </div>
-      <div>
-        <div class="label">Equipo:</div>
-        <input type="text" class="campo" value="Spec Ops">
-      </div>
-    </div>
+<div id="botones">
+  <button onclick="crearTarjeta()">Crear nueva tarjeta</button>
+  <button onclick="exportarPDF()">Exportar PDF</button>
+</div>
 
-    <div class="fila">
-      <div>
-        <div class="label">Avatar:</div>
-        <input type="file" onchange="cargarImagen(event)">
-        <img id="avatar" class="avatar" src="https://via.placeholder.com/100" alt="avatar">
+<div id="contenedor">
+  <!-- Tarjetas generadas aquí -->
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+  let contador = 0;
+
+  function crearTarjeta() {
+    contador++;
+    const tarjeta = document.createElement('div');
+    tarjeta.className = 'tarjeta';
+    tarjeta.innerHTML = `
+      <div class="fila">
+        <div class="bloque">
+          <span class="label">Nombre:</span>
+          <input type="text" value="Nombre ${contador}">
+        </div>
+        <div class="bloque">
+          <span class="label">Tipo:</span>
+          <input type="text" value="Operativo">
+        </div>
+        <div class="bloque">
+          <span class="label">Equipo:</span>
+          <input type="text" value="Spec Ops">
+        </div>
       </div>
 
-      <div style="flex: 1;">
-        <div class="label">Especialización:</div>
-        <input type="text" class="campo" value="Sniper">
-        <div class="label">Bonificación:</div>
-        <input type="text" class="campo" value="Reroll 1 shot per round">
+      <div class="fila">
+        <div class="bloque">
+          <span class="label">Movimiento:</span>
+          <input type="text" value="5”">
+        </div>
+        <div class="bloque">
+          <span class="label">Hits on:</span>
+          <input type="text" value="4+">
+        </div>
+        <div class="bloque">
+          <span class="label">Heridas:</span>
+          <input type="text" value="6">
+        </div>
       </div>
-    </div>
 
-    <div class="fila">
-      <div style="flex: 1;">
-        <div class="label">Arma primaria:</div>
-        <input type="text" class="campo" value="Sniper Rifle">
-        <div class="label">Arma secundaria:</div>
-        <input type="text" class="campo" value="Pistol">
+      <div class="fila">
+        <div class="bloque perk">
+          <span class="label">Especialización:</span>
+          <input type="text" value="Sniper: +1 al disparo">
+        </div>
       </div>
-    </div>
-  </div>
 
-  <button id="exportarBtn" onclick="exportarPDF()">Exportar como PDF</button>
+      <div class="fila">
+        <div class="bloque">
+          <span class="label">Gear:</span>
+          <input type="text" value="Granada, Kit médico">
+        </div>
+      </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script>
-    function cargarImagen(event) {
-      const img = document.getElementById('avatar');
-      img.src = URL.createObjectURL(event.target.files[0]);
-    }
+      <div class="fila">
+        <div class="bloque">
+          <span class="label">Primaria:</span>
+          <input type="text" value="Rifle de precisión">
+        </div>
+        <div class="bloque">
+          <span class="label">Secundaria:</span>
+          <input type="text" value="Pistola">
+        </div>
+      </div>
 
-    function exportarPDF() {
-      const tarjeta = document.getElementById('tarjeta');
-      html2pdf()
-        .set({
-          margin: 0,
-          filename: 'tarjeta-personaje.pdf',
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-        })
-        .from(tarjeta)
-        .save();
-    }
-  </script>
+      <div class="fila">
+        <div class="bloque negro">
+          <span class="label">Ventaja:</span>
+          <input type="text" value="Reroll 1 disparo por ronda">
+        </div>
+      </div>
+
+      <div class="fila imagen">
+        <input type="file" onchange="cargarImagen(event, this)">
+        <img class="avatar" src="https://via.placeholder.com/80">
+      </div>
+    `;
+    document.getElementById('contenedor').appendChild(tarjeta);
+  }
+
+  function cargarImagen(event, input) {
+    const img = input.nextElementSibling;
+    img.src = URL.createObjectURL(event.target.files[0]);
+  }
+
+  function exportarPDF() {
+    const contenedor = document.getElementById('contenedor');
+    html2pdf()
+      .set({
+        margin: 5,
+        filename: 'fichas-personajes.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      })
+      .from(contenedor)
+      .save();
+  }
+</script>
 
 </body>
 </html>
