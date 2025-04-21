@@ -28,7 +28,7 @@ avatarInput.addEventListener('change', (e) => {
 addBtn.addEventListener('click', () => {
   const name = nameInput.value.trim();
   const experience = experienceInput.value;
-  const avatar = avatarPreview.src || 'https://i.imgur.com/1XjvZ1C.png';
+  const avatar = avatarPreview.src || 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png';
 
   if (!name || !experience || experience === 'Seleccionar experiencia') {
     alert('Por favor completa todos los campos.');
@@ -60,7 +60,7 @@ addBtn.addEventListener('click', () => {
   // Resetear campos
   nameInput.value = '';
   experienceInput.selectedIndex = 0;
-  avatarPreview.src = 'https://i.imgur.com/1XjvZ1C.png';
+  avatarPreview.src = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png';
 });
 
 function downloadPDF(button) {
