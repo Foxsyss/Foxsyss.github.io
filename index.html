@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Fichas Dinámicas</title>
+  <style>
+    body {
+      background: #111;
+      font-family: Arial, sans-serif;
+      color: #000;
+      padding: 20px;
+    }
+
+    #botones {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 14px;
+      background: #009fe3;
+      border: 2px solid black;
+      color: black;
+      cursor: pointer;
+    }
+
+    #contenedor {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .tarjeta {
+      background: #009fe3;
+      border: 5px solid black;
+      padding: 10px;
+      border-radius: 5px;
+      width: 48%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      page-break-inside: avoid;
+      position: relative;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .stat {
+      background: #000;
+      color: #fff;
+      padding: 10px;
+      font-size: 18px;
+      text-align: center;
+      border-radius: 5px;
+      min-width: 70px;
+    }
+
+    .stat span {
+      display: block;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .fila {
+      display: flex;
+      gap: 10px;
+    }
+
+    .bloque {
+      background: #fff;
+      padding: 8px;
+      flex: 1;
+      font-size: 12px;
+      border: 2px solid black;
+      box-sizing: border-box;
+    }
+
+    .label {
+      font-weight: bold;
+      display: block;
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    select, input[type="text"] {
+      width: 100%;
+      font-size: 11px;
+      padding: 2px;
+    }
+
+    input[readonly] {
+      background: #eee;
+    }
+
+    .avatar {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border: 2px solid black;
+      cursor: pointer;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div id="botones">
+  <button onclick="crearTarjeta()">Crear nueva tarjeta</button>
+  <button onclick="exportarPDF()">Exportar PDF</button>
+</div>
+
+<div id="contenedor"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+  const especializaciones = {
+    sniper: { MA: 0, Hearts: 0, HitsOn: "-1", MDP: 0, texto: "+1 a disparo (mejora HitsOn)" },
+    medic: { MA: 0, Hearts: 1, HitsOn: 0, MDP: 0, texto: "+1 a Hearts" },
+    scout: { MA: 2, Hearts: 0, HitsOn: 0, MDP: 0, texto: "+2\" a MA" }
+  };
+
+  const armasPrimarias = {
+    "Fusil de asalto": { daño: "1", alcance: "24”" },
+    "Rifle de precisión": { daño: "2", alcance: "36”" },
+    "Escopeta": { daño: "2", alcance: "12”" }
+  };
+
+  const statsBase = {
+    Warrior: { MA: 5, Hearts: 6, HitsOn: 4, MDP: 5 },
+    Enlisted: { MA: 4, Hearts: 5, HitsOn: 5, MDP: 4 },
+    Recruit: { MA: 3, Hearts: 4, HitsOn: 6, MDP: 3 }
+  };
+
+  let contador = 1;
+
+  function crearTarjeta() {
+    const tarjeta = document.createElement('div');
+    tarjeta.className = 'tarjeta';
+
+    tarjeta.innerHTML = `
+      <div class="stats">
+        <div class="stat ma">MA<span>-</span></div>
+        <div class="stat hearts">Hearts<span>-</span></div>
+        <div class="stat hitsOn">Hits On<span>-</span></div>
+        <div class="stat mdp">MDP<span>-</span></div>
+      </div>
+
+      <div class="fila">
+        <div class="bloque">
+          <span class="label">Avatar:</span>
+          <img src="https://via.placeholder.com/150" class="avatar" onclick="seleccionarAvatar(this)">
+          <input type="file" accept="image/*" onchange="cargarAvatar(this)">
+        </div>
+      </div>
+
+      <div class="fila">
+        <div class="bloque">
+          <span class="label">Nombre:</span>
+          <input type="text" value="Operativo ${contador++}">
+        </div>
+        <div class="bloque">
+          <span class="label">Tipo de Soldado:</span>
+          <select onchange="actualizarStats(this)">
+            <option value="">-- Elegir --</option>
+            <option value="Warrior">Warrior</option>
+            <option value="Enlisted">Enlisted</option>
+            <option value="Recruit">Recruit</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="fila">
+        <div class="bloque">
+          <span class="label">Especialización:</span>
+          <select onchange="actualizarStats(this)">
+            <option value="">-- Elegir --</option>
+            ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
+          </select>
+        </div>
+        <div class="bloque">
+          <span class="label">Bonificación:</span>
+          <input type="text" class="bonificacion" readonly>
+        </div>
+      </div>
+
+      <div class="fila">
+        <div class="bloque">
+          <span class="label">Arma primaria:</span>
+          <select onchange="actualizarArma(this)">
+            <option value="">-- Elegir --</option>
+            ${Object.keys(armasPrimarias).map(k => `<option value="${k}">${k}</option>`).join("")}
+          </select>
+        </div>
+        <div class="bloque">
+          <span class="label">Daño:</span>
+          <input type="text" class="dano" readonly>
+        </div>
+        <div class="bloque">
+          <span class="label">Alcance:</span>
+          <input type="text" class="alcance" readonly>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('contenedor').appendChild(tarjeta);
+  }
+
+  function seleccionarAvatar(img) {
+    img.nextElementSibling.click();
+  }
+
+  function cargarAvatar(input) {
+    const img = input.previousElementSibling;
+    const file = input.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => img.src = e.target.result;
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function actualizarStats(select) {
+    const tarjeta = select.closest('.tarjeta');
+    const tipo = tarjeta.querySelector('select:nth-of-type(1)').value;
+    const esp = tarjeta.querySelector('select:nth-of-type(2)').value;
+
+    if (!tipo) return;
+
+    const base = statsBase[tipo];
+    const bonus = especializaciones[esp] || { MA: 0, Hearts: 0, HitsOn: 0, MDP: 0, texto: "" };
+
+    const finalStats = {
+      MA: base.MA + bonus.MA,
+      Hearts: base.Hearts + bonus.Hearts,
+      HitsOn: Math.max(2, base.HitsOn + (parseInt(bonus.HitsOn) || 0)) + "+",
+      MDP: base.MDP + bonus.MDP
+    };
+
+    tarjeta.querySelector('.stat.ma span').textContent = finalStats.MA + "\"";
+    tarjeta.querySelector('.stat.hearts span').textContent = finalStats.Hearts;
+    tarjeta.querySelector('.stat.hitsOn span').textContent = finalStats.HitsOn;
+    tarjeta.querySelector('.stat.mdp span').textContent = finalStats.MDP;
+
+    tarjeta.querySelector('.bonificacion').value = bonus.texto || "";
+  }
+
+  function actualizarArma(select) {
+    const valor = select.value;
+    const tarjeta = select.closest('.tarjeta');
+    const datos = armasPrimarias[valor] || { daño: "", alcance: "" };
+    tarjeta.querySelector('.dano').value = datos.daño;
+    tarjeta.querySelector('.alcance').value = datos.alcance;
+  }
+
+  function exportarPDF() {
+    const contenedor = document.getElementById('contenedor');
+    html2pdf()
+      .set({
+        margin: 5,
+        filename: 'fichas-personajes.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      })
+      .from(contenedor)
+      .save();
+  }
+
+  crearTarjeta();
+</script>
+
+</body>
+</html>
+
