@@ -4,6 +4,37 @@
   <meta charset="UTF-8">
   <title>Fichas Dinámicas</title>
   <style>
+    @media print {
+  body {
+    background: white;
+    color: black;
+    padding: 0;
+  }
+
+  #contenedor {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+    page-break-inside: avoid;
+  }
+
+  .tarjeta {
+    width: calc(50% - 10px); /* 2 por fila */
+    box-sizing: border-box;
+    page-break-inside: avoid;
+  }
+
+  .eliminar, #botones {
+    display: none;
+  }
+
+  /* Ajustar márgenes del PDF */
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+}
     body {
       background: #111;
       font-family: Arial, sans-serif;
@@ -354,18 +385,20 @@
   }
 
   function exportarPDF() {
-    const contenedor = document.getElementById('contenedor');
-    html2pdf()
-      .set({
-        margin: 5,
-        filename: 'fichas-personajes.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      })
-      .from(contenedor)
-      .save();
-  }
+  const contenedor = document.getElementById('contenedor');
+  html2pdf()
+    .set({
+      margin:       0,
+      filename:     'fichas-personajes.pdf',
+      image:        { type: 'jpeg', quality: 1 },
+      html2canvas:  { scale: 3, useCORS: true },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+    })
+    .from(contenedor)
+    .save();
+}
+
 
   // Crear la primera por defecto
   crearTarjeta();
