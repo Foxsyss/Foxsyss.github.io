@@ -44,6 +44,7 @@
       flex-direction: column;
       gap: 10px;
       page-break-inside: avoid;
+      position: relative;
     }
 
     .fila {
@@ -77,21 +78,6 @@
       background: #eee;
     }
 
-    .stats {
-      background: #fff;
-      padding: 8px;
-      font-size: 12px;
-      border: 2px solid black;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .stats .label {
-      font-weight: bold;
-      margin-bottom: 4px;
-    }
-
     .avatar {
       width: 80px;
       height: 80px;
@@ -101,6 +87,24 @@
       margin-bottom: 10px;
       border-radius: 5px;
       background-color: #f0f0f0;
+    }
+
+    .stats {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .stat {
+      background-color: #000;
+      color: #fff;
+      padding: 5px;
+      font-size: 12px;
+      border-radius: 5px;
+      text-align: center;
     }
   </style>
 </head>
@@ -142,6 +146,13 @@
     tarjeta.className = 'tarjeta';
 
     tarjeta.innerHTML = `
+      <div class="stats">
+        <div class="stat ma">MA: -</div>
+        <div class="stat hearts">Hearts: -</div>
+        <div class="stat hitsOn">Hits On: -</div>
+        <div class="stat mdp">MDP: -</div>
+      </div>
+
       <div class="fila">
         <div class="bloque">
           <span class="label">Avatar:</span>
@@ -164,14 +175,6 @@
             <option value="Recruit">Recruit</option>
           </select>
         </div>
-      </div>
-
-      <div class="stats">
-        <span class="label">Estadísticas:</span>
-        <div>MA: <span class="ma">-</span></div>
-        <div>Hearts: <span class="hearts">-</span></div>
-        <div>Hits On: <span class="hitsOn">-</span></div>
-        <div>MDP: <span class="mdp">-</span></div>
       </div>
 
       <div class="fila">
@@ -234,10 +237,10 @@
     const tarjeta = select.closest('.tarjeta');
     const stats = statsBase[tipo] || {};
 
-    tarjeta.querySelector('.ma').textContent = stats.MA || "-";
-    tarjeta.querySelector('.hearts').textContent = stats.Hearts || "-";
-    tarjeta.querySelector('.hitsOn').textContent = stats.HitsOn || "-";
-    tarjeta.querySelector('.mdp').textContent = stats.MDP || "-";
+    tarjeta.querySelector('.ma').textContent = `MA: ${stats.MA || "-"}`;
+    tarjeta.querySelector('.hearts').textContent = `Hearts: ${stats.Hearts || "-"}`;
+    tarjeta.querySelector('.hitsOn').textContent = `Hits On: ${stats.HitsOn || "-"}`;
+    tarjeta.querySelector('.mdp').textContent = `MDP: ${stats.MDP || "-"}`;
   }
 
   function actualizarBonificacion(select) {
