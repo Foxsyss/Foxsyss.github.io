@@ -31,9 +31,9 @@
 
   /* Ajustar márgenes del PDF */
   @page {
-    size: A4;
-    margin: 10mm;
-  }
+  size: A4 landscape;
+  margin: 10mm;
+}
 }
     body {
       background: #111;
@@ -392,7 +392,7 @@
       filename:     'fichas-personajes.pdf',
       image:        { type: 'jpeg', quality: 1 },
       html2canvas:  { scale: 3, useCORS: true },
-      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' },
       pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
     })
     .from(contenedor)
