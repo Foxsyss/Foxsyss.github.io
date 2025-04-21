@@ -34,11 +34,14 @@ addBtn.addEventListener('click', () => {
   const card = document.createElement('div');
   card.className = 'card';
 
+  // Inner content with separate div for printable area
   card.innerHTML = `
-    <img src="${avatar}" alt="${name}" />
-    <h3>${name}</h3>
-    <strong>${experience}</strong>
-    <p>${experiences[experience]}</p>
+    <div class="card-sheet">
+      <img src="${avatar}" alt="${name}" />
+      <h3>${name}</h3>
+      <strong>${experience}</strong>
+      <p>${experiences[experience]}</p>
+    </div>
     <div class="actions">
       <button onclick="downloadPDF(this)">PDF</button>
       <button onclick="this.closest('.card').remove()">Eliminar</button>
@@ -47,14 +50,14 @@ addBtn.addEventListener('click', () => {
 
   teamContainer.appendChild(card);
 
-  // Reset inputs
+  // Reset form
   nameInput.value = '';
   experienceInput.value = '';
   avatarPreview.src = 'https://via.placeholder.com/150';
 });
 
 function downloadPDF(button) {
-  const card = button.closest('.card');
+  const sheet = button.closest('.card').querySelector('.card-sheet');
   const opt = {
     margin: 0.5,
     filename: 'personaje.pdf',
@@ -62,5 +65,5 @@ function downloadPDF(button) {
     html2canvas: { scale: 2 },
     jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
   };
-  html2pdf().set(opt).from(card).save();
+  html2pdf().set(opt).from(sheet).save();
 }
