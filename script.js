@@ -63,34 +63,30 @@ addBtn.addEventListener('click', () => {
         <tbody>
           <tr>
             <td colspan="2">ALL</td>
-            <td><input type="3" />W</td>
-            <td><input type="3" />E</td>
-            <td><input type="3" />R</td>
-            <td><input type="3" />W</td>
-            <td><input type="3" />E</td>
-            <td><input type="3" />R</td>
-            <td><input type="3" />W</td>
-            <td><input type="3" />E</td>
-            <td><input type="3" />R</td>
+            <td>W</td>
+            <td>E</td>
+            <td>R</td>
+            <td>W</td>
+            <td>E</td>
+            <td>R</td>
+            <td>W</td>
+            <td>E</td>
+            <td>R</td>
           </tr>
           <tr>
             <td colspan="2">5"</td>
-            <td><input type="text" />6</td>
-            <td><input type="text" />3</td>
-            <td><input type="text" />2</td>
-            <td><input type="text" />4+</td>
-            <td><input type="text" />5+</td>
-            <td><input type="text" />6+</td>
-            <td><input type="text" />5</td>
-            <td><input type="text" />4</td>
-            <td><input type="text" />3</td>
+            <td>6</td>
+            <td>3</td>
+            <td>2</td>
+            <td>4+</td>
+            <td>5+</td>
+            <td>6+</td>
+            <td>5</td>
+            <td>4</td>
+            <td>3</td>
           </tr>
         </tbody>
       </table>
-    </div>
-    <div class="actions">
-      <button onclick="downloadPDF(this)">PDF</button>
-      <button onclick="this.closest('.card').remove()">Eliminar</button>
     </div>
   `;
 
@@ -102,7 +98,6 @@ addBtn.addEventListener('click', () => {
   avatarPreview.src = defaultAvatar;
 });
 
-// Función para exportar todo el equipo a PDF
 function exportToPDF() {
   const options = {
     margin: 0.5,
@@ -111,27 +106,8 @@ function exportToPDF() {
     jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
   };
 
-  // Ocultar los botones de acciones cuando exportemos a PDF
   const buttons = document.querySelectorAll('.actions, #addBtn, button');
   buttons.forEach(button => button.style.display = 'none');
 
-  // Exportar el equipo a PDF
   html2pdf().from(teamContainer).set(options).save().then(() => {
-    // Volver a mostrar los botones después de la exportación
-    buttons.forEach(button => button.style.display = '');
-  });
-}
-
-// Función para exportar cada tarjeta individualmente a PDF
-function downloadPDF(button) {
-  const card = button.closest('.card');
-  const printWindow = window.open('', '', 'width=800,height=600');
-  printWindow.document.write(`<html><head><title>Ficha de Personaje</title>`);
-  printWindow.document.write(`<link rel="stylesheet" href="style.css" />`);
-  printWindow.document.write(`</head><body>`);
-  printWindow.document.write(card.outerHTML);
-  printWindow.document.write(`</body></html>`);
-  printWindow.document.close();
-  printWindow.focus();
-  printWindow.print();
-}
+    buttons.for
