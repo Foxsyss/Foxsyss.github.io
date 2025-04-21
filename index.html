@@ -3,82 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ficha de Personaje</title>
+  <title>Fichas de Personajes</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>Fichas de Personaje</h1>
-
-    <div id="personajes" class="personajes">
-      <!-- Aquí aparecerán las fichas de personajes -->
+    <h1>Crear Personajes</h1>
+    <div class="personajes" id="personajes">
+      <!-- Aquí se mostrarán las fichas de personajes -->
     </div>
-
-    <button id="addPersonajeBtn" class="btn">Agregar personaje</button>
+    <button id="addPersonajeBtn" class="btn">Agregar Personaje</button>
   </div>
 
   <div class="form-popup" id="formPopup">
     <div class="form-container">
-      <h2>Crear / Editar Personaje</h2>
-      <label for="name">Nombre:</label>
-      <input type="text" id="name" placeholder="Nombre del personaje" />
+      <h2>Crear Personaje</h2>
+      <label for="name">Nombre del personaje:</label>
+      <input type="text" id="name" placeholder="Nombre" />
 
-      <label for="avatarInput">Avatar:</label>
-      <input type="file" id="avatarInput" accept="image/*" />
-
-      <label for="description">Descripción:</label>
-      <textarea id="description" placeholder="Historia o descripción"></textarea>
-
-      <div class="attributes">
-        <label>Clase</label>
-        <select id="class">
-          <option>Guerrero</option>
-          <option>Mago</option>
-          <option>Arquero</option>
-          <option>Ladrón</option>
-        </select>
-
-        <label>Raza</label>
-        <select id="race">
-          <option>Humano</option>
-          <option>Elfo</option>
-          <option>Enano</option>
-          <option>Orco</option>
-        </select>
-
-        <label>Elemento</label>
-        <select id="element">
-          <option>Fuego</option>
-          <option>Agua</option>
-          <option>Tierra</option>
-          <option>Aire</option>
-        </select>
-
-        <label>Arma</label>
-        <select id="weapon">
-          <option>Espada</option>
-          <option>Arco</option>
-          <option>Báculo</option>
-          <option>Dagas</option>
-        </select>
-
-        <label>Montura</label>
-        <select id="mount">
-          <option>Caballo</option>
-          <option>Dragón</option>
-          <option>Lobo</option>
-          <option>Grifo</option>
-        </select>
-
-        <label>Habilidad especial</label>
-        <select id="specialAbility">
-          <option>Invisibilidad</option>
-          <option>Vuelo</option>
-          <option>Teletransportación</option>
-          <option>Curación</option>
-        </select>
-      </div>
+      <label for="avatar" class="avatar-label">
+        <img id="avatarPreview" src="https://via.placeholder.com/150" alt="Avatar" />
+        <input type="file" id="avatar" accept="image/*" />
+      </label>
 
       <div class="form-buttons">
         <button id="savePersonajeBtn" class="btn">Guardar</button>
