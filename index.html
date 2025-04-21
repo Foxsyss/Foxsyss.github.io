@@ -220,4 +220,111 @@
         </div>
       </div>
 
-      <div
+      <div class="fila">
+        <div class="bloque">
+          <span class="label">Arma primaria:</span>
+          <select onchange="actualizarArma(this)">
+            <option value="">-- Elegir --</option>
+            ${Object.keys(armasPrimarias).map(k => `<option value="${k}">${k}</option>`).join("")}
+          </select>
+        </div>
+        <div class="bloque">
+          <span class="label">Daño:</span>
+          <input type="text" class="dano" readonly>
+        </div>
+        <div class="bloque">
+          <span class="label">Alcance:</span>
+          <input type="text" class="alcance" readonly>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('contenedor').appendChild(tarjeta);
+  }
+
+  function seleccionarAvatar(img) {
+    const input = img.nextElementSibling;
+    input.click();
+  }
+
+  function cargarAvatar(input) {
+    const tarjeta = input.closest('.tarjeta');
+    const avatar = tarjeta.querySelector('.avatar');
+    
+    const file = input.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        avatar.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function actualizarStatsBase(select) {
+    const tipo = select.value;
+    const tarjeta = select.closest('.tarjeta');
+    const stats = statsBase[tipo] || {};
+
+    tarjeta.querySelector('.ma span').textContent = stats.MA || "-";
+    tarjeta.querySelector('.hearts span').textContent = stats.Hearts || "-";
+    tarjeta.querySelector('.hitsOn span').textContent = stats.HitsOn || "-";
+    tarjeta.querySelector('.mdp span').textContent = stats.MDP || "-";
+  }
+
+  function actualizarBonificacionYStats(select) {
+    const especializacion = select.value;
+    const tarjeta = select.closest('.tarjeta');
+    const bonificacion = tarjeta.querySelector('.bonificacion');
+
+    // Limpiar solo los stats de la especialización
+    tarjeta.querySelector('.ma span').textContent = "-";
+    tarjeta.querySelector('.hearts span').textContent = "-";
+    tarjeta.querySelector('.hitsOn span').textContent = "-";
+    tarjeta.querySelector('.mdp span').textContent = "-";
+    
+    bonificacion.value = especializaciones[especializacion] || "";
+
+    // Cambiar los stats según la especialización
+    if (especializacion === "sniper") {
+      tarjeta.querySelector('.ma span').textContent = "6";  // Ejemplo de aumento de MA
+    } else if (especializacion === "medic") {
+      tarjeta.querySelector('.hearts span').textContent = "7";  // Medic puede tener más Hearts
+    } else if (especializacion === "scout") {
+      tarjeta.querySelector('.hitsOn span').textContent = "3+";  // Scout tiene mejor HitsOn
+    }
+  }
+
+  function actualizarArma(select) {
+    const valor = select.value;
+    const tarjeta = select.closest('.tarjeta');
+    const datos = armasPrimarias[valor] || { daño: "", alcance: "" };
+    tarjeta.querySelector('.dano').value = datos.daño;
+    tarjeta.querySelector('.alcance').value = datos.alcance;
+  }
+
+  function eliminarTarjeta(button) {
+    const tarjeta = button.closest('.tarjeta');
+    tarjeta.remove();
+  }
+
+  function exportarPDF() {
+    const contenedor = document.getElementById('contenedor');
+    html2pdf()
+      .set({
+        margin: 5,
+        filename: 'fichas-personajes.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      })
+      .from(contenedor)
+      .save();
+  }
+
+  // Crear la primera por defecto
+  crearTarjeta();
+</script>
+
+</body>
+</html>
