@@ -145,7 +145,8 @@
 
 <script>
   const especializaciones = {
-    Raiders: "+1 To MA"
+    Raiders: "+1 To MA",
+    "Counter Terrorism" : "Re-roll 1 Shooting Attack per round (must re-roll all dice)"
 
     
     
@@ -298,11 +299,7 @@
     // Ajuste según la especialización
     if (especializacion === "Raiders") {
         ma += 1;  // Sniper aumenta el MA en +1
-    } else if (especializacion === "medic") {
-        hearts += 1;  // Medic suma 1 corazón
-    } else if (especializacion === "scout") {
-        hitsOn = "3+";  // Scout mejora el HitsOn
-    }
+    } 
 
     // Actualizamos los stats de la tarjeta
     tarjeta.querySelector('.ma span').textContent = ma;
