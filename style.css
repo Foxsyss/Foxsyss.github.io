@@ -19,18 +19,20 @@ h1 {
 
 .form {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .avatar-container {
   position: relative;
   width: 120px;
   height: 120px;
+  margin-right: 20px;
 }
 
 .avatar-preview-container {
@@ -66,24 +68,25 @@ input[type="file"] {
 
 .input-container {
   flex: 1;
-  margin-left: 20px;
 }
 
 input[type="text"], select {
   width: 100%;
-  padding: 10px;
+  padding: 8px 12px;
   margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  font-size: 14px;
 }
 
 button {
-  padding: 10px 15px;
+  padding: 8px 12px;
   background-color: #007BFF;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 14px;
 }
 
 button:hover {
@@ -95,15 +98,100 @@ button:hover {
   color: #666;
 }
 
-/* Estilo para mostrar texto cuando el avatar no tiene imagen */
 .avatar-container:hover .avatar-text {
   display: block;
 }
 
+/* Tabla ajustada */
+.stats-table {
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: center;
+}
+
+th, td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+td input {
+  width: 80px;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Ajustes en las tarjetas */
+.card {
+  width: 100%;
+  max-width: 400px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  padding: 15px;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+}
+
+.card-avatar {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.card-info {
+  flex: 1;
+}
+
+.card-exp {
+  margin-top: 10px;
+}
+
+.card-exp strong {
+  display: block;
+  font-size: 16px;
+}
+
+.actions {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.actions button {
+  padding: 6px 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.actions button:hover {
+  background-color: #218838;
+}
+
+/* Diseño de las tarjetas en equipo */
 .team-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  justify-content: space-evenly;
   margin-top: 20px;
 }
 
