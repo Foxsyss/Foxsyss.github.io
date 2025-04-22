@@ -151,6 +151,15 @@ button {
   color: #f00;
 }
 
+.lista-perks {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-height: 120px;
+  overflow-y: auto;
+}
 
 
   </style>
@@ -365,29 +374,26 @@ button {
     tarjeta.querySelector('.hitsOn span').textContent = hitsOn;
     tarjeta.querySelector('.mdp span').textContent = mdp;
 }
-  function agregarEspecializacion(select) {
+ function agregarEspecializacion(select) {
   const tarjeta = select.closest('.tarjeta');
   const perksList = tarjeta.querySelector('.lista-perks');
   const selected = select.value;
   const perk = especializaciones[selected];
 
-  // Validar que exista y no esté ya agregado
   if (!selected || !perk) return;
   if ([...perksList.children].some(li => li.dataset.key === selected)) return;
 
-  // Crear elemento de perk con botón de eliminación
-  const perkTag = document.createElement("span");
-perkTag.className = "perk-tag";
-perkTag.innerHTML = `
-  ${perk}
-  <button class="eliminar-perk" onclick="this.parentElement.remove()">×</button>
-`;
-bonificacionDiv.appendChild(perkTag);
-
-
-  // Resetear el select
+  const li = document.createElement("li");
+  li.dataset.key = selected;
+  li.className = "perk-tag";
+  li.innerHTML = `
+    ${perk}
+    <button class="eliminar-perk" onclick="eliminarPerk(this)">×</button>
+  `;
+  perksList.appendChild(li);
   select.value = "";
 }
+
   function eliminarPerk(btn) {
   btn.parentElement.remove();
 }
