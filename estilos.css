@@ -17,5 +17,7 @@ h1 {
   border: 2px solid black;  /* grosor y color del borde */
   border-radius: 8px;       /* esquinas redondeadas, opcional */
   padding: 4px;             /* espacio entre la imagen y el borde */
-  width: 200px;             /* tamaño opcional */
+  width: 200px;             /* tamaño opcional largo */
+  height: 200px;            /* tamaño alto largo */
+  object-fit: cover;  /* corta la imagen para llenar el área sin deformar */
 }
