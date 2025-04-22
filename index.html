@@ -665,25 +665,7 @@ function actualizarPuntosGear(tarjeta) {
 
   totalPuntosDiv.textContent = `Puntos usados totales: ${total} / 5`;
 }
-  function mostrarPerk(select) {
-  const tarjeta = select.closest('.tarjeta');
-  const perksDiv = tarjeta.querySelector('.perks');
-  const seleccion = select.value;
-
-  // Limpiar perks anteriores
-  perksDiv.innerHTML = '';
-
-  // Buscar perk correspondiente
-  const experiencia = experiencias.find(exp => exp.nombre === seleccion);
-  if (experiencia) {
-    const span = document.createElement('span');
-    span.className = 'perk-burbuja';
-    span.textContent = experiencia.perk;
-    perksDiv.appendChild(span);
-  }
-
-  guardarPersonajes();
-}
+  
 
 
 </script>
