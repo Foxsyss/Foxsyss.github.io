@@ -382,20 +382,20 @@ function crearTarjeta() {
     </div>
 
     <div class="fila">
-      <div class="bloque">
-        <span class="label">Especialización:</span>
-        <select onchange="agregarEspecializacion(this)">
-          <option value="">-- Elegir --</option>
-          ${Object.keys(especializaciones)
-            .map((k) => `<option value="${k}">${k}</option>`)
-            .join("")}
-        </select>
-      </div>
-      <div class="bloque">
-        <span class="label">Perks:</span>
-        <ul class="lista-perks" style="font-size: 11px; margin: 0; padding-left: 16px;"></ul>
-      </div>
-    </div>
+  <div class="bloque" style="flex: 1;">
+    <span class="label">Especializaciones:</span>
+    <select id="select-especializacion" style="width: 100%;">
+      <option value="" disabled selected>Seleccionar especialización...</option>
+      ${Object.keys(especializaciones)
+        .map((k) => `<option value="${k}">${k}</option>`)
+        .join("")}
+    </select>
+  </div>
+  <div class="bloque" style="flex: 1;">
+    <span class="label">Perks:</span>
+    <div class="perks-burbuja-container" style="display:flex; gap:4px; flex-wrap: wrap; min-height: 32px; border: 1px solid #ccc; padding: 4px; border-radius: 4px;"></div>
+  </div>
+</div>
 
     <div class="fila">
       <div class="bloque">
