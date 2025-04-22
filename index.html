@@ -527,14 +527,18 @@ function actualizarBonificacionYStats(select) {
 
   
 
-// Función que suma todos los costos gear de todas las tarjetas activas
-function calcularTotalGear() {
+// Guardamos la selección anterior para cada select
+document.querySelectorAll('.gear-select').forEach(select => {
+  select.dataset.previous = select.value;
+});
+
+function calcularTotalGearExcepto(selectActual, nuevoCosto) {
   let total = 0;
-  document.querySelectorAll('.tarjeta-personaje').forEach(tarjeta => {
-    const selectGear = tarjeta.querySelector('.gear-select');
-    if (selectGear) {
-      const costo = parseInt(selectGear.selectedOptions[0].dataset.costo) || 0;
-      total += costo;
+  document.querySelectorAll('.gear-select').forEach(select => {
+    if (select === selectActual) {
+      total += nuevoCosto; // sumamos el nuevo costo que se quiere asignar
+    } else {
+      total += parseInt(select.selectedOptions[0].dataset.costo) || 0;
     }
   });
   return total;
@@ -542,25 +546,24 @@ function calcularTotalGear() {
 
 document.querySelectorAll('.gear-select').forEach(select => {
   select.addEventListener('change', (e) => {
-    const tarjetaActual = e.target.closest('.tarjeta-personaje');
+    const selectActual = e.target;
+    const tarjetaActual = selectActual.closest('.tarjeta-personaje');
     const gearError = tarjetaActual.querySelector('.gear-error');
 
-    const totalAntes = calcularTotalGear();
+    const nuevoCosto = parseInt(selectActual.selectedOptions[0].dataset.costo) || 0;
 
-    // Si supera 5, deshacer el cambio y mostrar error
-    if (totalAntes > 5) {
+    const totalCalculado = calcularTotalGearExcepto(selectActual, nuevoCosto);
+
+    if (totalCalculado > 5) {
       gearError.style.display = 'block';
-      // Volvemos a la opción anterior porque el cambio no es válido
-      e.target.value = e.target.getAttribute('data-previous') || "0";
+      // revertimos al valor anterior
+      selectActual.value = selectActual.dataset.previous;
     } else {
       gearError.style.display = 'none';
-      // Guardamos la selección actual para posibles deshacer
-      e.target.setAttribute('data-previous', e.target.value);
+      // actualizamos valor previo
+      selectActual.dataset.previous = selectActual.value;
     }
   });
-
-  // Guardamos la opción inicial
-  select.setAttribute('data-previous', select.value);
 });
 
 
