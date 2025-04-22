@@ -2,22 +2,21 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Fichas Dinámicas</title>
+  <title>Hoja de Personaje</title>
   <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
+  <div class="expediente">
+    <div class="avatar">
+      <img id="fotoAvatar" src="https://via.placeholder.com/200" alt="Avatar">
+      <input type="file" id="cargarImagen" accept="image/*">
+    </div>
+    <div class="info">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" placeholder="Nombre del personaje">
+    </div>
+  </div>
 
-<div id="botones">
-  <button onclick="crearTarjeta()">Crear nueva tarjeta</button>
-  <button onclick="exportarPDF()">Exportar PDF</button>
-</div>
-
-<div id="contenedor"></div>
-
-<!-- Librería html2pdf -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-
-<script src="js/script.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>
