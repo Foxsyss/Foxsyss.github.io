@@ -223,6 +223,21 @@ button {
   </div>
 
   <div class="fila">
+  <div class="bloque">
+    <span class="label">Especialización:</span>
+    <select onchange="agregarEspecializacion(this)">
+      <option value="">-- Elegir --</option>
+      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
+    </select>
+  </div>
+  <div class="bloque">
+    <span class="label">Perks:</span>
+    <ul class="lista-perks" style="font-size: 11px; margin: 0; padding-left: 16px;"></ul>
+  </div>
+</div>
+
+
+  <div class="fila">
     <div class="bloque">
       <span class="label">Arma Secundaria:</span>
       <select onchange="actualizarArma(this)">
@@ -324,6 +339,27 @@ button {
     tarjeta.querySelector('.hitsOn span').textContent = hitsOn;
     tarjeta.querySelector('.mdp span').textContent = mdp;
 }
+  function agregarEspecializacion(select) {
+  const tarjeta = select.closest('.tarjeta');
+  const perksList = tarjeta.querySelector('.lista-perks');
+  const selected = select.value;
+  const perk = especializaciones[selected];
+
+  // Validar que exista y no esté ya agregado
+  if (!selected || !perk) return;
+  if ([...perksList.children].some(li => li.dataset.key === selected)) return;
+
+  // Crear elemento de perk con botón de eliminación
+  const li = document.createElement('li');
+  li.dataset.key = selected;
+  li.innerHTML = `<strong>${selected}</strong>: ${perk} <button onclick="this.parentElement.remove()" style="margin-left: 6px;">❌</button>`;
+
+  perksList.appendChild(li);
+
+  // Resetear el select
+  select.value = "";
+}
+
 
   function actualizarArma(select) {
   const valor = select.value;
