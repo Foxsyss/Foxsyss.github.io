@@ -356,7 +356,7 @@ button {
     <div class="bloque">
       <span class="label">Arma Secundaria:</span>
       <select onchange="actualizarArma(this)">
-        <option value="style="width: 50%">-- Elegir --</option>
+        <option value="">-- Elegir --</option>
         ${Object.keys(armasPrimarias).map(k => `<option value="${k}">${k}</option>`).join("")}
       </select>
     </div>
