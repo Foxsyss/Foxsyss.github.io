@@ -125,6 +125,32 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
+    .perk-tag {
+  display: inline-flex;
+  align-items: center;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  padding: 2px 8px;
+  margin: 2px;
+  font-size: 11px;
+}
+
+.perk-tag .eliminar-perk {
+  background: none;
+  border: none;
+  color: #888;
+  font-weight: bold;
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.perk-tag .eliminar-perk:hover {
+  color: #f00;
+}
+
 
 
   </style>
@@ -350,11 +376,14 @@ button {
   if ([...perksList.children].some(li => li.dataset.key === selected)) return;
 
   // Crear elemento de perk con botón de eliminación
-  const li = document.createElement('li');
-  li.dataset.key = selected;
-  li.innerHTML = `<strong>${selected}</strong>: ${perk} <button onclick="this.parentElement.remove()" style="margin-left: 6px;">❌</button>`;
+  const perkTag = document.createElement("span");
+perkTag.className = "perk-tag";
+perkTag.innerHTML = `
+  ${perk}
+  <button class="eliminar-perk" onclick="this.parentElement.remove()">×</button>
+`;
+bonificacionDiv.appendChild(perkTag);
 
-  perksList.appendChild(li);
 
   // Resetear el select
   select.value = "";
