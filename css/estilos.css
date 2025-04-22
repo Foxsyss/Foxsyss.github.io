@@ -3,6 +3,7 @@ body {
   font-family: 'Courier New', Courier, monospace;
   display: flex;
   background-color: #e6e2d3;
+  height: 100vh;
 }
 
 .sidebar {
@@ -13,11 +14,16 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  transition: transform 0.3s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  box-sizing: border-box;
 }
 
 .sidebar h2 {
   margin: 0;
+  font-size: 22px;
 }
 
 .sidebar button {
@@ -26,11 +32,17 @@ body {
   border: none;
   padding: 10px;
   cursor: pointer;
+  border-radius: 4px;
 }
 
+/* Área principal */
 .main {
+  margin-left: 220px;
   flex: 1;
   padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  height: 100vh;
 }
 
 header {
@@ -40,18 +52,11 @@ header {
 }
 
 header h1 {
-  font-size: 24px;
+  font-size: 28px;
   margin: 0;
 }
 
-.menu-toggle {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  display: none;
-}
-
+/* Tarjetas de personaje */
 .contenedor-personajes {
   margin-top: 20px;
   display: flex;
@@ -59,7 +64,7 @@ header h1 {
   gap: 20px;
 }
 
-/* Tarjetas de personaje */
+/* Expediente / Tarjeta */
 .expediente {
   background-color: #d0c4a8;
   padding: 15px;
@@ -111,12 +116,12 @@ header h1 {
   border-radius: 4px;
 }
 
-/* Responsive */
+/* Responsive para móviles */
 @media (max-width: 768px) {
   .sidebar {
-    position: fixed;
-    height: 100vh;
     transform: translateX(-100%);
+    transition: transform 0.3s;
+    position: fixed;
     z-index: 1000;
   }
 
@@ -124,7 +129,16 @@ header h1 {
     transform: translateX(0);
   }
 
+  .main {
+    margin-left: 0;
+  }
+
   .menu-toggle {
     display: block;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 10px;
   }
 }
