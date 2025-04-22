@@ -142,7 +142,7 @@ button {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
-  const especializaciones = {
+  const expertise = {
     Raiders: "+1 To MA",
     "Counter Terrorism" : "Re-roll 1 Shooting Attack per round (must re-roll all dice)",
     "Hostage Rescue" : "+1 to each Roll off to see which Warrior Team activates first in the next round",
@@ -225,7 +225,7 @@ button {
     <span class="label">Expertise:</span>
     <select onchange="actualizarBonificacionYStats(this)">
       <option value="">-- Elegir --</option>
-      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
+      ${Object.keys(expertise).map(k => `<option value="${k}">${k}</option>`).join("")}
     </select>
   </div>
   <div class="bloque" >
@@ -238,7 +238,7 @@ button {
   <div class="bloque">
     <span class="label">Especialización:</span>
     <select multiple onchange="actualizarPerksEspecializacion(this)">
-      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
+      ${Object.keys(expertise).map(k => `<option value="${k}">${k}</option>`).join("")}
     </select>
   </div>
   <div class="bloque">
@@ -335,7 +335,7 @@ button {
 
   // Agregar perks de cada opción seleccionada
   Array.from(select.selectedOptions).forEach(option => {
-    const perk = especializaciones[option.value];
+    const perk = expertise[option.value];
     if (perk) {
       const li = document.createElement('li');
       li.textContent = `${option.value}: ${perk}`;
@@ -357,7 +357,7 @@ button {
     let mdp = stats.MDP || 0;
 
     // Limpiar la bonificación
-    bonificacion.value = especializaciones[especializacion] || "";
+    bonificacion.value = expertise[especializacion] || "";
 
     // Ajuste según la especialización
     if (especializacion === "Raiders") {
