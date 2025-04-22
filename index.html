@@ -112,6 +112,18 @@
 #botones {
   margin: 16px;
 }
+.bonificacion {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px;
+  box-sizing: border-box;
+  overflow-y: auto; /* Mostrar scroll vertical solo si es necesario */
+  resize: none; /* evitar que el usuario cambie tamaño */
+  background-color: #f9f9f9;
+}
 
 button {
   padding: 10px 20px;
@@ -269,7 +281,7 @@ button {
     </div>
     <div class="bloque">
       <span class="label">Bonificación:</span>
-      <input type="text" class="bonificacion" readonly>
+      <textarea class="bonificacion" readonly rows="2" style="resize:none;"></textarea>
     </div>
   </div>
 
