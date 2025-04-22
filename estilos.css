@@ -7,3 +7,9 @@ h1 {
   color: blue;
   font-size: 30px;
 }
+.fila {
+  display: flex;
+  justify-content: space-between; /* o center, flex-start, etc. */
+  align-items: center; /* alinea verticalmente */
+  gap: 10px; /* espacio entre los elementos */
+}
