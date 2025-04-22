@@ -414,14 +414,14 @@ button {
     </table>
   </div>
 
-  <div id="gear-selection">
-  <label><input type="checkbox" value="gear1"> Granada (2 pts)</label><br>
-  <label><input type="checkbox" value="gear2"> Botiquín (3 pts)</label><br>
-  <label><input type="checkbox" value="gear3"> Cuerda (1 pt)</label><br>
-  <label><input type="checkbox" value="gear4"> Linterna (1 pt)</label><br>
-  <label><input type="checkbox" value="gear5"> Binoculares (2 pts)</label>
+  <div class="tarjeta-personaje" data-id="1">
+  <select class="gear-select">
+    <option value="0" data-costo="0">Sin gear</option>
+    <option value="gear1" data-costo="2">Gear 1 (2 pts)</option>
+    <option value="gear2" data-costo="3">Gear 2 (3 pts)</option>
+  </select>
+  <div class="gear-error" style="color:red; display:none;">No puede superar 5 puntos totales de gear.</div>
 </div>
-<div id="gear-error" style="color:red; display:none;">El costo total del gear no puede superar 5 puntos.</div>
 
 `;
 
@@ -527,34 +527,40 @@ function actualizarBonificacionYStats(select) {
 
   
 
-const gearCheckboxes = document.querySelectorAll('#gear-selection input[type=checkbox]');
-const gearError = document.getElementById('gear-error');
-function calcularCostoGearSeleccionado() {
+// Función que suma todos los costos gear de todas las tarjetas activas
+function calcularTotalGear() {
   let total = 0;
-  gearCheckboxes.forEach(cb => {
-    if (cb.checked) {
-      const gear = gears.find(g => g.id === cb.value);
-      if (gear) total += gear.cost;
+  document.querySelectorAll('.tarjeta-personaje').forEach(tarjeta => {
+    const selectGear = tarjeta.querySelector('.gear-select');
+    if (selectGear) {
+      const costo = parseInt(selectGear.selectedOptions[0].dataset.costo) || 0;
+      total += costo;
     }
   });
   return total;
 }
 
-gearCheckboxes.forEach(cb => {
-  cb.addEventListener('change', () => {
-    const totalCosto = calcularCostoGearSeleccionado();
+document.querySelectorAll('.gear-select').forEach(select => {
+  select.addEventListener('change', (e) => {
+    const tarjetaActual = e.target.closest('.tarjeta-personaje');
+    const gearError = tarjetaActual.querySelector('.gear-error');
 
-    if (totalCosto > 5) {
-      alert('El costo total del gear no puede superar 5 puntos.');
-      cb.checked = false; // desmarcar el último cambio
-      gearError.style.display = 'none'; // oculta error porque es alert
-    } else if (totalCosto === 5) {
-      alert('¡Has alcanzado el máximo de 5 puntos de gear!');
-      gearError.style.display = 'none';
+    const totalAntes = calcularTotalGear();
+
+    // Si supera 5, deshacer el cambio y mostrar error
+    if (totalAntes > 5) {
+      gearError.style.display = 'block';
+      // Volvemos a la opción anterior porque el cambio no es válido
+      e.target.value = e.target.getAttribute('data-previous') || "0";
     } else {
       gearError.style.display = 'none';
+      // Guardamos la selección actual para posibles deshacer
+      e.target.setAttribute('data-previous', e.target.value);
     }
   });
+
+  // Guardamos la opción inicial
+  select.setAttribute('data-previous', select.value);
 });
 
 
