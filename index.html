@@ -300,6 +300,14 @@ button {
     Recruit: { MA: 5, Hearts: 2, HitsOn: "6+", MDP: 3 }
   };
 
+  const gears = [
+  { id: 'gear1', name: 'Granada', cost: 2 },
+  { id: 'gear2', name: 'Botiquín', cost: 3 },
+  { id: 'gear3', name: 'Cuerda', cost: 1 },
+  { id: 'gear4', name: 'Linterna', cost: 1 },
+  { id: 'gear5', name: 'Binoculares', cost: 2 },
+  ];
+
   let contador = 1;
 
   function crearTarjeta() {
@@ -403,6 +411,16 @@ button {
       </tbody>
     </table>
   </div>
+
+  <div id="gear-selection">
+  <label><input type="checkbox" value="gear1"> Granada (2 pts)</label><br>
+  <label><input type="checkbox" value="gear2"> Botiquín (3 pts)</label><br>
+  <label><input type="checkbox" value="gear3"> Cuerda (1 pt)</label><br>
+  <label><input type="checkbox" value="gear4"> Linterna (1 pt)</label><br>
+  <label><input type="checkbox" value="gear5"> Binoculares (2 pts)</label>
+</div>
+<div id="gear-error" style="color:red; display:none;">El costo total del gear no puede superar 5 puntos.</div>
+
 `;
 
 
@@ -504,6 +522,33 @@ function actualizarBonificacionYStats(select) {
   const li = boton.closest("li");
   li.remove();
 }
+
+  
+  const gearCheckboxes = document.querySelectorAll('#gear-selection input[type=checkbox]');
+const gearError = document.getElementById('gear-error');
+
+function calcularCostoGearSeleccionado() {
+  let total = 0;
+  gearCheckboxes.forEach(cb => {
+    if (cb.checked) {
+      const gear = gears.find(g => g.id === cb.value);
+      if (gear) total += gear.cost;
+    }
+  });
+  return total;
+}
+
+gearCheckboxes.forEach(cb => {
+  cb.addEventListener('change', () => {
+    const totalCosto = calcularCostoGearSeleccionado();
+    if (totalCosto > 5) {
+      gearError.style.display = 'block';
+      cb.checked = false; // desmarcar el último cambio
+    } else {
+      gearError.style.display = 'none';
+    }
+  });
+});
 
 
 
