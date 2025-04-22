@@ -308,7 +308,7 @@ button {
     <span class="label">Especialización:</span>
     <select onchange="agregarEspecializacion(this)">
       <option value="">-- Elegir --</option>
-      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
+      ${Object.keys(expertise).map(k => `<option value="${k}">${k}</option>`).join("")}
     </select>
   </div>
   <div class="bloque">
@@ -429,7 +429,7 @@ function actualizarBonificacionYStats(select) {
   const tarjeta = select.closest('.tarjeta');
   const perksList = tarjeta.querySelector('.lista-perks');
   const selected = select.value;
-  const perk = especializaciones[selected];
+  const perk = expertise[selected];
 
   if (!selected || !perk) return;
   if ([...perksList.children].some(li => li.dataset.key === selected)) return;
