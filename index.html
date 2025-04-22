@@ -397,14 +397,17 @@ button {
 
   const li = document.createElement("li");
   li.dataset.key = selected;
+  li.dataset.origen = "especializacion"; // ← opcional, útil si querés distinguirlos
   li.className = "perk-tag";
   li.innerHTML = `
-    ${perk}
+    <span>${perk} <small class="origen">(Especialización: ${selected})</small></span>
     <button class="eliminar-perk" onclick="eliminarPerk(this)">×</button>
   `;
+
   perksList.appendChild(li);
   select.value = "";
 }
+
 
   function eliminarPerk(btn) {
   btn.parentElement.remove();
