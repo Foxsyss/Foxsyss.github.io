@@ -1,36 +1,12 @@
-<div class="personaje-card">
-  <div class="avatar" onclick="cargarAvatar(this)">
-    <img src="avatar-default.png" alt="Avatar del personaje">
-    <span class="cargar-avatar-texto">Presione para cargar</span>
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <div class="tarjeta">
+    <h1>Personaje</h1>
+    <p>Nombre: Mario</p>
   </div>
-
-  <div class="campo">
-    <label>Nombre:</label>
-    <input type="text" placeholder="Nombre del personaje">
-  </div>
-
-  <div class="campo">
-    <label>Especialización:</label>
-    <select>
-      <option value="">-- Selecciona --</option>
-      <option value="raiders">Raiders</option>
-      <option value="ct">Counter Terrorist</option>
-      <!-- Más opciones -->
-    </select>
-    <div class="perks">
-      <!-- Aquí se muestran perks en burbujas si se seleccionan -->
-    </div>
-  </div>
-
-  <div class="campo">
-    <label>Equipo:</label>
-    <select multiple>
-      <option value="granada" data-cost="1">Granada (+1)</option>
-      <option value="rifle" data-cost="3">Rifle (+3)</option>
-      <!-- Más ítems -->
-    </select>
-    <div class="gear-puntos">Total: <span class="puntos">0</span>/5</div>
-  </div>
-
-  <button class="eliminar-btn">Eliminar personaje</button>
-</div>
+</body>
+</html>
