@@ -232,7 +232,11 @@ button {
     
     
   };
+ const especializaciones = {
+   "Tactician":"Prior Preparation: Any Team Warrior can Re-roll 1 Dice at any time, once per round"
 
+   
+ };
   const armasPrimarias = {
     "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2",armourpiercing:"", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"" },
     "Shotgun ": { daño: "1", alcance: "8”", dados :"3",armourpiercing:"-1", perks:"If Hit, knock back the target 1”", drawback:""},
@@ -308,7 +312,7 @@ button {
     <span class="label">Especialización:</span>
     <select onchange="agregarEspecializacion(this)">
       <option value="">-- Elegir --</option>
-      ${Object.keys(expertise).map(k => `<option value="${k}">${k}</option>`).join("")}
+      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
     </select>
   </div>
   <div class="bloque">
@@ -429,7 +433,7 @@ function actualizarBonificacionYStats(select) {
   const tarjeta = select.closest('.tarjeta');
   const perksList = tarjeta.querySelector('.lista-perks');
   const selected = select.value;
-  const perk = expertise[selected];
+  const perk = especializaciones[selected];
 
   if (!selected || !perk) return;
   if ([...perksList.children].some(li => li.dataset.key === selected)) return;
