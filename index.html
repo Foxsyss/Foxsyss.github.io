@@ -233,17 +233,17 @@ button {
     <input type="text" class="bonificacion" readonly style="width: 95%;">
   </div>
 </div>
-//bloque de especializacion
+<!-- Nueva sección de Especialización -->
 <div class="fila">
   <div class="bloque">
     <span class="label">Especialización:</span>
-    <select multiple onchange="actualizarPerksEspecializacion(this)" class="select-especializacion">
+    <select multiple onchange="actualizarPerksEspecializacion(this)">
       ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
     </select>
   </div>
   <div class="bloque">
-    <span class="label">Perks de Especialización:</span>
-    <textarea readonly class="perks-especializacion" style="height: 60px; font-size: 11px; width: 100%;"></textarea>
+    <span class="label">Perks:</span>
+    <ul class="perks-especializacion" style="font-size: 11px; margin: 0; padding-left: 16px;"></ul>
   </div>
 </div>
 
@@ -327,16 +327,23 @@ button {
     const bonificacion = tarjeta.querySelector('.bonificacion');
 
   function actualizarPerksEspecializacion(select) {
-    const tarjeta = select.closest('.tarjeta');
-    const perksBox = tarjeta.querySelector('.perks-especializacion');
+  const tarjeta = select.closest('.tarjeta');
+  const perksList = tarjeta.querySelector('.perks-especializacion');
 
-    const seleccionadas = Array.from(select.selectedOptions).map(opt => opt.value);
-    const perksTexto = seleccionadas
-    .map(e => `${e}: ${especializaciones[e]}`)
-    .join('\n');
+  // Limpiar perks actuales
+  perksList.innerHTML = '';
 
-    perksBox.value = perksTexto;
+  // Agregar perks de cada opción seleccionada
+  Array.from(select.selectedOptions).forEach(option => {
+    const perk = especializaciones[option.value];
+    if (perk) {
+      const li = document.createElement('li');
+      li.textContent = `${option.value}: ${perk}`;
+      perksList.appendChild(li);
     }
+  });
+}
+
 
 
     // Traemos los stats base
