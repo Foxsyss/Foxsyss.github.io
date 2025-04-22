@@ -154,14 +154,14 @@ button {
   };
 
   const armasPrimarias = {
-    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"-1" },
-    "Shotgun ": { daño: "1", alcance: "8”", dados :"3", perks:"If Hit, knock back the target 1”", drawback:"",Armour_Piercing:"-1" },
-    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"" },
-    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"" },
-    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"" },
-    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"" },
-    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"" },
-    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"",Armour_Piercing:"" }
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2",armourpiercing:"-1", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"" },
+    "Shotgun ": { daño: "1", alcance: "8”", dados :"3",armourpiercing:"-1", perks:"If Hit, knock back the target 1”", drawback:""},
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2",armourpiercing:"-1", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"" },
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2",armourpiercing:"-1", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:""},
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2",armourpiercing:"-1", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:""},
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2",armourpiercing:"-1", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:""},
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2",armourpiercing:"-1", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:""},
+    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2",armourpiercing:"-1", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:""}
   };
 
   const statsBase = {
@@ -265,7 +265,7 @@ button {
         <td class="dano" style="border: 1px solid black; padding: 4px; text-align: center;">-</td>
         <td class="alcance" style="border: 1px solid black; padding: 4px; text-align: center;">-</td>
         <td class="dados" style="border: 1px solid black; padding: 4px; text-align: center;">-</td>
-        <td class="Armour Piercing" style="border: 1px solid black; padding: 4px; text-align: center;">-</td>
+        <td class="armourpiercing" style="border: 1px solid black; padding: 4px; text-align: center;">-</td>
         <td class="perks" style="border: 1px solid black; padding: 4px;">-</td>
         <td class="drawback" style="border: 1px solid black; padding: 4px;">-</td>
       </tr>
@@ -341,12 +341,12 @@ button {
   function actualizarArma(select) {
   const valor = select.value;
   const tarjeta = select.closest('.tarjeta');
-  const datos = armasPrimarias[valor] || { daño: "-", alcance: "-", dados: "-", perks: "-", drawback: "-",Armour_Piercing:"-" };
+  const datos = armasPrimarias[valor] || { daño: "-", alcance: "-", dados: "-", perks: "-", drawback: "-",armourpiercing:"-" };
 
   tarjeta.querySelector('.dano').textContent = datos.daño || "-";
   tarjeta.querySelector('.alcance').textContent = datos.alcance || "-";
   tarjeta.querySelector('.dados').textContent = datos.dados || "-";
-  tarjeta.querySelector('.Armour Piercing').textContent = datos.Armour_Piercing || "-";  
+  tarjeta.querySelector('.armourpiercing').textContent = datos.Armour_Piercing || "-";  
   tarjeta.querySelector('.perks').textContent = datos.perks || "-";
   tarjeta.querySelector('.drawback').textContent = datos.drawback || "-"
 }
