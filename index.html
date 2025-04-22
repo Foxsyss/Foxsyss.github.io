@@ -524,7 +524,7 @@ function actualizarBonificacionYStats(select) {
 }
 
   
-  const gearCheckboxes = document.querySelectorAll('#gear-selection input[type=checkbox]');
+const gearCheckboxes = document.querySelectorAll('#gear-selection input[type=checkbox]');
 const gearError = document.getElementById('gear-error');
 
 function calcularCostoGearSeleccionado() {
@@ -541,9 +541,14 @@ function calcularCostoGearSeleccionado() {
 gearCheckboxes.forEach(cb => {
   cb.addEventListener('change', () => {
     const totalCosto = calcularCostoGearSeleccionado();
+
     if (totalCosto > 5) {
-      gearError.style.display = 'block';
+      alert('El costo total del gear no puede superar 5 puntos.');
       cb.checked = false; // desmarcar el último cambio
+      gearError.style.display = 'none'; // oculta error porque es alert
+    } else if (totalCosto === 5) {
+      alert('¡Has alcanzado el máximo de 5 puntos de gear!');
+      gearError.style.display = 'none';
     } else {
       gearError.style.display = 'none';
     }
