@@ -300,12 +300,7 @@ button {
     Recruit: { MA: 5, Hearts: 2, HitsOn: "6+", MDP: 3 }
   };
 
-  const gears = {
-   "Tactician":"Prior Preparation: Any Team Warrior can Re-roll 1 Dice at any time, once per round",
-   "Medic":"Man Down: Starts with 3 Med Kits. Limited to use 1 Med Kit per round",
-   "Sniper":"One Shot, One Kill: +1 to Sniper Rifle attack rolls if they haven’t moved during the activation"
-   
- };
+ 
 
   let contador = 1;
 
@@ -413,19 +408,22 @@ button {
     </table>
   </div>
 
-  <div class="fila">
-  <div class="bloque">
-    <span class="label">Gears:</span>
-    <select onchange="agregarGears(this)">
-      <option value="">-- Elegir --</option>
-      ${Object.keys(gears).map(k => `<option value="${k}">${k}</option>`).join("")}
-    </select>
-  </div>
-  <div class="bloque">
-    <span class="label">Perks:</span>
-    <ul class="lista-perks" style="font-size: 11px; margin: 0; padding-left: 16px;"></ul>
-  </div>
+<div class="tarjeta">
+  <select onchange="agregarGear(this)">
+    <option value="" selected disabled>Seleccionar Gear...</option>
+    <option value="gear1">Gear A (2 puntos)</option>
+    <option value="gear2">Gear B (1 punto)</option>
+    <option value="gear3">Gear C (3 puntos)</option>
+    <option value="gear4">Gear D (1 punto)</option>
+    <option value="gear5">Gear E (2 puntos)</option>
+  </select>
+
+  <ul class="lista-gears"></ul>
 </div>
+
+<div id="total-puntos">Puntos usados totales: 0 / 5</div>
+
+  
 
 `;
 
@@ -536,28 +534,83 @@ document.querySelectorAll('.gear-select').forEach(select => {
   select.dataset.previous = select.value;
 });
 
+// Definimos gears disponibles
+const gears = {
+  gear1: { name: "Gear A", cost: 2, description: "Incrementa defensa" },
+  gear2: { name: "Gear B", cost: 1, description: "Mejora ataque" },
+  gear3: { name: "Gear C", cost: 3, description: "Añade visión nocturna" },
+  gear4: { name: "Gear D", cost: 1, description: "Mejora velocidad" },
+  gear5: { name: "Gear E", cost: 2, description: "Resistencia al fuego" }
+};
+
+const maxPuntos = 5;
+
+// Función para calcular puntos totales de todos los gears en todas las tarjetas
+function calcularPuntosTotales() {
+  let total = 0;
+  // Buscamos todas las listas de gears en todas las tarjetas
+  document.querySelectorAll('.lista-gears').forEach(lista => {
+    lista.querySelectorAll('li').forEach(li => {
+      total += parseInt(li.dataset.cost, 10);
+    });
+  });
+  return total;
+}
+
 function agregarGear(select) {
   const tarjeta = select.closest('.tarjeta');
-  const perksList = tarjeta.querySelector('.lista-perks');
+  const gearsList = tarjeta.querySelector('.lista-gears');
   const selected = select.value;
-  const perk = gears[selected];
+  const gear = gears[selected];
 
-  if (!selected || !perk) return;
-  if ([...perksList.children].some(li => li.dataset.key === selected)) return;
+  if (!selected || !gear) return;
 
+  // Evitamos duplicados en la misma tarjeta
+  if ([...gearsList.children].some(li => li.dataset.key === selected)) return;
+
+  // Chequeamos que la suma global no supere maxPuntos
+  const puntosActuales = calcularPuntosTotales();
+  if (puntosActuales + gear.cost > maxPuntos) {
+    alert(`No se pueden agregar más gears, el límite total es de ${maxPuntos} puntos.`);
+    select.value = "";
+    return;
+  }
+
+  // Creamos el elemento li para el gear
   const li = document.createElement("li");
   li.dataset.key = selected;
-  li.dataset.origen = "gears";
-  li.className = "perk-tag";
+  li.dataset.cost = gear.cost;
+  li.dataset.origen = "gear";
+  li.className = "gear-tag";
   li.innerHTML = `
-    <div class="perk-titulo">${selected}</div>
-    <div class="perk-descripcion">${perk}</div>
-    <button class="eliminar-perk" onclick="eliminarPerk(this)">×</button>
+    <div class="gear-nombre">${gear.name}</div>
+    <div class="gear-puntos">Puntos: ${gear.cost}</div>
+    <button class="eliminar-gear" onclick="eliminarGear(this)">×</button>
   `;
 
-  perksList.appendChild(li);
+  gearsList.appendChild(li);
+
   select.value = "";
+
+  // Actualizar total en UI (si tenés un lugar para mostrarlo)
+  actualizarTotalUI();
 }
+
+function eliminarGear(btn) {
+  const li = btn.closest('li');
+  li.remove();
+  actualizarTotalUI();
+}
+
+function actualizarTotalUI() {
+  const total = calcularPuntosTotales();
+  // Si tenés un elemento para mostrar el total, por ejemplo con id total-puntos
+  const totalPuntosEl = document.getElementById('total-puntos');
+  if (totalPuntosEl) {
+    totalPuntosEl.textContent = `Puntos usados totales: ${total} / ${maxPuntos}`;
+  }
+}
+
 
 
 
