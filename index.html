@@ -176,104 +176,91 @@ button {
     const tarjeta = document.createElement('div');
     tarjeta.className = 'tarjeta';
 
-    tarjeta.innerHTML = 
-      <button class="eliminar" onclick="eliminarTarjeta(this)">X</button>
-       <div class="fila" style="gap: 4px;">
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <img src="" class="avatar" onclick="seleccionarAvatar(this)">
-    <input type="file" accept="image/*" style="display: none;" onchange="cargarAvatar(this)">
+    tarjeta.innerHTML = `
+  <button class="eliminar" onclick="eliminarTarjeta(this)">X</button>
+  <div class="fila" style="gap: 4px;">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <img src="" class="avatar" onclick="seleccionarAvatar(this)">
+      <input type="file" accept="image/*" style="display: none;" onchange="cargarAvatar(this)">
+    </div>
+    <div style="display: flex; flex-direction: column; justify-content: center; flex: 1;">
+      <label style="font-size: 12px;">Nombre:</label>
+      <input type="text" value="Recluta ${contador++}" style="font-size: 12px; padding: 4px; border: 1px solid #999; border-radius: 4px; width: 70%;">
+    </div>
   </div>
-  <div style="display: flex; flex-direction: column; justify-content: center; flex: 1;">
-    <label style="font-size: 12px;">Nombre:</label>
-    <input type="text" value="Recluta ${contador++}" style="font-size: 12px; padding: 4px; border: 1px solid #999; border-radius: 4px; width: 70%;">
+
+  <div class="stats">
+    <div class="stat ma">MA <span>-</span></div>
+    <div class="stat hearts">Hearts <span>-</span></div>
+    <div class="stat hitsOn">Hits On <span>-</span></div>
+    <div class="stat mdp">MDP <span>-</span></div>
   </div>
-</div>
 
-      <div class="stats">
-        <div class="stat ma">
-          MA <span>-</span>
-        </div>
-        <div class="stat hearts">
-          Hearts <span>-</span>
-        </div>
-        <div class="stat hitsOn">
-          Hits On <span>-</span>
-        </div>
-        <div class="stat mdp">
-          MDP <span>-</span>
-        </div>
-      </div>
-
-     
-
-      <div class="fila">
-
-        
-        <div class="bloque" >
-          <span class="label">Tipo de Soldado:</span>
-          <select onchange="actualizarStatsBase(this)">
-            <option value="">-- Elegir --</option>
-            <option value="Warrior">Warrior</option>
-            <option value="Enlisted">Enlisted</option>
-            <option value="Recruit">Recruit</option>
-          </select>
-        </div>
-      </div>
-
-     <div class="fila">
-  <div class="bloque" >
-    <span class="label">Expertise:</span>
-    <select onchange="actualizarBonificacionYStats(this)">
-      <option value="">-- Elegir --</option>
-      ${Object.keys(especializaciones).map(k => <option value="${k}">${k}</option>).join("")}
-    </select>
+  <div class="fila">
+    <div class="bloque">
+      <span class="label">Tipo de Soldado:</span>
+      <select onchange="actualizarStatsBase(this)">
+        <option value="">-- Elegir --</option>
+        <option value="Warrior">Warrior</option>
+        <option value="Enlisted">Enlisted</option>
+        <option value="Recruit">Recruit</option>
+      </select>
+    </div>
   </div>
-  <div class="bloque" >
-    <span class="label">Bonificación:</span>
-    <input type="text" class="bonificacion" readonly style="width: 95%;">
+
+  <div class="fila">
+    <div class="bloque">
+      <span class="label">Expertise:</span>
+      <select onchange="actualizarBonificacionYStats(this)">
+        <option value="">-- Elegir --</option>
+        ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
+      </select>
+    </div>
+    <div class="bloque">
+      <span class="label">Bonificación:</span>
+      <input type="text" class="bonificacion" readonly style="width: 95%;">
+    </div>
   </div>
-</div>
 
-
-
-     <div class="fila">
-  <div class="bloque" >
-    <span class="label">Arma Secundaria:</span>
-    <select onchange="actualizarArma(this)">
-      <option value="">-- Elegir --</option>
-      ${Object.keys(armasPrimarias).map(k => <option value="${k}">${k}</option>).join("")}
-    </select>
+  <div class="fila">
+    <div class="bloque">
+      <span class="label">Arma Secundaria:</span>
+      <select onchange="actualizarArma(this)">
+        <option value="">-- Elegir --</option>
+        ${Object.keys(armasPrimarias).map(k => `<option value="${k}">${k}</option>`).join("")}
+      </select>
+    </div>
   </div>
-</div>
 
-<div class="bloque" style="width: 100%;">
-  <span class="label">Stats del arma:</span>
-  <table class="arma-table" style="width: 100%; font-size: 11px; border-collapse: collapse;">
-    <thead>
-      <tr style="background: #000; color: #fff;">
-        <th style="width: 10%; border: 1px solid black; padding: 4px; text-align: center;">Daño</th>
-        <th style="width: 10%; border: 1px solid black; padding: 4px; text-align: center;">Alcance</th>
-        <th style="width: 10%; border: 1px solid black; padding: 4px; text-align: center;">Dados</th>
-        <th style="width: 10%; border: 1px solid black; padding: 4px; text-align: center;">Armour Piercing</th>
-        <th style="width: 30%; border: 1px solid black; padding: 4px; text-align: center;">Perks</th>
-        <th style="width: 30%; border: 1px solid black; padding: 4px; text-align: center;">Drawback</th>
-        
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="dano" style="border: 1px solid black; padding: 4px; text-align: center;">-</td>
-        <td class="alcance" style="border: 1px solid black; padding: 4px; text-align: center;">-</td>
-        <td class="dados" style="border: 1px solid black; padding: 4px; text-align: center;">-</td>
-        <td class="armourpiercing" style="border: 1px solid black; padding: 4px; text-align: center;">-</td>
-        <td class="perks" style="border: 1px solid black; padding: 4px;">-</td>
-        <td class="drawback" style="border: 1px solid black; padding: 4px;">-</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <div class="bloque" style="width: 100%;">
+    <span class="label">Stats del arma:</span>
+    <table class="arma-table" style="width: 100%; font-size: 11px; border-collapse: collapse;">
+      <thead>
+        <tr style="background: #000; color: #fff;">
+          <th style="width: 10%;">Daño</th>
+          <th style="width: 10%;">Alcance</th>
+          <th style="width: 10%;">Dados</th>
+          <th style="width: 10%;">Armour Piercing</th>
+          <th style="width: 30%;">Perks</th>
+          <th style="width: 30%;">Drawback</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dano">-</td>
+          <td class="alcance">-</td>
+          <td class="dados">-</td>
+          <td class="armourpiercing">-</td>
+          <td class="perks">-</td>
+          <td class="drawback">-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+`;
 
-    ;
+
+    
 
     document.getElementById('contenedor').appendChild(tarjeta);
   }
