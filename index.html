@@ -394,49 +394,29 @@ button {
 function actualizarBonificacionYStats(select) {
   const tarjeta = select.closest('.tarjeta');
   const burbuja = tarjeta.querySelector('.bonificacion-burbuja');
-  const bonificacionInput = tarjeta.querySelector('input.bonificacion');
-
+  
   const selected = select.value;
   const perk = especializaciones[selected] || '';
+  
+  burbuja.textContent = perk;
 
-  // Mostrar o esconder la burbuja según si hay texto
-  if (perk.trim() === "") {
-    burbuja.style.display = "none";
-    // Opcional: mostrar texto por defecto
-    // burbuja.style.display = "inline-block";
-    // burbuja.textContent = "Seleccione una bonificación";
-  } else {
-    burbuja.style.display = "inline-block";
-    burbuja.textContent = perk;
-  }
+    // Traemos los stats base
+    const tipoSoldado = tarjeta.querySelector("select").value;
+    const stats = statsBase[tipoSoldado] || {};
 
-  // Actualizar input de bonificación (si lo usás)
-  if (bonificacionInput) {
-    bonificacionInput.value = perk;
-  }
+    // Aplicamos los stats base antes de la especialización
+    let ma = stats.MA || 0;
+    let hearts = stats.Hearts || 0;
+    let hitsOn = stats.HitsOn || "-";
+    let mdp = stats.MDP || 0;
 
-  // Traemos los stats base
-  const tipoSoldado = select.value;
-  const stats = statsBase[tipoSoldado] || {};
+    // Limpiar la bonificación
+    bonificacion.value = especializaciones[especializacion] || "";
 
-  // Aplicamos los stats base antes de la especialización
-  let ma = stats.MA || 0;
-  let hearts = stats.Hearts || 0;
-  let hitsOn = stats.HitsOn || "-";
-  let mdp = stats.MDP || 0;
-
-  // Ajuste según la especialización
-  if (selected === "Raiders") {
-    ma += 1;  // Ejemplo de bonificación
-  }
-
-  // Aquí podés seguir aplicando otras bonificaciones o actualizaciones de stats...
-
-  // Finalmente actualizar el DOM con los stats si tenés campos para eso
-  // Ejemplo:
-  // tarjeta.querySelector('.stat-ma').textContent = ma;
-  // tarjeta.querySelector('.stat-hearts').textContent = hearts;
-}
+    // Ajuste según la especialización
+    if (especializacion === "Raiders") {
+        ma += 1;  // Sniper aumenta el MA en +1
+    } 
 
 
     // Actualizamos los stats de la tarjeta
