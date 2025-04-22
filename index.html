@@ -597,19 +597,41 @@ function agregarGear(select) {
   const tarjeta = select.closest(".tarjeta");
   const gearSeleccionado = select.value;
   const listaGears = tarjeta.querySelector(".lista-gears");
+  const totalPuntosDiv = tarjeta.querySelector("#total-puntos");
 
   if (!gearSeleccionado) return;
 
-  // Verifico que no esté repetido
-  const items = Array.from(listaGears.children);
-  if (items.some((li) => li.textContent === gearSeleccionado)) return;
+  // Evitar duplicados
+  if ([...listaGears.children].some(li => li.textContent === gearSeleccionado)) {
+    select.value = "";
+    return;
+  }
 
   const li = document.createElement("li");
   li.textContent = gearSeleccionado;
   listaGears.appendChild(li);
 
-  // Limpio selección
+  // Actualizar puntos totales
+  actualizarPuntosGear(tarjeta);
+
+  // Limpiar selección
   select.value = "";
+}
+
+function actualizarPuntosGear(tarjeta) {
+  const listaGears = tarjeta.querySelector(".lista-gears");
+  const totalPuntosDiv = tarjeta.querySelector("#total-puntos");
+
+  let total = 0;
+  [...listaGears.children].forEach(li => {
+    // Extraer el número entre paréntesis
+    const match = li.textContent.match(/\((\d+)\)/);
+    if (match) {
+      total += parseInt(match[1], 10);
+    }
+  });
+
+  totalPuntosDiv.textContent = `Puntos usados totales: ${total} / 5`;
 }
 
 
