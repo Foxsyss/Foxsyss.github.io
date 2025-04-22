@@ -341,7 +341,7 @@ button {
   function actualizarArma(select) {
   const valor = select.value;
   const tarjeta = select.closest('.tarjeta');
-  const datos = armasPrimarias[valor] || { daño: "-", alcance: "-", dados: "-", perks: "-", drawback: "-" };
+  const datos = armasPrimarias[valor] || { daño: "-", alcance: "-", dados: "-", perks: "-", drawback: "-",Armour_Piercing:"-" };
 
   tarjeta.querySelector('.dano').textContent = datos.daño || "-";
   tarjeta.querySelector('.alcance').textContent = datos.alcance || "-";
