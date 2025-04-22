@@ -326,6 +326,19 @@ button {
     const tarjeta = select.closest('.tarjeta');
     const bonificacion = tarjeta.querySelector('.bonificacion');
 
+  function actualizarPerksEspecializacion(select) {
+    const tarjeta = select.closest('.tarjeta');
+    const perksBox = tarjeta.querySelector('.perks-especializacion');
+
+    const seleccionadas = Array.from(select.selectedOptions).map(opt => opt.value);
+    const perksTexto = seleccionadas
+    .map(e => `${e}: ${especializaciones[e]}`)
+    .join('\n');
+
+    perksBox.value = perksTexto;
+    }
+
+
     // Traemos los stats base
     const tipoSoldado = tarjeta.querySelector("select").value;
     const stats = statsBase[tipoSoldado] || {};
