@@ -11,10 +11,18 @@ body {
   padding: 20px;
   border: 2px solid #8b7e66;
   border-radius: 8px;
-  width: 400px;
+  width: 450px;
   display: flex;
   gap: 20px;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  align-items: center;
+}
+
+.avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
 
 .avatar img {
@@ -23,16 +31,25 @@ body {
   object-fit: cover;
   border: 2px solid #333;
   border-radius: 4px;
+  cursor: pointer;
 }
 
-.avatar input {
-  margin-top: 10px;
+.subtexto {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+}
+
+.avatar input[type="file"] {
+  display: none;
 }
 
 .info {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  flex: 1;
 }
 
 .info label {
@@ -41,8 +58,10 @@ body {
 }
 
 .info input[type="text"] {
-  padding: 5px;
+  padding: 10px;
   font-size: 18px;
   border: 1px solid #666;
   border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
 }
