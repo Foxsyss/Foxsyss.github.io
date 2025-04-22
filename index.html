@@ -273,6 +273,23 @@ button {
   color: #777;
   line-height: 1.2;
 }
+  
+.gear-eliminar {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.2s;
+}
+
+.gear-eliminar:hover {
+  color: #e00;
+}
 
 
 
@@ -293,6 +310,8 @@ button {
 
 
 <script>
+<button class="gear-eliminar" onclick="eliminarGear(this)">×</button>
+  
    const expertise = {
     Raiders: "+1 To MA",
     "Counter Terrorism" : "Re-roll 1 Shooting Attack per round (must re-roll all dice)",
