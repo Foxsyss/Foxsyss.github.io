@@ -9,19 +9,23 @@
   background: #e6e6e6;
 }
 .bonificacion-burbuja {
-  background-color: #d1e7dd; /* verde claro, podes cambiar */
-  border: 1px solid #0f5132; /* verde oscuro */
-  color: #0f5132;
+  background-color: #f9f9f9;  /* igual que la tarjeta */
+  border: 1px solid #ccc;     /* un borde gris clarito */
+  color: #333;                /* texto oscuro para buena lectura */
   border-radius: 12px;
   padding: 6px 12px;
   max-width: 100%;
   font-size: 0.9em;
-  white-space: normal; /* para que el texto haga salto de línea */
-  word-wrap: break-word; /* cortar palabra si es muy larga */
+  white-space: normal;        /* texto con saltos de línea */
+  word-wrap: break-word;
   margin-top: 4px;
   display: inline-block;
   box-sizing: border-box;
+  
+  /* Sombra sutil para la burbuja */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 #contenedor {
   display: flex;
   flex-wrap: wrap;
