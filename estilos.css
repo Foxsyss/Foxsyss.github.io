@@ -13,3 +13,9 @@ h1 {
   align-items: center; /* alinea verticalmente */
   gap: 10px; /* espacio entre los elementos */
 }
+.imagen-con-recuadro {
+  border: 2px solid black;  /* grosor y color del borde */
+  border-radius: 8px;       /* esquinas redondeadas, opcional */
+  padding: 4px;             /* espacio entre la imagen y el borde */
+  width: 200px;             /* tamaño opcional */
+}
