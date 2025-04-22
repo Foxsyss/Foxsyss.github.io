@@ -123,25 +123,32 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
-    .perk-tag {
-  display: inline-flex;
-  align-items: center;
-  background-color: #eee;
-  border: 1px solid #ccc;
-  border-radius: 16px;
-  padding: 2px 8px;
-  margin: 2px;
-  font-size: 11px;
+   .perk-tag {
+  position: relative;
+  background: #f4f4f4;
+  border-left: 4px solid #777;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+    .perk-titulo {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+    .perk-descripcion {
+  font-size: 0.95em;
+  color: #333;
 }
 
-.perk-tag .eliminar-perk {
+.eliminar-perk {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.5rem;
   background: none;
   border: none;
-  color: #888;
-  font-weight: bold;
-  margin-left: 6px;
+  font-size: 1.2rem;
+  color: #900;
   cursor: pointer;
-  font-size: 14px;
   line-height: 1;
 }
 
@@ -150,13 +157,10 @@ button {
 }
 
 .lista-perks {
-  list-style: none;
-  padding-left: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  max-height: 120px;
-  overflow-y: auto;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.5rem;
 }
     .perkContainer {
   max-height: none;
@@ -397,16 +401,18 @@ button {
 
   const li = document.createElement("li");
   li.dataset.key = selected;
-  li.dataset.origen = "especializacion"; // ← opcional, útil si querés distinguirlos
+  li.dataset.origen = "especializacion";
   li.className = "perk-tag";
   li.innerHTML = `
-    <span>${perk} <small class="origen">(Especialización: ${selected})</small></span>
+    <div class="perk-titulo">${selected}</div>
+    <div class="perk-descripcion">${perk}</div>
     <button class="eliminar-perk" onclick="eliminarPerk(this)">×</button>
   `;
 
   perksList.appendChild(li);
   select.value = "";
 }
+
 
 
   function eliminarPerk(btn) {
