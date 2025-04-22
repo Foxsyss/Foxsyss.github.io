@@ -222,7 +222,7 @@ button {
 
 
 <script>
-   const especializaciones = {
+   const expertise = {
     Raiders: "+1 To MA",
     "Counter Terrorism" : "Re-roll 1 Shooting Attack per round (must re-roll all dice)",
     "Hostage Rescue" : "+1 to each Roll off to see which Warrior Team activates first in the next round",
@@ -293,7 +293,7 @@ button {
     <span class="label">Expertise:</span>
     <select onchange="actualizarBonificacionYStats(this)">
       <option value="">-- Elegir --</option>
-      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
+      ${Object.keys(expertise).map(k => `<option value="${k}">${k}</option>`).join("")}
     </select>
   </div>
   <div class="bloque">
@@ -396,7 +396,7 @@ function actualizarBonificacionYStats(select) {
   const burbuja = tarjeta.querySelector('.bonificacion-burbuja');
   
   const selected = select.value;
-  const perk = especializaciones[selected] || '';
+  const perk = expertise[selected] || '';
   
   burbuja.textContent = perk;
 
@@ -411,7 +411,7 @@ function actualizarBonificacionYStats(select) {
     let mdp = stats.MDP || 0;
 
     // Limpiar la bonificación
-    bonificacion.value = especializaciones[especializacion] || "";
+    bonificacion.value = expertise[especializacion] || "";
 
     // Ajuste según la especialización
     if (especializacion === "Raiders") {
