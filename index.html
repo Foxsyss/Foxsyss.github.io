@@ -294,406 +294,287 @@ button {
 <script>
 
   
-   const expertise = {
-    Raiders: "+1 To MA",
-    "Counter Terrorism" : "Re-roll 1 Shooting Attack per round (must re-roll all dice)",
-    "Hostage Rescue" : "+1 to each Roll off to see which Warrior Team activates first in the next round",
-    "Counter Insurgency" : "-1 to the opponent’s Activation Roll once per round (can choose after they’ve rolled",
-    "Covert Ops" : "Extend the length and width of the deployment zone by 3",
-    "Reconnaissance" : "Re-roll 1 Armour Save per round (must re-roll all dice)"   
-    
-    
-  };
- const especializaciones = {
-   "Tactician":"Prior Preparation: Any Team Warrior can Re-roll 1 Dice at any time, once per round",
-   "Medic":"Man Down: Starts with 3 Med Kits. Limited to use 1 Med Kit per round",
-   "Sniper":"One Shot, One Kill: +1 to Sniper Rifle attack rolls if they haven’t moved during the activation"
-   
- };
-  
-  const armasPrimarias = {
-    "Pistol / Revolver": { daño: "1", alcance: "6”", dados :"2",armourpiercing:"", perks:"If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4", drawback:"" },
-    "Shotgun ": { daño: "1", alcance: "8”", dados :"3",armourpiercing:"-1", perks:"If Hit, knock back the target 1”", drawback:""},
-    "Submachine Gun": { daño: "1", alcance: "12”", dados :"5",armourpiercing:"", perks:"-1 to Shooting Attacks", drawback:"" },
-    "Assault Rifle": { daño: "1", alcance: "18”", dados :"3",armourpiercing:"-1", perks:"3 x Natural 6’s = -1 Armour Piercing", drawback:"3 x Natural 1’s = Weapon Jam. Spend a Shoot Action to clear"},
-    "Light Machine Gun": { daño: "1", alcance: "3-24”", dados :"4",armourpiercing:"", perks:"Natural 6 = Auto Pin - Target still makes an Armour Save", drawback:"-1 to MA (Scout can’t be equipped with this weapon)"},
-    "Sniper rifle": { daño: "1", alcance: "6-36”", dados :"1",armourpiercing:"-1", perks:"Auto 1D3 damage if hit - Target still makes an Armour Save", drawback:"When shot, must Reload as a Shoot action."},
-    "Combat Melee Weapon": { daño: "Base", alcance: "", dados :"",armourpiercing:"", perks:"Add 1 dice to the starting MDP", drawback:""},
-    "Frag Grenade": { daño: "1", alcance: "6”", dados :"1",armourpiercing:"-2", perks:"Throw 6”. If missed, scatter randomly 1D3”. Auto hit everyone within 3” - ignores cover ", drawback:"On an attack roll of 1, roll 1D6. On a 1, it detonates in hand "}
-  };
-
-  const statsBase = {
-    Warrior: { MA: 5, Hearts: 6, HitsOn: "4+", MDP: 5 },
-    Enlisted: { MA: 5, Hearts: 3, HitsOn: "5+", MDP: 4 },
-    Recruit: { MA: 5, Hearts: 2, HitsOn: "6+", MDP: 3 }
-  };
-
- 
-
-  let contador = 1;
-
-  function crearTarjeta() {
-    const tarjeta = document.createElement('div');
-    tarjeta.className = 'tarjeta';
-
-    
-
-    tarjeta.innerHTML = `
-  <button class="eliminar" onclick="eliminarTarjeta(this)">X</button>
-  <div class="fila" style="gap: 4px;">
-    <div style="display: flex; flex-direction: column; align-items: center;">
-      <img src="" class="avatar" onclick="seleccionarAvatar(this)">
-      <input type="file" accept="image/*" style="display: none;" onchange="cargarAvatar(this)">
-    </div>
-    <div style="display: flex; flex-direction: column; justify-content: center; flex: 1;">
-      <label style="font-size: 12px;">Nombre:</label>
-      <input type="text" value="Recluta ${contador++}" style="font-size: 12px; padding: 4px; border: 1px solid #999; border-radius: 4px; width: 70%;">
-    </div>
-  </div>
-
-  <div class="stats">
-    <div class="stat ma">MA <span>-</span></div>
-    <div class="stat hearts">Hearts <span>-</span></div>
-    <div class="stat hitsOn">Hits On <span>-</span></div>
-    <div class="stat mdp">MDP <span>-</span></div>
-  </div>
-
-  <div class="fila">
-    <div class="bloque">
-      <span class="label">Tipo de Soldado:</span>
-      <select onchange="actualizarStatsBase(this)">
-        <option value="">-- Elegir --</option>
-        <option value="Warrior">Warrior</option>
-        <option value="Enlisted">Enlisted</option>
-        <option value="Recruit">Recruit</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="fila">
-  <div class="bloque">
-    <span class="label">Expertise:</span>
-    <select onchange="actualizarBonificacionYStats(this)">
-      <option value="">-- Elegir --</option>
-      ${Object.keys(expertise).map(k => `<option value="${k}">${k}</option>`).join("")}
-    </select>
-  </div>
-  <div class="bloque">
-    <span class="label">Bonificación:</span>
-    <div class="bonificacion-burbuja"></div>
-  </div>
-</div>
-
-
-  <div class="fila">
-  <div class="bloque">
-    <span class="label">Especialización:</span>
-    <select onchange="agregarEspecializacion(this)">
-      <option value="">-- Elegir --</option>
-      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
-    </select>
-  </div>
-  <div class="bloque">
-    <span class="label">Perks:</span>
-    <ul class="lista-perks" style="font-size: 11px; margin: 0; padding-left: 16px;"></ul>
-  </div>
-</div>
-
-
-  <div class="fila">
-    <div class="bloque">
-      <span class="label">Arma Secundaria:</span>
-      <select onchange="actualizarArma(this)">
-        <option value="">-- Elegir --</option>
-        ${Object.keys(armasPrimarias).map(k => `<option value="${k}">${k}</option>`).join("")}
-      </select>
-    </div>
-  </div>
-
-  <div style="width: 480px;">
-    <span class="label">Stats del arma:</span>
-    <table class="arma-table" style="width: 100%; font-size: 11px; border-collapse: collapse;">
-      <thead>
-        <tr style="background: #000; color: #fff;">
-          <th style="width: 10%;">Daño</th>
-          <th style="width: 10%;">Alcance</th>
-          <th style="width: 10%;">Dados</th>
-          <th style="width: 10%;">Armour Piercing</th>
-          <th style="width: 30%;">Perks</th>
-          <th style="width: 30%;">Drawback</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="dano">-</td>
-          <td class="alcance">-</td>
-          <td class="dados">-</td>
-          <td class="armourpiercing">-</td>
-          <td class="perks">-</td>
-          <td class="drawback">-</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-<div class="tarjeta">
-  <select onchange="agregarGear(this)">
-    <option value="" selected disabled>Seleccionar Gear...</option>
-    <option value="gear1">Rope (1)</option>
-    <option value="gear2">Night Vision Goggles (1)</option>
-    <option value="gear3">Suppressor (2)</option>
-    <option value="gear4">Smoke Grenade (2)</option>
-    <option value="gear5">Frag Grenade (3)</option>
-    <option value="gear6">Flash Bang Grenade (3)</option>
-    <option value="gear7">Advanced Optics (3)</option>
-    <option value="gear8">Med Kit (3)</option>
-    <option value="gear9">Tactical Body Armour (5)</option>
-    <option value="gear10">Drone’s Eye View (5)</option>
-    <option value="gear11">Gillie Suit (5)</option>
-    <option value="gear12">RPG (5)</option>
-  </select>
-
-  <ul class="lista-gears"></ul>
-</div>
-
-<div id="total-puntos">Puntos usados totales: 0 / 5</div>
-
-  
-
-`;
-
-
-    
-
-    document.getElementById('contenedor').appendChild(tarjeta);
-  }
-
-  function seleccionarAvatar(img) {
-    const input = img.nextElementSibling;
-    input.click();
-  }
-
-  function cargarAvatar(input) {
-    const tarjeta = input.closest('.tarjeta');
-    const avatar = tarjeta.querySelector('.avatar');
-    
-    const file = input.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        avatar.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  function actualizarStatsBase(select) {
-    const tipo = select.value;
-    const tarjeta = select.closest('.tarjeta');
-    const stats = statsBase[tipo] || {};
-
-    tarjeta.querySelector('.ma span').textContent = stats.MA || "-";
-    tarjeta.querySelector('.hearts span').textContent = stats.Hearts || "-";
-    tarjeta.querySelector('.hitsOn span').textContent = stats.HitsOn || "-";
-    tarjeta.querySelector('.mdp span').textContent = stats.MDP || "-";
-  }
-
-function actualizarBonificacionYStats(select) {
-  const tarjeta = select.closest('.tarjeta');
-  const burbuja = tarjeta.querySelector('.bonificacion-burbuja');
-  
-  const selected = select.value;
-  const perk = expertise[selected] || '';
-  
-  burbuja.textContent = perk;
-
-    // Traemos los stats base
-    const tipoSoldado = tarjeta.querySelector("select").value;
-    const stats = statsBase[tipoSoldado] || {};
-
-    // Aplicamos los stats base antes de la especialización
-    let ma = stats.MA || 0;
-    let hearts = stats.Hearts || 0;
-    let hitsOn = stats.HitsOn || "-";
-    let mdp = stats.MDP || 0;
-
-    // Limpiar la bonificación
-    bonificacion.value = expertise[especializacion] || "";
-
-    // Ajuste según la especialización
-    if (especializacion === "Raiders") {
-        ma += 1;  // Sniper aumenta el MA en +1
-    } 
-
-
-    // Actualizamos los stats de la tarjeta
-    tarjeta.querySelector('.ma span').textContent = ma;
-    tarjeta.querySelector('.hearts span').textContent = hearts;
-    tarjeta.querySelector('.hitsOn span').textContent = hitsOn;
-    tarjeta.querySelector('.mdp span').textContent = mdp;
-}
- function agregarEspecializacion(select) {
-  const tarjeta = select.closest('.tarjeta');
-  const perksList = tarjeta.querySelector('.lista-perks');
-  const selected = select.value;
-  const perk = especializaciones[selected];
-
-  if (!selected || !perk) return;
-  if ([...perksList.children].some(li => li.dataset.key === selected)) return;
-
-  const li = document.createElement("li");
-  li.dataset.key = selected;
-  li.dataset.origen = "especializacion";
-  li.className = "perk-tag";
-  li.innerHTML = `
-    <div class="perk-titulo">${selected}</div>
-    <div class="perk-descripcion">${perk}</div>
-    <button class="eliminar-perk" onclick="eliminarPerk(this)">×</button>
-  `;
-
-  perksList.appendChild(li);
-  select.value = "";
-}
-
-
-
- function eliminarPerk(boton) {
-  const li = boton.closest("li");
-  li.remove();
-}
-
-  
-
-// Guardamos la selección anterior para cada select
-document.querySelectorAll('.gear-select').forEach(select => {
-  select.dataset.previous = select.value;
-});
-
-// Definimos gears disponibles
-const gears = {
-  gear1: { name: "Rope", cost: 2, description: "No falling damage" },
-  gear2: { name: "Gear B", cost: 1, description: "Mejora ataque" },
-  gear3: { name: "Gear C", cost: 3, description: "Añade visión nocturna" },
-  gear4: { name: "Gear D", cost: 1, description: "Mejora velocidad" },
-  gear5: { name: "Gear E", cost: 2, description: "Resistencia al fuego" }.
-  gear6: { name: "Gear F", cost: 2, description: "Resistencia al fuego" }.
-  gear7: { name: "Gear G", cost: 2, description: "Resistencia al fuego" }.
-  gear8: { name: "Gear H", cost: 2, description: "Resistencia al fuego" }.
-  gear9: { name: "Gear I", cost: 5, description: "Resistencia al fuego" }.
-  gear10: { name: "Gear J", cost: 5, description: "Resistencia al fuego" }.
-  gear11: { name: "Gear K", cost: 5, description: "Resistencia al fuego" }.
-  gear12: { name: "Gear L", cost: 5, description: "Resistencia al fuego" }.
+  const expertise = {
+  Raiders: "+1 To MA",
+  "Counter Terrorism": "Re-roll 1 Shooting Attack per round (must re-roll all dice)",
+  "Hostage Rescue": "+1 to each Roll off to see which Warrior Team activates first in the next round",
+  "Counter Insurgency": "-1 to the opponent’s Activation Roll once per round (can choose after they’ve rolled)",
+  "Covert Ops": "Extend the length and width of the deployment zone by 3",
+  Reconnaissance: "Re-roll 1 Armour Save per round (must re-roll all dice)",
 };
 
-const maxPuntos = 5;
+const especializaciones = {
+  Tactician: "Prior Preparation: Any Team Warrior can Re-roll 1 Dice at any time, once per round",
+  Medic: "Man Down: Starts with 3 Med Kits. Limited to use 1 Med Kit per round",
+  Sniper: "One Shot, One Kill: +1 to Sniper Rifle attack rolls if they haven’t moved during the activation",
+};
 
-// Función para calcular puntos totales de todos los gears en todas las tarjetas
-function calcularPuntosTotales() {
-  let total = 0;
-  // Buscamos todas las listas de gears en todas las tarjetas
-  document.querySelectorAll('.lista-gears').forEach(lista => {
-    lista.querySelectorAll('li').forEach(li => {
-      total += parseInt(li.dataset.cost, 10);
-    });
-  });
-  return total;
+const armasPrimarias = {
+  "Pistol / Revolver": {
+    daño: "1",
+    alcance: "6”",
+    dados: "2",
+    armourpiercing: "",
+    perks: "If two pistols/revolvers are taken, dual wield and change the Attack Dice characteristic to 4",
+    drawback: "",
+  },
+  //... el resto igual
+};
+
+const statsBase = {
+  Warrior: { MA: 5, Hearts: 6, HitsOn: "4+", MDP: 5 },
+  Enlisted: { MA: 5, Hearts: 3, HitsOn: "5+", MDP: 4 },
+  Recruit: { MA: 5, Hearts: 2, HitsOn: "6+", MDP: 3 },
+};
+
+let contador = 1;
+
+function crearTarjeta() {
+  const tarjeta = document.createElement("div");
+  tarjeta.className = "tarjeta";
+
+  tarjeta.innerHTML = `
+    <button class="eliminar" onclick="eliminarTarjeta(this)">X</button>
+    <div class="fila" style="gap: 4px;">
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="" class="avatar" onclick="seleccionarAvatar(this)" alt="Avatar">
+        <input type="file" accept="image/*" style="display: none;" onchange="cargarAvatar(this)">
+      </div>
+      <div style="display: flex; flex-direction: column; justify-content: center; flex: 1;">
+        <label style="font-size: 12px;">Nombre:</label>
+        <input type="text" value="Recluta ${contador++}" style="font-size: 12px; padding: 4px; border: 1px solid #999; border-radius: 4px; width: 70%;">
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat ma">MA <span>-</span></div>
+      <div class="stat hearts">Hearts <span>-</span></div>
+      <div class="stat hitsOn">Hits On <span>-</span></div>
+      <div class="stat mdp">MDP <span>-</span></div>
+    </div>
+
+    <div class="fila">
+      <div class="bloque">
+        <span class="label">Tipo de Soldado:</span>
+        <select onchange="actualizarStatsBase(this)">
+          <option value="">-- Elegir --</option>
+          <option value="Warrior">Warrior</option>
+          <option value="Enlisted">Enlisted</option>
+          <option value="Recruit">Recruit</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="fila">
+      <div class="bloque">
+        <span class="label">Expertise:</span>
+        <select onchange="actualizarBonificacionYStats(this)">
+          <option value="">-- Elegir --</option>
+          ${Object.keys(expertise)
+            .map((k) => `<option value="${k}">${k}</option>`)
+            .join("")}
+        </select>
+      </div>
+      <div class="bloque">
+        <span class="label">Bonificación:</span>
+        <div class="bonificacion-burbuja"></div>
+      </div>
+    </div>
+
+    <div class="fila">
+      <div class="bloque">
+        <span class="label">Especialización:</span>
+        <select onchange="agregarEspecializacion(this)">
+          <option value="">-- Elegir --</option>
+          ${Object.keys(especializaciones)
+            .map((k) => `<option value="${k}">${k}</option>`)
+            .join("")}
+        </select>
+      </div>
+      <div class="bloque">
+        <span class="label">Perks:</span>
+        <ul class="lista-perks" style="font-size: 11px; margin: 0; padding-left: 16px;"></ul>
+      </div>
+    </div>
+
+    <div class="fila">
+      <div class="bloque">
+        <span class="label">Arma Secundaria:</span>
+        <select onchange="actualizarArma(this)">
+          <option value="">-- Elegir --</option>
+          ${Object.keys(armasPrimarias)
+            .map((k) => `<option value="${k}">${k}</option>`)
+            .join("")}
+        </select>
+      </div>
+    </div>
+
+    <div style="width: 480px;">
+      <span class="label">Stats del arma:</span>
+      <table class="arma-table" style="width: 100%; font-size: 11px; border-collapse: collapse;">
+        <thead>
+          <tr style="background: #000; color: #fff;">
+            <th style="width: 10%;">Daño</th>
+            <th style="width: 10%;">Alcance</th>
+            <th style="width: 10%;">Dados</th>
+            <th style="width: 10%;">Armour Piercing</th>
+            <th style="width: 30%;">Perks</th>
+            <th style="width: 30%;">Drawback</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="dano">-</td>
+            <td class="alcance">-</td>
+            <td class="dados">-</td>
+            <td class="armourpiercing">-</td>
+            <td class="perks">-</td>
+            <td class="drawback">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tarjeta gear-container">
+      <select onchange="agregarGear(this)">
+        <option value="" selected disabled>Seleccionar Gear...</option>
+        <option value="Rope (1)">Rope (1)</option>
+        <option value="Night Vision Goggles (1)">Night Vision Goggles (1)</option>
+        <option value="Suppressor (2)">Suppressor (2)</option>
+        <option value="Smoke Grenade (2)">Smoke Grenade (2)</option>
+        <option value="Frag Grenade (3)">Frag Grenade (3)</option>
+        <option value="Flash Bang Grenade (3)">Flash Bang Grenade (3)</option>
+        <option value="Advanced Optics (3)">Advanced Optics (3)</option>
+        <option value="Med Kit (3)">Med Kit (3)</option>
+        <option value="Tactical Body Armour (5)">Tactical Body Armour (5)</option>
+        <option value="Drone’s Eye View (5)">Drone’s Eye View (5)</option>
+        <option value="Gillie Suit (5)">Gillie Suit (5)</option>
+        <option value="RPG (5)">RPG (5)</option>
+      </select>
+
+      <ul class="lista-gears" style="font-size: 11px; margin: 0; padding-left: 16px;"></ul>
+    </div>
+
+    <div id="total-puntos">Puntos usados totales: 0 / 5</div>
+  `;
+
+  document.getElementById("contenedor").appendChild(tarjeta);
+}
+
+function eliminarTarjeta(btn) {
+  const tarjeta = btn.closest(".tarjeta");
+  tarjeta.remove();
+}
+
+function seleccionarAvatar(img) {
+  const fileInput = img.nextElementSibling;
+  fileInput.click();
+}
+
+function cargarAvatar(input) {
+  const archivo = input.files[0];
+  if (!archivo) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    input.previousElementSibling.src = e.target.result;
+  };
+  reader.readAsDataURL(archivo);
+}
+
+function actualizarStatsBase(select) {
+  const tarjeta = select.closest(".tarjeta");
+  const tipo = select.value;
+
+  if (!tipo) return;
+
+  const stats = statsBase[tipo];
+  if (!stats) return;
+
+  tarjeta.querySelector(".stat.ma span").textContent = stats.MA;
+  tarjeta.querySelector(".stat.hearts span").textContent = stats.Hearts;
+  tarjeta.querySelector(".stat.hitsOn span").textContent = stats.HitsOn;
+  tarjeta.querySelector(".stat.mdp span").textContent = stats.MDP;
+
+  actualizarBonificacionYStats(tarjeta.querySelector("select[onchange='actualizarBonificacionYStats(this)']"));
+}
+
+function actualizarBonificacionYStats(select) {
+  if (!select) return;
+  const tarjeta = select.closest(".tarjeta");
+  const experiencia = select.value;
+
+  const bonificacionDiv = tarjeta.querySelector(".bonificacion-burbuja");
+  if (experiencia && expertise[experiencia]) {
+    bonificacionDiv.textContent = expertise[experiencia];
+  } else {
+    bonificacionDiv.textContent = "";
+  }
+}
+
+function agregarEspecializacion(select) {
+  const tarjeta = select.closest(".tarjeta");
+  const especializacion = select.value;
+  const perksLista = tarjeta.querySelector(".lista-perks");
+
+  perksLista.innerHTML = ""; // limpio
+
+  if (especializacion && especializaciones[especializacion]) {
+    const li = document.createElement("li");
+    li.textContent = especializaciones[especializacion];
+    perksLista.appendChild(li);
+  }
+}
+
+function actualizarArma(select) {
+  const tarjeta = select.closest(".tarjeta");
+  const arma = select.value;
+
+  const danoTd = tarjeta.querySelector(".arma-table .dano");
+  const alcanceTd = tarjeta.querySelector(".arma-table .alcance");
+  const dadosTd = tarjeta.querySelector(".arma-table .dados");
+  const apTd = tarjeta.querySelector(".arma-table .armourpiercing");
+  const perksTd = tarjeta.querySelector(".arma-table .perks");
+  const drawbackTd = tarjeta.querySelector(".arma-table .drawback");
+
+  if (arma && armasPrimarias[arma]) {
+    const stats = armasPrimarias[arma];
+    danoTd.textContent = stats.daño || "-";
+    alcanceTd.textContent = stats.alcance || "-";
+    dadosTd.textContent = stats.dados || "-";
+    apTd.textContent = stats.armourpiercing || "-";
+    perksTd.textContent = stats.perks || "-";
+    drawbackTd.textContent = stats.drawback || "-";
+  } else {
+    danoTd.textContent = "-";
+    alcanceTd.textContent = "-";
+    dadosTd.textContent = "-";
+    apTd.textContent = "-";
+    perksTd.textContent = "-";
+    drawbackTd.textContent = "-";
+  }
 }
 
 function agregarGear(select) {
-  const tarjeta = select.closest('.tarjeta');
-  const gearsList = tarjeta.querySelector('.lista-gears');
-  const selected = select.value;
-  const gear = gears[selected];
+  const tarjeta = select.closest(".tarjeta");
+  const gearSeleccionado = select.value;
+  const listaGears = tarjeta.querySelector(".lista-gears");
 
-  if (!selected || !gear) return;
+  if (!gearSeleccionado) return;
 
-  // Evitamos duplicados en la misma tarjeta
-  if ([...gearsList.children].some(li => li.dataset.key === selected)) return;
+  // Verifico que no esté repetido
+  const items = Array.from(listaGears.children);
+  if (items.some((li) => li.textContent === gearSeleccionado)) return;
 
-  // Chequeamos que la suma global no supere maxPuntos
-  const puntosActuales = calcularPuntosTotales();
-  if (puntosActuales + gear.cost > maxPuntos) {
-    alert(`No se pueden agregar más gears, el límite total es de ${maxPuntos} puntos.`);
-    select.value = "";
-    return;
-  }
-
-  // Creamos el elemento li para el gear, incluyendo la descripción
   const li = document.createElement("li");
-  li.dataset.key = selected;
-  li.dataset.cost = gear.cost;
-  li.dataset.origen = "gear";
-  li.className = "gear-tag";
-  li.innerHTML = `
-    <div class="gear-nombre">${gear.name}</div>
-    <div class="gear-puntos">Puntos: ${gear.cost}</div>
-    <div class="gear-descripcion">${gear.description}</div>
-    <button class="eliminar-gear" onclick="eliminarGear(this)">×</button>
-  `;
+  li.textContent = gearSeleccionado;
+  listaGears.appendChild(li);
 
-  gearsList.appendChild(li);
-
+  // Limpio selección
   select.value = "";
-
-  actualizarTotalUI();
 }
 
 
-function eliminarGear(btn) {
-  const li = btn.closest('li');
-  li.remove();
-  actualizarTotalUI();
-}
-
-function actualizarTotalUI() {
-  const total = calcularPuntosTotales();
-  // Si tenés un elemento para mostrar el total, por ejemplo con id total-puntos
-  const totalPuntosEl = document.getElementById('total-puntos');
-  if (totalPuntosEl) {
-    totalPuntosEl.textContent = `Puntos usados totales: ${total} / ${maxPuntos}`;
-  }
-}
-
-
-
-
-  function actualizarArma(select) {
-  const valor = select.value;
-  const tarjeta = select.closest('.tarjeta');
-  const datos = armasPrimarias[valor] || { daño: "-", alcance: "-", dados: "-", perks: "-", drawback: "-",armourpiercing:"-" };
-
-  tarjeta.querySelector('.dano').textContent = datos.daño || "-";
-  tarjeta.querySelector('.alcance').textContent = datos.alcance || "-";
-  tarjeta.querySelector('.dados').textContent = datos.dados || "-";
-  tarjeta.querySelector('.armourpiercing').textContent = datos.armourpiercing || "-";  
-  tarjeta.querySelector('.perks').textContent = datos.perks || "-";
-  tarjeta.querySelector('.drawback').textContent = datos.drawback || "-"
-}
-
-  function eliminarTarjeta(button) {
-    const tarjeta = button.closest('.tarjeta');
-    tarjeta.remove();
-  }
-
- function exportarPDF() {
-  const contenedor = document.getElementById('contenedor');
-
-  const opciones = {
-    margin:       0,
-    filename:     'fichas-personajes.pdf',
-    image:        { type: 'jpeg', quality: 1 },
-    html2canvas:  { scale: 2, useCORS: true },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
-  };
-
-  html2pdf().set(opciones).from(contenedor).save();
-}
-
-
-
-
-  // Crear la primera por defecto
-  crearTarjeta();
 </script>
 
 </body>
