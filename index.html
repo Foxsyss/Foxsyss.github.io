@@ -314,6 +314,9 @@ button {
     const tarjeta = document.createElement('div');
     tarjeta.className = 'tarjeta';
 
+    const gearCheckboxes = document.querySelectorAll('#gear-selection input[type=checkbox]');
+const gearError = document.getElementById('gear-error');
+
     tarjeta.innerHTML = `
   <button class="eliminar" onclick="eliminarTarjeta(this)">X</button>
   <div class="fila" style="gap: 4px;">
@@ -524,8 +527,7 @@ function actualizarBonificacionYStats(select) {
 }
 
   
-const gearCheckboxes = document.querySelectorAll('#gear-selection input[type=checkbox]');
-const gearError = document.getElementById('gear-error');
+
 
 function calcularCostoGearSeleccionado() {
   let total = 0;
