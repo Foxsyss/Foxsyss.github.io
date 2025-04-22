@@ -328,26 +328,7 @@ button {
     const bonificacion = tarjeta.querySelector('.bonificacion');
 
  }
-function agregarEspecializacion(select) {
-  const tarjeta = select.closest('.tarjeta');
-  const perksList = tarjeta.querySelector('.lista-perks');
-  const selected = select.value;
-  const perk = especializaciones[selected];
 
-  // Validar que exista y no esté ya agregado
-  if (!selected || !perk) return;
-  if ([...perksList.children].some(li => li.dataset.key === selected)) return;
-
-  // Crear elemento de perk con botón de eliminación
-  const li = document.createElement('li');
-  li.dataset.key = selected;
-  li.innerHTML = `<strong>${selected}</strong>: ${perk} <button onclick="this.parentElement.remove()" style="margin-left: 6px;">❌</button>`;
-
-  perksList.appendChild(li);
-
-  // Resetear el select
-  select.value = "";
-}
 
 
     // Traemos los stats base
