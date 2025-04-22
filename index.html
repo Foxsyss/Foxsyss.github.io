@@ -4,7 +4,19 @@
   <meta charset="UTF-8">
   <title>Fichas Dinámicas</title>
   <style>
+.print-preview-landscape #contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10mm;
+  justify-content: space-around;
+  padding: 10mm;
+  background: #fff;
+}
 
+.print-preview-landscape .tarjeta {
+  width: 85mm;
+  box-shadow: none;
+}
    @media print {
   body {
     margin: 0;
@@ -22,18 +34,15 @@
   }
 
   .tarjeta {
-  background: #f9f9f9;
-  border: 2px solid #333;
-  border-radius: 8px;
-  width: max-width;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  position: relative;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    width: 89mm;
+    height: 92.5mm;
+    box-sizing: border-box;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #000;
+  }
 }
-
 
     
     body {
@@ -518,22 +527,16 @@ function actualizarBonificacionYStats(select) {
 
  function exportarPDF() {
   const contenedor = document.getElementById('contenedor');
-  
-  // Opciones recomendadas para html2pdf
-  const opt = {
-    margin:       [10, 10, 10, 10], // mm
-    filename:     'fichas.pdf',
-    image:        { type: 'jpeg', quality: 0.98 },
+
+  const opciones = {
+    margin:       0,
+    filename:     'fichas-personajes.pdf',
+    image:        { type: 'jpeg', quality: 1 },
     html2canvas:  { scale: 2, useCORS: true },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
   };
-  
-  // Aplicar clase para vista en paisaje para el PDF
-  document.body.classList.add('print-preview-landscape');
-  
-  html2pdf().set(opt).from(contenedor).save().finally(() => {
-    document.body.classList.remove('print-preview-landscape');
-  });
+
+  html2pdf().set(opciones).from(contenedor).save();
 }
 
 
