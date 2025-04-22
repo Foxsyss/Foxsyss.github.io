@@ -1,1 +1,155 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #e6e6e6;
+}
+
+#contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tarjeta {
+  background: #f9f9f9;
+  border: 2px solid #333;
+  border-radius: 8px;
+  width: 480px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.stat {
+  background-color: #333;
+  color: #fff;
+  padding: 6px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  text-align: center;
+  flex: 1;
+  margin: 0 2px;
+}
+
+.stat span {
+  display: block;
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+.avatar {
+  width: 70px;
+  height: 70px;
+  border: 2px solid #333;
+  object-fit: cover;
+  border-radius: 4px;
+  background: #ccc;
+}
+
+.fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bloque {
+  flex: 1;
+  font-size: 12px;
+}
+
+.bloque input, .bloque select {
+  width: 100%;
+  font-size: 12px;
+  padding: 4px;
+  border: 1px solid #999;
+  border-radius: 4px;
+}
+
+.arma-table {
+  width: 100%;
+  font-size: 11px;
+  border-collapse: collapse;
+}
+
+.arma-table th, .arma-table td {
+  border: 1px solid #333;
+  padding: 4px;
+  text-align: center;
+}
+
+.arma-table thead {
+  background: #333;
+  color: #fff;
+}
+
+.eliminar {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #c00;
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#botones {
+  margin: 16px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 6px;
+  font-size: 14px;
+  border: none;
+  background: #0077cc;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+    .perk-tag {
+  display: inline-flex;
+  align-items: center;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  padding: 2px 8px;
+  margin: 2px;
+  font-size: 11px;
+}
+
+.perk-tag .eliminar-perk {
+  background: none;
+  border: none;
+  color: #888;
+  font-weight: bold;
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.perk-tag .eliminar-perk:hover {
+  color: #f00;
+}
+
+.lista-perks {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-height: 120px;
+  overflow-y: auto;
+}
 
