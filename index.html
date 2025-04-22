@@ -4,6 +4,34 @@
   <meta charset="UTF-8">
   <title>Fichas Dinámicas</title>
   <style>
+
+    @media (max-width: 600px) {
+  .tarjeta {
+    width: 95%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .fila {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .bloque {
+    width: 100%;
+  }
+
+  .perk-tag {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .bonificacion-burbuja {
+    font-size: 13px;
+    padding: 8px;
+  }
+}
+    
     body {
   font-family: Arial, sans-serif;
   background: #e6e6e6;
@@ -79,8 +107,8 @@
 
 .fila {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .bloque {
