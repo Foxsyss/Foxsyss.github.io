@@ -10,7 +10,7 @@ function crearPersonaje(personaje = null) {
   expediente.className = 'expediente';
 
   expediente.innerHTML = `
-    <label class="avatar-container">
+    <label class="contenedor-personajes">
         <img src="${personaje ? personaje.imagen : 'img/avatar-default.png'}" alt="Avatar">
         <div class="subtexto">Presione para cargar</div>
         <input type="file" accept="image/*">
