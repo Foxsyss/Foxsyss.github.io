@@ -8,7 +8,20 @@
   font-family: Arial, sans-serif;
   background: #e6e6e6;
 }
-
+.bonificacion-burbuja {
+  background-color: #d1e7dd; /* verde claro, podes cambiar */
+  border: 1px solid #0f5132; /* verde oscuro */
+  color: #0f5132;
+  border-radius: 12px;
+  padding: 6px 12px;
+  max-width: 100%;
+  font-size: 0.9em;
+  white-space: normal; /* para que el texto haga salto de línea */
+  word-wrap: break-word; /* cortar palabra si es muy larga */
+  margin-top: 4px;
+  display: inline-block;
+  box-sizing: border-box;
+}
 #contenedor {
   display: flex;
   flex-wrap: wrap;
@@ -272,18 +285,19 @@ button {
   </div>
 
   <div class="fila">
-    <div class="bloque">
-      <span class="label">Expertise:</span>
-      <select onchange="actualizarBonificacionYStats(this)">
-        <option value="">-- Elegir --</option>
-        ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
-      </select>
-    </div>
-    <div class="bloque">
-      <span class="label">Bonificación:</span>
-      <textarea class="bonificacion" readonly rows="2" style="resize:none;"></textarea>
-    </div>
+  <div class="bloque">
+    <span class="label">Expertise:</span>
+    <select onchange="actualizarBonificacionYStats(this)">
+      <option value="">-- Elegir --</option>
+      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
+    </select>
   </div>
+  <div class="bloque">
+    <span class="label">Bonificación:</span>
+    <div class="bonificacion-burbuja"></div>
+  </div>
+</div>
+
 
   <div class="fila">
   <div class="bloque">
@@ -373,10 +387,14 @@ button {
     tarjeta.querySelector('.mdp span').textContent = stats.MDP || "-";
   }
 
-  function actualizarBonificacionYStats(select) {
-    const especializacion = select.value;
-    const tarjeta = select.closest('.tarjeta');
-    const bonificacion = tarjeta.querySelector('.bonificacion');
+ function actualizarBonificacionYStats(select) {
+  const tarjeta = select.closest('.tarjeta');
+  const burbuja = tarjeta.querySelector('.bonificacion-burbuja');
+  
+  const selected = select.value;
+  const perk = especializaciones[selected] || '';
+  
+  burbuja.textContent = perk;
 
     // Traemos los stats base
     const tipoSoldado = tarjeta.querySelector("select").value;
