@@ -59,6 +59,7 @@ header h1 {
 /* Tarjetas de personaje */
 .contenedor-personajes {
   margin-top: 20px;
+  padding: 220px;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
