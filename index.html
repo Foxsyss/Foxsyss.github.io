@@ -381,18 +381,15 @@ function crearTarjeta() {
       </div>
     </div>
 
-    <div class="fila">
-  <div class="bloque" style="flex: 1;">
-    <span class="label">Especializaciones:</span>
-    <select id="select-especializacion" style="width: 100%;">
-      <option value="" disabled selected>Seleccionar especialización...</option>
-      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join('')}
-    </select>
-  </div>
-  <div class="bloque" style="flex: 1;">
-    <span class="label">Perks:</span>
-    <div class="perks-burbuja-container" style="display:flex; gap:4px; flex-wrap: wrap; min-height: 32px; border: 1px solid #ccc; padding: 4px; border-radius: 4px;"></div>
-  </div>
+   <div class="bloque">
+  <span class="label">Especialización:</span>
+  <select onchange="mostrarPerk(this)">
+    <option value="">Seleccionar Especialización...</option>
+    ${experiencias.map(exp => `<option value="${exp.nombre}">${exp.nombre}</option>`).join('')}
+  </select>
+
+  <!-- Burbujas de perk -->
+  <div class="perks"></div>
 </div>
 
     <div class="fila">
@@ -667,6 +664,25 @@ function actualizarPuntosGear(tarjeta) {
   });
 
   totalPuntosDiv.textContent = `Puntos usados totales: ${total} / 5`;
+}
+  function mostrarPerk(select) {
+  const tarjeta = select.closest('.tarjeta');
+  const perksDiv = tarjeta.querySelector('.perks');
+  const seleccion = select.value;
+
+  // Limpiar perks anteriores
+  perksDiv.innerHTML = '';
+
+  // Buscar perk correspondiente
+  const experiencia = experiencias.find(exp => exp.nombre === seleccion);
+  if (experiencia) {
+    const span = document.createElement('span');
+    span.className = 'perk-burbuja';
+    span.textContent = experiencia.perk;
+    perksDiv.appendChild(span);
+  }
+
+  guardarPersonajes();
 }
 
 
