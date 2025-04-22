@@ -233,19 +233,20 @@ button {
     <input type="text" class="bonificacion" readonly style="width: 95%;">
   </div>
 </div>
-<!-- Nueva sección de Especialización -->
 <div class="fila">
   <div class="bloque">
     <span class="label">Especialización:</span>
-    <select multiple onchange="actualizarPerksEspecializacion(this)">
-      ${Object.keys(expertise).map(k => `<option value="${k}">${k}</option>`).join("")}
+    <select onchange="agregarEspecializacion(this)">
+      <option value="">-- Elegir --</option>
+      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
     </select>
   </div>
   <div class="bloque">
     <span class="label">Perks:</span>
-    <ul class="perks-especializacion" style="font-size: 11px; margin: 0; padding-left: 16px;"></ul>
+    <ul class="lista-perks" style="font-size: 11px; margin: 0; padding-left: 16px;"></ul>
   </div>
 </div>
+
 
 
 
@@ -326,24 +327,27 @@ button {
     const tarjeta = select.closest('.tarjeta');
     const bonificacion = tarjeta.querySelector('.bonificacion');
 
-  function actualizarPerksEspecializacion(select) {
+ }
+function agregarEspecializacion(select) {
   const tarjeta = select.closest('.tarjeta');
-  const perksList = tarjeta.querySelector('.perks-especializacion');
+  const perksList = tarjeta.querySelector('.lista-perks');
+  const selected = select.value;
+  const perk = especializaciones[selected];
 
-  // Limpiar perks actuales
-  perksList.innerHTML = '';
+  // Validar que exista y no esté ya agregado
+  if (!selected || !perk) return;
+  if ([...perksList.children].some(li => li.dataset.key === selected)) return;
 
-  // Agregar perks de cada opción seleccionada
-  Array.from(select.selectedOptions).forEach(option => {
-    const perk = expertise[option.value];
-    if (perk) {
-      const li = document.createElement('li');
-      li.textContent = `${option.value}: ${perk}`;
-      perksList.appendChild(li);
-    }
-  });
+  // Crear elemento de perk con botón de eliminación
+  const li = document.createElement('li');
+  li.dataset.key = selected;
+  li.innerHTML = `<strong>${selected}</strong>: ${perk} <button onclick="this.parentElement.remove()" style="margin-left: 6px;">❌</button>`;
+
+  perksList.appendChild(li);
+
+  // Resetear el select
+  select.value = "";
 }
-
 
 
     // Traemos los stats base
