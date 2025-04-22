@@ -142,7 +142,7 @@ button {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
-  const expertise = {
+  const especializaciones = {
     Raiders: "+1 To MA",
     "Counter Terrorism" : "Re-roll 1 Shooting Attack per round (must re-roll all dice)",
     "Hostage Rescue" : "+1 to each Roll off to see which Warrior Team activates first in the next round",
@@ -176,7 +176,7 @@ button {
     const tarjeta = document.createElement('div');
     tarjeta.className = 'tarjeta';
 
-    tarjeta.innerHTML = `
+    tarjeta.innerHTML = 
       <button class="eliminar" onclick="eliminarTarjeta(this)">X</button>
        <div class="fila" style="gap: 4px;">
   <div style="display: flex; flex-direction: column; align-items: center;">
@@ -225,7 +225,7 @@ button {
     <span class="label">Expertise:</span>
     <select onchange="actualizarBonificacionYStats(this)">
       <option value="">-- Elegir --</option>
-      ${Object.keys(expertise).map(k => `<option value="${k}">${k}</option>`).join("")}
+      ${Object.keys(especializaciones).map(k => <option value="${k}">${k}</option>).join("")}
     </select>
   </div>
   <div class="bloque" >
@@ -233,20 +233,6 @@ button {
     <input type="text" class="bonificacion" readonly style="width: 95%;">
   </div>
 </div>
-<div class="fila">
-  <div class="bloque">
-    <span class="label">Especialización:</span>
-    <select onchange="agregarEspecializacion(this)">
-      <option value="">-- Elegir --</option>
-      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
-    </select>
-  </div>
-  <div class="bloque">
-    <span class="label">Perks:</span>
-    <ul class="lista-perks" style="font-size: 11px; margin: 0; padding-left: 16px;"></ul>
-  </div>
-</div>
-
 
 
 
@@ -255,7 +241,7 @@ button {
     <span class="label">Arma Secundaria:</span>
     <select onchange="actualizarArma(this)">
       <option value="">-- Elegir --</option>
-      ${Object.keys(armasPrimarias).map(k => `<option value="${k}">${k}</option>`).join("")}
+      ${Object.keys(armasPrimarias).map(k => <option value="${k}">${k}</option>).join("")}
     </select>
   </div>
 </div>
@@ -287,7 +273,7 @@ button {
   </table>
 </div>
 
-    `;
+    ;
 
     document.getElementById('contenedor').appendChild(tarjeta);
   }
@@ -327,10 +313,6 @@ button {
     const tarjeta = select.closest('.tarjeta');
     const bonificacion = tarjeta.querySelector('.bonificacion');
 
- }
-
-
-
     // Traemos los stats base
     const tipoSoldado = tarjeta.querySelector("select").value;
     const stats = statsBase[tipoSoldado] || {};
@@ -342,7 +324,7 @@ button {
     let mdp = stats.MDP || 0;
 
     // Limpiar la bonificación
-    bonificacion.value = expertise[especializacion] || "";
+    bonificacion.value = especializaciones[especializacion] || "";
 
     // Ajuste según la especialización
     if (especializacion === "Raiders") {
