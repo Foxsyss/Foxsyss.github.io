@@ -233,6 +233,19 @@ button {
     <input type="text" class="bonificacion" readonly style="width: 95%;">
   </div>
 </div>
+//bloque de especializacion
+<div class="fila">
+  <div class="bloque">
+    <span class="label">Especialización:</span>
+    <select multiple onchange="actualizarPerksEspecializacion(this)" class="select-especializacion">
+      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join("")}
+    </select>
+  </div>
+  <div class="bloque">
+    <span class="label">Perks de Especialización:</span>
+    <textarea readonly class="perks-especializacion" style="height: 60px; font-size: 11px; width: 100%;"></textarea>
+  </div>
+</div>
 
 
 
