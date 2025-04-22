@@ -1,145 +1,61 @@
-body {
-  margin: 0;
-  font-family: 'Courier New', Courier, monospace;
+/* Contenedor que aloja la imagen y el texto "presione para cargar" */
+.avatar-container {
   display: flex;
-  background-color: #e6e2d3;
-  height: 100vh;
+  flex-direction: row; /* Coloca los elementos en fila */
+  align-items: center; /* Alinea los elementos verticalmente */
+  gap: 15px; /* Espacio entre la imagen y el nombre */
 }
 
-.sidebar {
-  background-color: #3e3e3e;
-  color: white;
-  width: 220px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  box-sizing: border-box;
+/* Contenedor de la imagen con el texto superpuesto */
+.image-wrapper {
+  position: relative;
 }
 
-.sidebar h2 {
-  margin: 0;
-  font-size: 22px;
-}
-
-.sidebar button {
-  background-color: #8b7e66;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-/* Área principal */
-.main {
-  margin-left: 230px;
-  flex: 1;
-  padding: 20px;
-  box-sizing: border-box;
-  overflow-y: auto;
-  height: 100vh;
-}
-
-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-header h1 {
-  font-size: 28px;
-  margin: 0;
-}
-
-/* Tarjetas de personaje */
-.contenedor-personajes {
-  margin-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-/* Expediente / Tarjeta */
-.expediente {
-  background-color: #d0c4a8;
-  padding: 15px;
-  border: 2px solid #8b7e66;
-  border-radius: 8px;
-  width: 500px;
-  height: 350px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.expediente img {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  border: 2px solid #333;
-  border-radius: 4px;
-  cursor: pointer;
+.avatar-container img {
+  width: 100px; /* Ancho de la imagen */
+  height: 100px; /* Alto de la imagen */
+  object-fit: cover; /* Ajusta la imagen para que cubra el área sin deformarse */
+  border-radius: 50%; /* Hace que la imagen sea redonda */
+  cursor: pointer; /* Permite que se pueda hacer clic en la imagen */
 }
 
 .subtexto {
-  margin-top: 8px;
-  font-size: 14px;
-  color: #333;
+  position: absolute;
+  bottom: 10px; /* Ubica el texto cerca del borde inferior de la imagen */
+  left: 0;
+  right: 0;
   text-align: center;
-}
-
-.expediente input[type="file"] {
-  display: none;
-}
-
-.expediente input[type="text"] {
-  padding: 5px;
-  font-size: 16px;
-  border: 1px solid #666;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro para mejor visibilidad */
+  padding: 2px 0;
   border-radius: 4px;
-  margin: 10px 0;
-  width: 100%;
+}
+
+input[type="file"] {
+  display: none; /* Oculta el input file para que solo la imagen sea visible */
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column; /* Alinea el nombre debajo de la imagen */
+}
+
+input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  width: 200px; /* Ancho del campo de texto */
   box-sizing: border-box;
+  margin-top: 10px; /* Espacio entre la imagen y el nombre */
 }
 
 .eliminar-btn {
   background-color: #a03c3c;
   color: white;
+  padding: 6px 12px;
   border: none;
-  padding: 8px 10px;
-  cursor: pointer;
   border-radius: 4px;
-}
-
-/* Responsive para móviles */
-@media (max-width: 768px) {
-  .sidebar {
-    transform: translateX(-100%);
-    transition: transform 0.3s;
-    position: fixed;
-    z-index: 1000;
-  }
-
-  .sidebar.abierto {
-    transform: translateX(0);
-  }
-
-  .main {
-    margin-left: 0;
-  }
-
-  .menu-toggle {
-    display: block;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    margin-right: 10px;
-  }
+  cursor: pointer;
+  margin-top: 10px;
 }
