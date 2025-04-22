@@ -418,27 +418,18 @@ button {
 
   function exportarPDF() {
   const contenedor = document.getElementById('contenedor');
-  html2pdf()
-    .set({
-      margin: 0,
-      filename: 'fichas-personajes.pdf',
-      image: { type: 'jpeg', quality: 1 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        windowWidth: 1123,   // 297mm en 96ppi
-        windowHeight: 794    // 210mm en 96ppi
-      },
-      jsPDF: {
-        unit: 'pt',
-        format: [842, 595],  // A4 landscape en pt
-        orientation: 'landscape'
-      },
-      pagebreak: { mode: ['avoid-all', 'css'] }
-    })
-    .from(contenedor)
-    .save();
+
+  const opciones = {
+    margin:       0,
+    filename:     'fichas-personajes.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opciones).from(contenedor).save();
 }
+
 
 
 
