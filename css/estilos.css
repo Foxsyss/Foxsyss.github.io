@@ -37,7 +37,7 @@ body {
 
 /* Área principal */
 .main {
-  margin-left: 220px;
+  margin-left: 230px;
   flex: 1;
   padding: 20px;
   box-sizing: border-box;
@@ -59,7 +59,6 @@ header h1 {
 /* Tarjetas de personaje */
 .contenedor-personajes {
   margin-top: 20px;
-  margin-left: 230px;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
