@@ -386,9 +386,7 @@ function crearTarjeta() {
     <span class="label">Especializaciones:</span>
     <select id="select-especializacion" style="width: 100%;">
       <option value="" disabled selected>Seleccionar especialización...</option>
-      ${Object.keys(especializaciones)
-        .map((k) => `<option value="${k}">${k}</option>`)
-        .join("")}
+      ${Object.keys(especializaciones).map(k => `<option value="${k}">${k}</option>`).join('')}
     </select>
   </div>
   <div class="bloque" style="flex: 1;">
@@ -513,56 +511,64 @@ function actualizarBonificacionYStats(select) {
 }
 
 function agregarEspecializacion(select) {
-  const tarjeta = select.closest(".tarjeta");
-  const perksContainer = tarjeta.querySelector(".perks-burbuja-container");
+  const tarjeta = select.closest('.tarjeta');
+  const perksContainer = tarjeta.querySelector('.perks-burbuja-container');
   const especializacion = select.value;
-  
+
   if (!especializacion || !especializaciones[especializacion]) return;
 
-  // Evitar duplicados
-  if ([...perksContainer.children].some(div => div.dataset.especializacion === especializacion)) {
-    select.value = "";
+  // Evitar agregar la misma especialización más de una vez (comparar perks visibles)
+  const perksActuales = [...perksContainer.children].map(div => div.dataset.perk);
+  const perksDeEspecializacion = especializaciones[especializacion].split(',').map(p => p.trim());
+
+  const yaAgregados = perksDeEspecializacion.every(perk => perksActuales.includes(perk));
+  if (yaAgregados) {
+    alert('Esa especialización ya está agregada');
+    select.value = '';
     return;
   }
 
-  // Crear burbuja
-  const burbuja = document.createElement("div");
-  burbuja.textContent = especializaciones[especializacion];
-  burbuja.dataset.especializacion = especializacion;
-  burbuja.style.cssText = `
-    background: #007bff;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 11px;
-    cursor: default;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  `;
+  // Agregar perks como burbujas con botón para eliminar
+  perksDeEspecializacion.forEach(perk => {
+    if (!perksActuales.includes(perk)) {
+      const burbuja = document.createElement('div');
+      burbuja.textContent = perk;
+      burbuja.dataset.perk = perk;
+      burbuja.style.cssText = `
+        background: #28a745;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        cursor: default;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      `;
 
-  // Botón para eliminar
-  const btnEliminar = document.createElement("button");
-  btnEliminar.textContent = "x";
-  btnEliminar.style.cssText = `
-    background: transparent;
-    border: none;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 12px;
-    line-height: 1;
-  `;
-  btnEliminar.onclick = () => {
-    perksContainer.removeChild(burbuja);
-  };
+      const btnEliminar = document.createElement('button');
+      btnEliminar.textContent = 'x';
+      btnEliminar.style.cssText = `
+        background: transparent;
+        border: none;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 1;
+      `;
+      btnEliminar.onclick = () => {
+        perksContainer.removeChild(burbuja);
+      };
 
-  burbuja.appendChild(btnEliminar);
-  perksContainer.appendChild(burbuja);
+      burbuja.appendChild(btnEliminar);
+      perksContainer.appendChild(burbuja);
+    }
+  });
 
-  // Limpiar selección
-  select.value = "";
+  select.value = '';
 }
+
 
 function actualizarArma(select) {
   const tarjeta = select.closest(".tarjeta");
@@ -594,37 +600,63 @@ function actualizarArma(select) {
 }
 
 function agregarGear(select) {
-  const tarjeta = select.closest(".tarjeta");
+  const tarjeta = select.closest('.tarjeta');
   const gearSeleccionado = select.value;
-  const listaGears = tarjeta.querySelector(".lista-gears");
-  const totalPuntosDiv = tarjeta.querySelector("#total-puntos");
+  const listaGears = tarjeta.querySelector('.lista-gears');
+  const totalPuntosDiv = tarjeta.querySelector('#total-puntos');
 
   if (!gearSeleccionado) return;
 
-  // Evitar duplicados
-  if ([...listaGears.children].some(li => li.textContent === gearSeleccionado)) {
-    select.value = "";
+  // Calcular puntos actuales
+  const puntosActuales = [...listaGears.children].reduce((acc, li) => {
+    const match = li.textContent.match(/\((\d+)\)/);
+    return acc + (match ? parseInt(match[1], 10) : 0);
+  }, 0);
+
+  // Extraer puntos del gear seleccionado
+  const puntosGear = (() => {
+    const match = gearSeleccionado.match(/\((\d+)\)/);
+    return match ? parseInt(match[1], 10) : 0;
+  })();
+
+  if (puntosActuales + puntosGear > 5) {
+    alert('No se pueden superar los 5 puntos en total de gears.');
+    select.value = '';
     return;
   }
 
-  const li = document.createElement("li");
+  // Evitar duplicados
+  if ([...listaGears.children].some(li => li.textContent === gearSeleccionado)) {
+    alert('Ya agregaste ese gear.');
+    select.value = '';
+    return;
+  }
+
+  const li = document.createElement('li');
   li.textContent = gearSeleccionado;
+
+  // Botón para eliminar gear y actualizar puntos
+  const btnEliminar = document.createElement('button');
+  btnEliminar.textContent = 'x';
+  btnEliminar.style.marginLeft = '10px';
+  btnEliminar.onclick = () => {
+    listaGears.removeChild(li);
+    actualizarPuntosGear(tarjeta);
+  };
+
+  li.appendChild(btnEliminar);
   listaGears.appendChild(li);
 
-  // Actualizar puntos totales
   actualizarPuntosGear(tarjeta);
-
-  // Limpiar selección
-  select.value = "";
+  select.value = '';
 }
 
 function actualizarPuntosGear(tarjeta) {
-  const listaGears = tarjeta.querySelector(".lista-gears");
-  const totalPuntosDiv = tarjeta.querySelector("#total-puntos");
+  const listaGears = tarjeta.querySelector('.lista-gears');
+  const totalPuntosDiv = tarjeta.querySelector('#total-puntos');
 
   let total = 0;
   [...listaGears.children].forEach(li => {
-    // Extraer el número entre paréntesis
     const match = li.textContent.match(/\((\d+)\)/);
     if (match) {
       total += parseInt(match[1], 10);
