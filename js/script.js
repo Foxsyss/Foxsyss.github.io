@@ -10,13 +10,18 @@ function crearPersonaje(personaje = null) {
   expediente.className = 'expediente';
 
   expediente.innerHTML = `
-    <label>
-      <img src="${personaje ? personaje.imagen : 'img/avatar-default.png'}" alt="Avatar">
-      <div class="subtexto">Presione para cargar</div>
-      <input type="file" accept="image/*">
+    <label class="avatar-container">
+        <img src="${personaje ? personaje.imagen : 'img/avatar-default.png'}" alt="Avatar">
+        <div class="subtexto">Presione para cargar</div>
+        <input type="file" accept="image/*">
     </label>
-    <input type="text" placeholder="Nombre del personaje" value="${personaje ? personaje.nombre : ''}">
-    <button class="eliminar-btn">Eliminar</button>
+
+        <div class="info-container">
+          <input type="text" placeholder="Nombre del personaje" value="${personaje ? personaje.nombre : ''}">
+        </div>
+
+<button class="eliminar-btn">Eliminar</button>
+
   `;
 
   // Evento para cambiar imagen
