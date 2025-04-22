@@ -514,16 +514,54 @@ function actualizarBonificacionYStats(select) {
 
 function agregarEspecializacion(select) {
   const tarjeta = select.closest(".tarjeta");
+  const perksContainer = tarjeta.querySelector(".perks-burbuja-container");
   const especializacion = select.value;
-  const perksLista = tarjeta.querySelector(".lista-perks");
+  
+  if (!especializacion || !especializaciones[especializacion]) return;
 
-  perksLista.innerHTML = ""; // limpio
-
-  if (especializacion && especializaciones[especializacion]) {
-    const li = document.createElement("li");
-    li.textContent = especializaciones[especializacion];
-    perksLista.appendChild(li);
+  // Evitar duplicados
+  if ([...perksContainer.children].some(div => div.dataset.especializacion === especializacion)) {
+    select.value = "";
+    return;
   }
+
+  // Crear burbuja
+  const burbuja = document.createElement("div");
+  burbuja.textContent = especializaciones[especializacion];
+  burbuja.dataset.especializacion = especializacion;
+  burbuja.style.cssText = `
+    background: #007bff;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  `;
+
+  // Botón para eliminar
+  const btnEliminar = document.createElement("button");
+  btnEliminar.textContent = "x";
+  btnEliminar.style.cssText = `
+    background: transparent;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1;
+  `;
+  btnEliminar.onclick = () => {
+    perksContainer.removeChild(burbuja);
+  };
+
+  burbuja.appendChild(btnEliminar);
+  perksContainer.appendChild(burbuja);
+
+  // Limpiar selección
+  select.value = "";
 }
 
 function actualizarArma(select) {
