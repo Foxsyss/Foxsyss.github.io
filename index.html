@@ -454,8 +454,9 @@ function actualizarBonificacionYStats(select) {
 
 
 
-  function eliminarPerk(btn) {
-  btn.parentElement.remove();
+ function eliminarPerk(boton) {
+  const li = boton.closest("li");
+  li.remove();
 }
 
 
