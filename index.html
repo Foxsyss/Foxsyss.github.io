@@ -2,21 +2,24 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Hoja de Personaje</title>
+  <title>Creador de personajes Rogue Warrior</title>
   <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-  <div class="expediente">
-    <div class="avatar">
-      <label for="cargarImagen">
-        <img id="fotoAvatar" src="img/avatar-default.png" alt="Avatar">
-        <div class="subtexto">Presione para cargar</div>
-      </label>
-      <input type="file" id="cargarImagen" accept="image/*">
-    </div>
-    <div class="info">
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" placeholder="Nombre del personaje">
+
+  <div class="sidebar" id="sidebar">
+    <h2>Rogue Warrior</h2>
+    <button onclick="crearPersonaje()">Crear personaje</button>
+  </div>
+
+  <div class="main">
+    <header>
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <h1>Creador de personajes Rogue Warrior</h1>
+    </header>
+
+    <div class="contenedor-personajes" id="contenedorPersonajes">
+      <!-- Aquí se agregan las tarjetas -->
     </div>
   </div>
 
