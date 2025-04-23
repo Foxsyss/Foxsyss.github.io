@@ -7,4 +7,6 @@
   background-color: #fff;  /* Fondo blanco para el marco */
   box-shadow: 0 0 10px rgba(0,0,0,0.3); /* Sombra para dar profundidad */
   border-radius: 8px;      /* Bordes redondeados, opcional */
+  width:45px;
+  heiht:45px; 
 }
