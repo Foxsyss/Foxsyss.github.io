@@ -1,10 +1,10 @@
 .tarjeta {
    background-color:#e4eaaf;
 }
-.avatar{
-   width:80px;
-   height:80px;
-   border-width:medium;
-   border-color:black;
-   padding:20px;
+.avatar {
+  border: 4px solid #000; /* Borde negro de 4 píxeles */
+  padding: 5px;            /* Espacio entre la imagen y el borde */
+  background-color: #fff;  /* Fondo blanco para el marco */
+  box-shadow: 0 0 10px rgba(0,0,0,0.3); /* Sombra para dar profundidad */
+  border-radius: 8px;      /* Bordes redondeados, opcional */
 }
