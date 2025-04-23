@@ -80,6 +80,37 @@ body {
   gap: 20px;
 }
 
+.stats-grid {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.stat-box {
+  width: 60px;
+  height: 60px;
+  background: black;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.stat-box span {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.leyenda {
+  font-size: 13px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
 .gear-list {
   display: flex;
   flex-wrap: wrap;
