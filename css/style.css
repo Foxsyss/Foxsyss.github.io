@@ -1,6 +1,7 @@
 .tarjeta {
    background-color:#e4eaaf;
    display: flex;
+   align-item:center;
    gap: 10px;             /* Espacio entre elementos */
 }
 .avatar {
