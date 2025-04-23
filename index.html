@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hoja de Personaje - Rogue Warriors</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
@@ -25,11 +25,28 @@
 
         <div class="fila">
           <label>Expertise</label>
-          <select>
-            <option>Seleccione</option>
-            <option>Francotirador</option>
-            <option>Asalto</option>
+          <select id="expertiseSelect">
+            <option value="">Seleccione</option>
+            <option value="Asalto">Asalto</option>
+            <option value="Francotirador">Francotirador</option>
+            <option value="Médico">Médico</option>
           </select>
+        </div>
+
+        <!-- Cuadros negros de stats -->
+        <div class="stats-grid">
+          <div class="stat-box"><span>MA</span><strong id="stat-ma">0</strong></div>
+          <div class="stat-box"><span>D</span><strong id="stat-d">0</strong></div>
+          <div class="stat-box"><span>H</span><strong id="stat-h">0</strong></div>
+          <div class="stat-box"><span>MDP</span><strong id="stat-mdp">0</strong></div>
+        </div>
+
+        <!-- Leyenda -->
+        <div class="leyenda">
+          <p><strong>MA:</strong> Movimiento o Ataque</p>
+          <p><strong>D:</strong> Defensa</p>
+          <p><strong>H:</strong> Habilidad</p>
+          <p><strong>MDP:</strong> Maestría de Dispositivos / Poder especial</p>
         </div>
 
         <div class="fila">
@@ -82,6 +99,6 @@
     </main>
   </div>
 
-  <script src="js/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
