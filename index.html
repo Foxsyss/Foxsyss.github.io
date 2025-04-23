@@ -2,105 +2,15 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hoja de Personaje - Rogue Warriors</title>
-  <link rel="stylesheet" href="css/style.css" />
+    <title>Hoja de Personaje - Rogue Warriors</title>
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="container">
-    <aside class="sidebar">
-      <h2>Rogue WArriors</h2>
-      <button onclick="crearPersonaje()">Crear Personaje</button>
-    </aside>
+ <div class="tarjeta">
+    
 
-    <main class="card">
-      <div class="form">
-        <div class="avatar-nombre">
-          <img src="https://via.placeholder.com/80" alt="Avatar" class="avatar"/>
-          <div>
-            <label>Nombre</label>
-            <input type="text" placeholder="Ingrese un Nombre" />
-          </div>
-        </div>
-
-        <div class="fila">
-          <label>Expertise</label>
-          <select id="expertiseSelect">
-            <option value="">Seleccione</option>
-            <option value="Asalto">Asalto</option>
-            <option value="Francotirador">Francotirador</option>
-            <option value="Médico">Médico</option>
-          </select>
-        </div>
-
-        <!-- Cuadros negros de stats -->
-        <div class="stats-grid">
-          <div class="stat-box"><span>MA</span><strong id="stat-ma">0</strong></div>
-          <div class="stat-box"><span>D</span><strong id="stat-d">0</strong></div>
-          <div class="stat-box"><span>H</span><strong id="stat-h">0</strong></div>
-          <div class="stat-box"><span>MDP</span><strong id="stat-mdp">0</strong></div>
-        </div>
-
-        <!-- Leyenda -->
-        <div class="leyenda">
-          <p><strong>MA:</strong> Movimiento o Ataque</p>
-          <p><strong>D:</strong> Defensa</p>
-          <p><strong>H:</strong> Habilidad</p>
-          <p><strong>MDP:</strong> Maestría de Dispositivos / Poder especial</p>
-        </div>
-
-        <div class="fila">
-          <label>Arma secundaria</label>
-          <select id="armaSecundariaSelect">
-            <option>Seleccione el arma</option>
-            <option>Escopeta</option>
-            <option>Pistola</option>
-          </select>
-        </div>
-
-        <!-- Tabla de stats del arma -->
-        <div id="tablaArmaSecundaria" class="arma-tabla"></div>
-
-        <div class="fila">
-          <label>Perks del arma</label>
-          <textarea placeholder="Escribe los perks..."></textarea>
-        </div>
-
-        <div class="fila">
-          <label>Especialización</label>
-          <select>
-            <option>Seleccione Especialización</option>
-            <option>Explosivos</option>
-            <option>Sigilo</option>
-          </select>
-        </div>
-
-        <div class="fila doble">
-          <div>
-            <label>Raider</label>
-            <textarea placeholder="Valor"></textarea>
-          </div>
-          <div>
-            <label>Medic</label>
-            <textarea placeholder="Valor"></textarea>
-          </div>
-        </div>
-
-        <div class="fila">
-          <label>Gears</label>
-          <select id="gearSelect" onchange="agregarGear()">
-            <option value="">Value</option>
-            <option value="Granada 2pts">Granada 2pts</option>
-            <option value="Cuerda 2pts">Cuerda 2pts</option>
-            <option value="Botiquín 1pts">Botiquín 1pts</option>
-          </select>
-        </div>
-
-        <div id="gearList" class="gear-list"></div>
-        <p id="puntos">Total de Puntos 0/5</p>
-      </div>
-    </main>
-  </div>
+   
+ </div>
 
   <script src="js/script.js"></script>
 </body>
