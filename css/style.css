@@ -134,3 +134,23 @@ body {
   color: red;
   cursor: pointer;
 }
+.arma-tabla {
+  margin-top: 15px;
+}
+
+.arma-tabla table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.arma-tabla th,
+.arma-tabla td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
