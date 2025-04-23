@@ -41,19 +41,32 @@
           <div class="stat-box"><span>MDP</span><strong id="stat-mdp">0</strong></div>
         </div>
 
+        <!-- Leyenda -->
+        <div class="leyenda">
+          <p><strong>MA:</strong> Movimiento o Ataque</p>
+          <p><strong>D:</strong> Defensa</p>
+          <p><strong>H:</strong> Habilidad</p>
+          <p><strong>MDP:</strong> Maestría de Dispositivos / Poder especial</p>
+        </div>
+
         <div class="fila">
           <label>Arma secundaria</label>
-          <select>
-            
+          <select id="armaSecundariaSelect">
             <option>Seleccione el arma</option>
             <option>Escopeta</option>
             <option>Pistola</option>
           </select>
         </div>
-          
-          <div id="tablaArmaSecundaria" class="arma-tabla"></div>
 
-         <div class="fila">
+        <!-- Tabla de stats del arma -->
+        <div id="tablaArmaSecundaria" class="arma-tabla"></div>
+
+        <div class="fila">
+          <label>Perks del arma</label>
+          <textarea placeholder="Escribe los perks..."></textarea>
+        </div>
+
+        <div class="fila">
           <label>Especialización</label>
           <select>
             <option>Seleccione Especialización</option>
