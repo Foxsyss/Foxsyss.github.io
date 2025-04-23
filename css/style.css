@@ -9,5 +9,10 @@
   border-radius: 8px;      /* Bordes redondeados, opcional */
   width:45px;
   heiht:45px; 
-  object-fit:cover; /*ajusta la imagen al marco */
+  
+}
+.imagen-ajustada{
+   object-fit:cover; /*ajusta la imagen al marco */
+   width:100%
+   height:100%
 }
