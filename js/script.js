@@ -1,3 +1,24 @@
+const statsPorArma = {
+  "Escopeta": {
+    Nombre: "Escopeta",
+    Daño: 8,
+    Alcance: 2,
+    Precisión: 5,
+    Munición: 4,
+    Recarga: "Media",
+    Ruido: "Alto"
+  },
+  "Pistola": {
+    Nombre: "Pistola",
+    Daño: 4,
+    Alcance: 5,
+    Precisión: 7,
+    Munición: 8,
+    Recarga: "Rápida",
+    Ruido: "Bajo"
+  }
+};
+
 let puntos = 0;
 const maxPuntos = 5;
 
