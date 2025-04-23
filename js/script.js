@@ -19,6 +19,32 @@ const statsPorArma = {
   }
 };
 
+document.addEventListener("DOMContentLoaded", () => {
+  const armaSelect = document.querySelector('select:nth-of-type(2)');
+  const tablaContenedor = document.getElementById("tablaArmaSecundaria");
+
+  armaSelect.addEventListener("change", (e) => {
+    const arma = e.target.value;
+    const stats = statsPorArma[arma];
+    if (!stats) {
+      tablaContenedor.innerHTML = "";
+      return;
+    }
+
+    const headers = Object.keys(stats);
+    const values = Object.values(stats);
+
+    const tablaHTML = `
+      <table>
+        <tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr>
+        <tr>${values.map(v => `<td>${v}</td>`).join("")}</tr>
+      </table>
+    `;
+
+    tablaContenedor.innerHTML = tablaHTML;
+  });
+});
+
 let puntos = 0;
 const maxPuntos = 5;
 
