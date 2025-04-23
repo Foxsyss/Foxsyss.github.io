@@ -1,22 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Creador de personajes Rogue Warrior</title>
-  <link rel="stylesheet" href="css/estilos.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hoja de Personaje - Rogue Warriors</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Rogue WArriors</h2>
+      <button onclick="crearPersonaje()">Crear Personaje</button>
+    </aside>
 
-  <div class="sidebar" id="sidebar">
-    <h2>Rogue Warrior</h2>
-    <button onclick="crearPersonaje()">Crear personaje</button>
+    <main class="card">
+      <div class="form">
+        <div class="avatar-nombre">
+          <img src="https://via.placeholder.com/80" alt="Avatar" class="avatar"/>
+          <div>
+            <label>Nombre</label>
+            <input type="text" placeholder="Ingrese un Nombre" />
+          </div>
+        </div>
+
+        <div class="fila">
+          <label>Expertise</label>
+          <select>
+            <option>Seleccione</option>
+            <option>Francotirador</option>
+            <option>Asalto</option>
+          </select>
+        </div>
+
+        <div class="fila">
+          <label>Arma secundaria</label>
+          <select>
+            <option>Seleccione el arma</option>
+            <option>Escopeta</option>
+            <option>Pistola</option>
+          </select>
+        </div>
+
+        <div class="fila">
+          <label>Perks del arma</label>
+          <textarea placeholder="Escribe los perks..."></textarea>
+        </div>
+
+        <div class="fila">
+          <label>Especialización</label>
+          <select>
+            <option>Seleccione Especialización</option>
+            <option>Explosivos</option>
+            <option>Sigilo</option>
+          </select>
+        </div>
+
+        <div class="fila doble">
+          <div>
+            <label>Raider</label>
+            <textarea placeholder="Valor"></textarea>
+          </div>
+          <div>
+            <label>Medic</label>
+            <textarea placeholder="Valor"></textarea>
+          </div>
+        </div>
+
+        <div class="fila">
+          <label>Gears</label>
+          <select id="gearSelect" onchange="agregarGear()">
+            <option value="">Value</option>
+            <option value="Granada 2pts">Granada 2pts</option>
+            <option value="Cuerda 2pts">Cuerda 2pts</option>
+            <option value="Botiquín 1pts">Botiquín 1pts</option>
+          </select>
+        </div>
+
+        <div id="gearList" class="gear-list"></div>
+        <p id="puntos">Total de Puntos 0/5</p>
+      </div>
+    </main>
   </div>
 
-  <div class="contenedor-personajes" id="contenedorPersonajes">
-      <!-- Aquí se agregan las tarjetas -->
-    </div>
-  </div>
-
-  <script src="js/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
