@@ -1,61 +1,105 @@
-/* Contenedor que aloja la imagen y el texto "presione para cargar" */
-.avatar-container {
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f0f0f0;
+}
+
+.container {
   display: flex;
-  flex-direction: row; /* Coloca los elementos en fila */
-  align-items: center; /* Alinea los elementos verticalmente */
-  gap: 15px; /* Espacio entre la imagen y el nombre */
+  height: 100vh;
 }
 
-/* Contenedor de la imagen con el texto superpuesto */
-.image-wrapper {
-  position: relative;
+.sidebar {
+  width: 180px;
+  background: #e0ca6c;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
 
-.avatar-container img {
-  width: 100px; /* Ancho de la imagen */
-  height: 100px; /* Alto de la imagen */
-  object-fit: cover; /* Ajusta la imagen para que cubra el área sin deformarse */
-  border-radius: 50%; /* Hace que la imagen sea redonda */
-  cursor: pointer; /* Permite que se pueda hacer clic en la imagen */
-}
-
-.subtexto {
-  position: absolute;
-  bottom: 10px; /* Ubica el texto cerca del borde inferior de la imagen */
-  left: 0;
-  right: 0;
-  text-align: center;
-  color: white;
-  font-size: 14px;
+.sidebar h2 {
   font-weight: bold;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro para mejor visibilidad */
-  padding: 2px 0;
-  border-radius: 4px;
+  font-family: 'Georgia', serif;
 }
 
-input[type="file"] {
-  display: none; /* Oculta el input file para que solo la imagen sea visible */
-}
-
-.info-container {
-  display: flex;
-  flex-direction: column; /* Alinea el nombre debajo de la imagen */
-}
-
-input[type="text"] {
-  padding: 10px;
-  font-size: 16px;
-  width: 200px; /* Ancho del campo de texto */
-  box-sizing: border-box;
-  margin-top: 10px; /* Espacio entre la imagen y el nombre */
-}
-
-.eliminar-btn {
-  background-color: #a03c3c;
+.sidebar button {
+  margin-top: 20px;
+  background: #333;
   color: white;
-  padding: 6px 12px;
+  padding: 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+}
+
+.card {
+  flex: 1;
+  background: #dcdcdc;
+  margin: 20px;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.form {
+  width: 100%;
+  max-width: 800px;
+}
+
+.avatar-nombre {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+}
+
+.fila {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.fila select,
+.fila input,
+.fila textarea {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+  font-size: 14px;
+}
+
+.fila.doble {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.gear-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: 10px;
+}
+
+.gear-tag {
+  background: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+}
+
+.gear-tag button {
+  margin-left: 8px;
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
 }
