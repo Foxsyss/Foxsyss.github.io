@@ -41,3 +41,25 @@ function actualizarPuntos() {
 function crearPersonaje() {
   alert("Función para crear personaje en desarrollo...");
 }
+
+// =================== EXPERTISE STATS ===================
+const statsPorExpertise = {
+  "Asalto":   { MA: 3, D: 2, H: 1, MDP: 0 },
+  "Médico":   { MA: 1, D: 1, H: 2, MDP: 3 },
+  "Francotirador": { MA: 2, D: 1, H: 4, MDP: 0 },
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  const expertiseSelect = document.getElementById("expertiseSelect");
+  
+  expertiseSelect.addEventListener("change", (e) => {
+    const valor = e.target.value;
+    const stats = statsPorExpertise[valor];
+    if (!stats) return;
+
+    document.getElementById("stat-ma").textContent = stats.MA;
+    document.getElementById("stat-d").textContent = stats.D;
+    document.getElementById("stat-h").textContent = stats.H;
+    document.getElementById("stat-mdp").textContent = stats.MDP;
+  });
+});
